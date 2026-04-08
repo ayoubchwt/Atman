@@ -1,0 +1,35 @@
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Build/Dist output (compiled JS)
+dist/
+out/
+build/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs
+*.log
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# IDE Settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# TypeScript cache
+*.tsbuildinfo
