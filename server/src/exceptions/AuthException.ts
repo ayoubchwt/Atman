@@ -12,3 +12,8 @@ export class UserNotFoundException extends AppError {
     super(message, 400);
   }
 }
+export class UnauthorizedException extends AppError {
+  constructor(message: string = "Access denied") {
+    super(message, 401);
+  }
+}

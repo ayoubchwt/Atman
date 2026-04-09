@@ -10,7 +10,7 @@ export class NoteController {
     next: NextFunction,
   ): Promise<void> {
     try {
-      const mockUserId = "123456";
+      const mockUserId = request.user.id;
       const createNoteDto = request.body as CreateNoteDto;
       const result = await NoteService.createNote(mockUserId, createNoteDto);
       response.status(201).json(result);
@@ -25,7 +25,7 @@ export class NoteController {
     next: NextFunction,
   ): Promise<void> {
     try {
-      const mockUserId = "123456";
+      const mockUserId = request.user.id;
       const result = await NoteService.getNotes(mockUserId);
       response.status(200).json(result);
     } catch (error) {
@@ -39,7 +39,7 @@ export class NoteController {
     next: NextFunction,
   ): Promise<void> {
     try {
-      const mockUserId = "123456";
+      const mockUserId = request.user.id;
       const noteId = request.params.id as string;
       const result = await NoteService.getNoteById(noteId, mockUserId);
       response.status(200).json(result);
@@ -54,7 +54,7 @@ export class NoteController {
     next: NextFunction,
   ): Promise<void> {
     try {
-      const mockUserId = "123456";
+      const mockUserId = request.user.id;
       const noteId = request.params.id as string;
       const updateNoteDto = request.body as UpdateNoteDto;
       const result = await NoteService.updateNote(
@@ -73,7 +73,7 @@ export class NoteController {
     response: Response,
     next: NextFunction,
   ): Promise<void> {
-    const mockUserId = "123456";
+    const mockUserId = request.user.id;
     const noteId = request.params.id as string;
     await NoteService.deleteNote(noteId, mockUserId);
     response.status(204).send();
