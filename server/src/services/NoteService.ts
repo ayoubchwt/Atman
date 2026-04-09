@@ -32,11 +32,12 @@ export class NoteService {
     return NoteMapper.toResponseDto(savedNote);
   }
   public static async updateNote(
+    noteId: string,
     userId: string,
     dto: UpdateNoteDto,
   ): Promise<NoteResponseDto> {
     const updatedNote = await Note.findOneAndUpdate(
-      { _id: dto.id, user: userId },
+      { _id: noteId, user: userId },
       { $set: dto },
       { new: true },
     );
