@@ -1,9 +1,11 @@
 import {
   LoginRequestDto,
+  LoginResponseDto,
   registerRequestDto,
   RegisterResponseDto,
 } from "../dtos/AuthDTO";
 import {
+  UnauthorizedException,
   UserAlreadyExistException,
   UserNotFoundException,
 } from "../exceptions/AuthException";
@@ -50,5 +52,16 @@ export class AuthService {
       dto: UserMapper.toLoginResponseDto(acessToken, user),
       refreshToken: refreshToken,
     };
+  }
+  public static async refresh(
+    userId: string,
+    refreshToken: string,
+  ): Promise<LoginResponseDto> {
+    const user: IUser = await User.findById(userId).select("+refreshToken");
+    if (user.refreshToken !== refreshToken) {
+      throw new UnauthorizedException();
+    }
+    const accessToken = AuthUtil.GenerateAccessToken(user._id.toString());
+    return UserMapper.toLoginResponseDto(accessToken, user);
   }
 }

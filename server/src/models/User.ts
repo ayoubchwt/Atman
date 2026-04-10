@@ -30,6 +30,10 @@ const UserShema: Schema = new Schema(
       required: true,
       select: false,
     },
+    refreshToken: {
+      type: Schema.Types.String,
+      select: false,
+    },
     premium: {
       type: Schema.Types.Boolean,
       default: false,

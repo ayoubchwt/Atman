@@ -8,7 +8,7 @@ export class AuthMiddleware {
     const decoded = jwt.verify(token, secret) as { id: string };
     request.user = { id: decoded.id };
   }
-  public static async verifyAcessToken(
+  public static async verifyAccessToken(
     request: Request,
     response: Response,
     next: NextFunction,
@@ -19,7 +19,7 @@ export class AuthMiddleware {
         throw new UnauthorizedException("Access denied. No token provided");
       }
       const token = authHeader.split(" ")[1] || "";
-      this.validateToken(token, request);
+      AuthMiddleware.validateToken(token, request);
       next();
     } catch (error) {
       next(new UnauthorizedException("Invalid or expired access token"));
@@ -35,7 +35,7 @@ export class AuthMiddleware {
       if (!token) {
         throw new UnauthorizedException("Refresh token missing.");
       }
-      this.validateToken(token, request);
+      AuthMiddleware.validateToken(token, request);
       next();
     } catch (error) {
       next(new UnauthorizedException("Session expired. Please login again"));
