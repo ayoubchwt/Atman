@@ -4,12 +4,13 @@ import jwt from "jsonwebtoken";
 
 export class AuthMiddleware {
   private static validateToken(token: string, request: Request) {
-    const secret = process.env.JWT_SECRET || "random_string";
+    const secret = process.env.JWT_SECRET || "";
     const decoded = jwt.verify(token, secret) as { id: string };
     request.user = { id: decoded.id };
   }
   public static async verifyAcessToken(
     request: Request,
+    response: Response,
     next: NextFunction,
   ): Promise<void> {
     try {
@@ -26,6 +27,7 @@ export class AuthMiddleware {
   }
   public static async verifyRefreshToken(
     request: Request,
+    response: Response,
     next: NextFunction,
   ): Promise<void> {
     try {

@@ -11,10 +11,25 @@ export interface IUser extends Document {
 
 const UserShema: Schema = new Schema(
   {
-    firstName: Schema.Types.String,
-    lastName: Schema.Types.String,
-    email: Schema.Types.String,
-    password: Schema.Types.String,
+    firstName: {
+      type: Schema.Types.String,
+      required: true,
+    },
+    lastName: {
+      type: Schema.Types.String,
+      required: true,
+    },
+    email: {
+      type: Schema.Types.String,
+      required: true,
+      unique: true,
+      lowercase: true,
+    },
+    password: {
+      type: Schema.Types.String,
+      required: true,
+      select: false,
+    },
     premium: {
       type: Schema.Types.Boolean,
       default: false,

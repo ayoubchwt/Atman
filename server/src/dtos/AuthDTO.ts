@@ -7,7 +7,6 @@ export interface LoginResponseDto {
   firstName: string;
   lastName: string;
   email: string;
-  password: string;
 }
 export interface registerRequestDto {
   firstName: string;
@@ -19,5 +18,4 @@ export interface RegisterResponseDto {
   firstName: string;
   lastName: string;
   email: string;
-  password: string;
 }

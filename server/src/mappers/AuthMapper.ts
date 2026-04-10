@@ -11,7 +11,6 @@ export class UserMapper {
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
-      password: user.password,
     };
   }
   public static toLoginResponseDto(
@@ -23,7 +22,6 @@ export class UserMapper {
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
-      password: user.password,
     };
   }
   public static toEntity(dto: registerRequestDto): IUser {

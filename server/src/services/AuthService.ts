@@ -23,15 +23,18 @@ export class AuthService {
     }
     const user: IUser = UserMapper.toEntity(dto);
 
-    const saltRounds = process.env.SALT_ROUNDS || 10;
+    const saltRounds = Number(process.env.SALT_ROUNDS) || 10;
     const hashedPassword = await bcrypt.hash(user.password, saltRounds);
     user.password = hashedPassword;
 
     const savedUser = await user.save();
     return UserMapper.toRegisterResponseDto(savedUser);
   }
+
   public static async login(dto: LoginRequestDto): Promise<any> {
-    const user: IUser | null = await User.findOne({ email: dto.email });
+    const user: IUser | null = await User.findOne({ email: dto.email }).select(
+      "+password",
+    );
     if (!user) {
       throw new UserNotFoundException();
     }
@@ -40,9 +43,7 @@ export class AuthService {
       throw new UserNotFoundException();
     }
     const acessToken = AuthUtil.GenerateAccessToken(user._id.toString());
-    const refreshToken = AuthUtil.GenerateRefreshToken(
-      user._id.toString(),
-    );
+    const refreshToken = AuthUtil.GenerateRefreshToken(user._id.toString());
     user.refreshToken = refreshToken;
     await user.save();
     return {

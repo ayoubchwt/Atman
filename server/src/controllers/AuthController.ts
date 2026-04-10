@@ -1,8 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import {
-  LoginRequestDto,
-  registerRequestDto,
-} from "../dtos/AuthDTO";
+import { LoginRequestDto, registerRequestDto } from "../dtos/AuthDTO";
 import { AuthService } from "../services/AuthService";
 import ms from "ms";
 export class AuthController {
@@ -13,15 +10,15 @@ export class AuthController {
   ): Promise<void> {
     try {
       const loginRequestDto = request.body as LoginRequestDto;
-      const { user, refreshToken } = await AuthService.login(loginRequestDto);
+      const { dto , refreshToken } = await AuthService.login(loginRequestDto);
       const refreshDuration = process.env.REFRESH_EXPIRATION || "7d";
-      request.cookies("refreshToken", refreshToken, {
+      response.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "strict",
         maxAge: ms(refreshDuration as ms.StringValue),
       });
-      response.status(200).json(user);
+      response.status(200).json(dto);
     } catch (error) {
       next(error);
     }
