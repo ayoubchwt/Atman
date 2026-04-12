@@ -1,11 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lora:ital,wght@0,400..700;1,400..700&display=swap");
 @import "tailwindcss";
-
 :root {
   /* backgrounds */
-  --bg-dark: hsl(45, 31%, 95%);
-  --bg: hsl(36, 33%, 97%);
-  --bg-light: hsl(40, 26%, 91%);
-  --bg-light: hsl(40, 26%, 91%);
+  --bg-dark: hsl(40, 26%, 91%);
+  --bg: hsl(45, 31%, 95%);
+  --bg-light: hsl(36, 33%, 97%);
   /* text */
   --text: hsl(30, 11%, 15%);
   --text-light: hsl(31, 8%, 50%);
@@ -19,4 +18,14 @@
 
   --ghostTinted: transperent;
   --ghostTinted-light: hsl(40, 80%, 90%);
+
+  /* fonts */
+  --font-serif: "Lora", serif;
+  --font-sans: "Inter", sans-serif;
+}
+html,
+body {
+  width: 100%;
+  height: 100vh;
+  background-color: var(--bg-light);
 }
