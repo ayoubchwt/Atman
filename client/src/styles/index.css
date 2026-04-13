@@ -5,8 +5,10 @@
   --bg-dark: hsl(40, 26%, 91%);
   --bg: hsl(45, 31%, 95%);
   --bg-light: hsl(36, 33%, 97%);
+  /* backgrounds items */
+  --item-light : hsl(45, 31%, 93%);
   /* text */
-  --text: hsl(30, 11%, 15%);
+  --text: hsl(30, 11%, 18%);
   --text-light: hsl(31, 8%, 50%);
 
   /* buttons */

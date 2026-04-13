@@ -1,7 +1,8 @@
 import Button from "../components/ui/Button";
 import { Sparkles, Plus } from "lucide-react";
-import NavBar from "../features/editor/layout/NavBar";
-import SideBar from "../features/editor/layout/SideBar";
+import NavBar from "../features/dashboard/layout/NavBar";
+import SideBar from "../features/dashboard/layout/SideBar";
+import Editor from "../features/dashboard/components/Editor";
 function ButtonsSendbox() {
   return (
     <div className="flex flex-col gap-3 w-full">
@@ -19,6 +20,7 @@ function ButtonsSendbox() {
       </div>
       <NavBar></NavBar>
       <SideBar></SideBar>
+      <Editor></Editor>
     </div>
   );
 }
