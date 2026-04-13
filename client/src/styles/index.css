@@ -1,12 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lora:ital,wght@0,400..700;1,400..700&display=swap");
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 :root {
   /* backgrounds */
   --bg-dark: hsl(40, 26%, 91%);
   --bg: hsl(45, 31%, 95%);
   --bg-light: hsl(36, 33%, 97%);
   /* backgrounds items */
-  --item-light : hsl(45, 31%, 93%);
+  --item-light: hsl(45, 31%, 93%);
   /* text */
   --text: hsl(30, 11%, 18%);
   --text-light: hsl(31, 8%, 50%);
@@ -26,8 +27,16 @@
   --font-sans: "Inter", sans-serif;
 }
 html,
-body {
+body,
+#root {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   background-color: var(--bg-light);
+}
+.tiptap p.is-editor-empty:first-child::before {
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
 }
