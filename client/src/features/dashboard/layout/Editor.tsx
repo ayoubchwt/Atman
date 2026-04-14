@@ -18,7 +18,7 @@ function Editor({ className }: { className: string }) {
     autofocus: true,
     editorProps: {
       attributes: {
-        class: "prose prose-p:text-xl focus:outline-none font-serif",
+        class: "prose prose-p:text-xl focus:outline-none font-serif w-full",
       },
     },
     onTransaction: () => setTick(tick + 1),

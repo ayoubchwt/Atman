@@ -4,17 +4,15 @@ import SideBar from "../layout/SideBar";
 
 function Dashboard() {
   return (
-    <div className="grid h-full w-full grid-rows-[auto_1fr] grid-cols-[320px_1fr]">
+    <>
+      <div className="grid h-full w-full grid-rows-[auto_1fr] grid-cols-[minmax(150px,1fr)_5fr] [grid-template-areas:'navbar_navbar''sidebar_editor']">
+        <NavBar className="[grid-area:navbar]"></NavBar>
 
-      <NavBar className="col-span-2 h-16 border-b border-(--bg-dark)" />
-      
-      <SideBar className="h-full border-r border-(--bg-dark) overflow-y-auto" />
-      
-      <main className="h-full overflow-y-auto bg-(--bg-light)">
-        <Editor className="h-full" />
-      </main>
-    
-    </div>
+        <SideBar className="[grid-area:sidebar]"></SideBar>
+
+        <Editor className="[grid-area:editor]"></Editor>
+      </div>
+    </>
   );
 }
 export default Dashboard;
