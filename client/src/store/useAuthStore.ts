@@ -32,7 +32,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     } catch (err) {
       const axiosError = err as AxiosError<{ message: string }>;
       set({
-        error: axiosError?.response?.data.message || "Log in Failed",
+        error: axiosError.response?.data?.message || "Log in Failed",
         isLoading: false,
       });
     }
