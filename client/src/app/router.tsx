@@ -16,11 +16,8 @@ function Router() {
             <Route index element={<DevHome />} />
             <Route path="buttons" element={<ButtonsSendbox />} />
           </Route>
-          <Route path="/home" element={<Dashboard />}>
-            <Route index element={<Dashboard />} />
-          </Route>
-          <Route path="/auth" element={<Login />}>
-            <Route index element={<Login />} />
+          <Route path="/home" element={<Dashboard />} />
+          <Route path="/auth">
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
           </Route>

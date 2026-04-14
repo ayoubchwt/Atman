@@ -1,10 +1,18 @@
 import InputField from "../ui/InputField";
 
-function Input({ label, type }: { label: string; type: string }) {
+function Input({
+  label,
+  type,
+  placeholder,
+}: {
+  label: string;
+  type: string;
+  placeholder: string;
+}) {
   return (
-    <div>
-      <label>{label}</label>
-      <InputField type={type}></InputField>
+    <div className="flex flex-col w-full gap-2">
+      <label className="font-semibold text-sm">{label}</label>
+      <InputField type={type} placeholder={placeholder}></InputField>
     </div>
   );
 }
