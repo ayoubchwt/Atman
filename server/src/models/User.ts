@@ -1,8 +1,7 @@
 import mongoose, { Schema, model, Document } from "mongoose";
 
 export interface IUser extends Document {
-  firstName: string;
-  lastName: string;
+  name: string;
   email: string;
   password: string;
   refreshToken: string;
@@ -11,11 +10,7 @@ export interface IUser extends Document {
 
 const UserShema: Schema = new Schema(
   {
-    firstName: {
-      type: Schema.Types.String,
-      required: true,
-    },
-    lastName: {
+    name: {
       type: Schema.Types.String,
       required: true,
     },

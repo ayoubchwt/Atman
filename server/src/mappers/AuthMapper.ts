@@ -8,8 +8,7 @@ import User, { IUser } from "../models/User";
 export class UserMapper {
   public static toRegisterResponseDto(user: IUser): RegisterResponseDto {
     return {
-      firstName: user.firstName,
-      lastName: user.lastName,
+      name: user.name,
       email: user.email,
     };
   }
@@ -19,15 +18,13 @@ export class UserMapper {
   ): LoginResponseDto {
     return {
       accessToken: token,
-      firstName: user.firstName,
-      lastName: user.lastName,
+      name: user.name,
       email: user.email,
     };
   }
   public static toEntity(dto: registerRequestDto): IUser {
     return new User({
-      firstName: dto.firstName,
-      lastName: dto.lastName,
+      name: dto.name,
       email: dto.email,
       password: dto.password,
     });
