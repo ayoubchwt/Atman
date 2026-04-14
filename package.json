@@ -1,29 +1,12 @@
 {
-  "name": "react-edior",
+  "name": "react-editor",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "scripts": {
+    "dev": "concurrently -n \"SERVER,CLIENT\" -c \"green.bold,blue.bold\" \"npm run server\" \"npm run client\"",
     "server": "npm run dev --prefix server",
-    "client": "npm run dev --prefix client",
-    "dev": "concurrently -n \" SERVER,CLIENT\" -c \"green.bold,blue.bold\" \"npm run server\" \"npm run client\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "client": "npm run dev --prefix client"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "axios": "^1.15.0",
-    "bcrypt": "^6.0.0",
-    "concurrently": "^9.2.1",
-    "cookie-parser": "^1.4.7",
-    "jsonwebtoken": "^9.0.3",
-    "ms": "^2.1.3"
-  },
-  "devDependencies": {
-    "@types/bcrypt": "^6.0.0",
-    "@types/cookie-parser": "^1.4.10",
-    "@types/jsonwebtoken": "^9.0.10",
-    "@types/ms": "^2.1.0"
+    "concurrently": "^9.2.1"
   }
 }

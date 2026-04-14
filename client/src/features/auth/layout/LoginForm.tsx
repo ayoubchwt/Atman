@@ -2,23 +2,45 @@ import { Link } from "react-router-dom";
 import Button from "../../../components/ui/Button";
 import AuthHeader from "../components/common/AuthHeader";
 import Input from "../components/common/Input";
+import { useLogin } from "../hooks/useLogin";
+import type { ChangeEvent } from "react";
 
 function LoginForm() {
+  const { setEmail, setPassword, isLoading, error, onSubmit } = useLogin();
   return (
-    <div className="flex flex-col gap-5 justify-start items-start p-10 w-full max-w-lg bg-(--bg-dark) rounded-md">
+    <form
+      onSubmit={onSubmit}
+      className="flex flex-col gap-5 justify-start items-start p-10 w-full max-w-lg bg-(--bg-dark) rounded-md"
+    >
       <div className="flex justify-center w-full">
         <AuthHeader
           title="Welcome back"
           description="Join us to start organizing your thoughts"
         />
       </div>
-      <Input label="Email" type="email" placeholder="you@example.com"></Input>
-      <Input label="Password" type="password" placeholder="••••••••"></Input>
+      {error && <p className="text-red-500">{error}</p>}
+      <Input
+        label="Email"
+        type="email"
+        placeholder="you@example.com"
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          setEmail(e.target.value)
+        }
+      ></Input>
+      <Input
+        label="Password"
+        type="password"
+        placeholder="••••••••"
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          setPassword(e.target.value)
+        }
+      ></Input>
       <Button
         variant="dark"
         className="py-3 px-2 w-full flex justify-center text-base"
+        disabled={isLoading}
       >
-        Log in
+        {isLoading ? "Logging in..." : "Log in"}
       </Button>
       <div className="flex items-center gap-2">
         <p className="text-(--text-light) font-base text-sm">
@@ -31,7 +53,7 @@ function LoginForm() {
           Sign up
         </Link>
       </div>
-    </div>
+    </form>
   );
 }
 export default LoginForm;

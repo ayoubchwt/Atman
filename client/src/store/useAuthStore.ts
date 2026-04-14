@@ -1,7 +1,7 @@
 import { create } from "zustand";
-import type { LoginRequest } from "../types/auth";
-import { login } from "../services/authService";
 import { AxiosError } from "axios";
+import { login } from "../services/AuthService";
+import type { LoginRequest } from "../types/auth";
 import api from "../api/axios";
 interface AuthState {
   user: { name: string; email: string; accessToken: string } | null;
@@ -32,7 +32,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     } catch (err) {
       const axiosError = err as AxiosError<{ message: string }>;
       set({
-        error: axiosError.message || "Log in Failed",
+        error: axiosError?.response?.data.message || "Log in Failed",
         isLoading: false,
       });
     }
