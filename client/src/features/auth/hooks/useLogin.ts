@@ -7,11 +7,14 @@ export const useLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { handleLogin, isLoading, error, isAuthenticated } = useAuthStore();
+  const { handleLogin, isLoading, error, message, user } = useAuthStore();
   const onSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
-    await handleLogin({ email, password });
-    if (isAuthenticated) navigate("/home");
+    const result = await handleLogin({ email, password });
+    if (result) {
+      navigate("/home");
+      console.info("JWT TOKEN", user?.accessToken, "for user :", user?.email);
+    }
   };
   return {
     setEmail,
@@ -19,5 +22,6 @@ export const useLogin = () => {
     isLoading,
     error,
     onSubmit,
+    message,
   };
 };

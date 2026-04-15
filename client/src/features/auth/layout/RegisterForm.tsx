@@ -2,30 +2,71 @@ import { Link } from "react-router-dom";
 import Button from "../../../components/ui/Button";
 import AuthHeader from "../components/common/AuthHeader";
 import Input from "../components/common/Input";
+import type { ChangeEvent } from "react";
+import { useRegister } from "../hooks/useRegister";
 
 function RegisterForm() {
+  const {
+    error,
+    setName,
+    setEmail,
+    setPassword,
+    setPasswordConfirm,
+    isLoading,
+    onSubmit,
+  } = useRegister();
   return (
-    <div className="flex flex-col gap-5 justify-start items-start p-10 w-full max-w-lg bg-(--bg-dark) rounded-md">
+    <form
+      onSubmit={onSubmit}
+      className="flex flex-col gap-5 justify-start items-start p-10 w-full max-w-lg bg-(--bg-dark) rounded-md"
+    >
       <div className="flex justify-center w-full">
         <AuthHeader
           title="Create Account"
           description="Sign in to save and sync your notes"
         />
       </div>
+      {error && <p className="text-red-500 text-sm">{error}</p>}
+      <Input
+        label="Name"
+        type="text"
+        placeholder="John Doe"
+        onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
+      />
 
-      <Input label="Name" type="text" placeholder="John Doe" />
+      <Input
+        label="Email"
+        type="email"
+        placeholder="you@example.com"
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          setEmail(e.target.value)
+        }
+      />
 
-      <Input label="Email" type="email" placeholder="you@example.com" />
+      <Input
+        label="Password"
+        type="password"
+        placeholder="••••••••"
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          setPassword(e.target.value)
+        }
+      />
 
-      <Input label="Password" type="password" placeholder="••••••••" />
-
-      <Input label="Confirm Password" type="password" placeholder="••••••••" />
+      <Input
+        label="Confirm Password"
+        type="password"
+        placeholder="••••••••"
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          setPasswordConfirm(e.target.value)
+        }
+      />
 
       <Button
         variant="dark"
         className="py-3 px-2 w-full flex justify-center text-base"
+        disabled={isLoading}
       >
-        Create Account
+        {isLoading ? "Creating account" : "Create Account"}
       </Button>
 
       <div className="flex items-center gap-2">
@@ -39,7 +80,7 @@ function RegisterForm() {
           Sign in
         </Link>
       </div>
-    </div>
+    </form>
   );
 }
 

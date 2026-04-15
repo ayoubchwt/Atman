@@ -6,7 +6,8 @@ import { useLogin } from "../hooks/useLogin";
 import type { ChangeEvent } from "react";
 
 function LoginForm() {
-  const { setEmail, setPassword, isLoading, error, onSubmit } = useLogin();
+  const { setEmail, setPassword, isLoading, error, onSubmit, message } =
+    useLogin();
   return (
     <form
       onSubmit={onSubmit}
@@ -18,7 +19,8 @@ function LoginForm() {
           description="Join us to start organizing your thoughts"
         />
       </div>
-      {error && <p className="text-red-500">{error}</p>}
+      {message && <p className="text-green-500 text-sm">{message}</p>}
+      {error && <p className="text-red-500 text-sm">{error}</p>}
       <Input
         label="Email"
         type="email"
