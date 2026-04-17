@@ -4,6 +4,7 @@ import AuthHeader from "../components/common/AuthHeader";
 import Input from "../components/common/Input";
 import { useLogin } from "../hooks/useLogin";
 import type { ChangeEvent } from "react";
+import AlertBox from "../components/ui/AlertBox";
 
 function LoginForm() {
   const { setEmail, setPassword, isLoading, error, onSubmit, message } =
@@ -19,8 +20,6 @@ function LoginForm() {
           description="Join us to start organizing your thoughts"
         />
       </div>
-      {message && <p className="text-green-500 text-sm">{message}</p>}
-      {error && <p className="text-red-500 text-sm">{error}</p>}
       <Input
         label="Email"
         type="email"
@@ -37,6 +36,11 @@ function LoginForm() {
           setPassword(e.target.value)
         }
       ></Input>
+      <AlertBox
+        input={error ? error : ""}
+        className={error ? "text-(--failure)" : ""}
+      ></AlertBox>
+      <AlertBox input={error ? error : ""}></AlertBox>
       <Button
         variant="dark"
         className="py-3 px-2 w-full flex justify-center text-base"

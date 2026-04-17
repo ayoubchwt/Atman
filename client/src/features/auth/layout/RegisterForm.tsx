@@ -26,7 +26,9 @@ function RegisterForm() {
           description="Sign in to save and sync your notes"
         />
       </div>
-      {error && <p className="text-red-500 text-sm">{error}</p>}
+      <div className="min-h-2 w-full">
+        {error && <p className="text-red-500 text-sm">{error}</p>}
+      </div>
       <Input
         label="Name"
         type="text"

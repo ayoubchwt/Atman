@@ -1,7 +1,7 @@
 import Button from "../../../components/ui/Button";
 import { Plus } from "lucide-react";
 import NoteList from "../components/NoteList";
-function SideBar({ className }: { className: string }) {
+function SideBar({ className }: { className?: string }) {
   return (
     <div
       className={`flex flex-col w-fullf p-4 h-full gap-5 bg-(--bg) ${className}`}

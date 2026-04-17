@@ -11,7 +11,8 @@
   /* text */
   --text: hsl(30, 11%, 18%);
   --text-light: hsl(31, 8%, 50%);
-
+  --success: hsl(126.67, 69.23%, 43.33%);
+  --failure: hsl(358.83, 70%, 43.14%);
   /* buttons */
   --primary: hsl(40, 80%, 52%);
   --primary-light: hsl(40, 80%, 57%);

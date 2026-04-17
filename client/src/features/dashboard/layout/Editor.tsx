@@ -5,7 +5,7 @@ import EditorSurface from "../components/EditorSurface";
 import EditorToolBar from "../components/EditorToolBar";
 import { Placeholder } from "@tiptap/extensions";
 import { useState } from "react";
-function Editor({ className }: { className: string }) {
+function Editor({ className }: { className?: string }) {
   const [title, setTitle] = useState("Untitled Note");
   const [tick, setTick] = useState(0);
   const editor = useEditor({

@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { NoteService } from "../services/NoteService";
-import { CreateNoteDto, NoteResponseDto, UpdateNoteDto } from "../dtos/NoteDTO";
-import { mock } from "node:test";
+import { CreateNoteDto, UpdateNoteDto } from "../dtos/NoteDTO";
 
 export class NoteController {
   public static async createNote(
