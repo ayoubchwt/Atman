@@ -23,7 +23,7 @@ function NoteItem({
         <span
           className={`text-sm ${isSelected ? "text-(--text)" : "text-(--text-light)"}`}
         >
-          {children}
+          {children?.toString().trim() ? children : "Untitled Note"}
         </span>
       </div>
       <button className="hidden group-hover:block bg-(--ghostTinted) text-(--text-light) hover:text-(--text) cursor-pointer px-1">

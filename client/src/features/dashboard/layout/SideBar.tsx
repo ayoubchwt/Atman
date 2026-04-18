@@ -1,7 +1,15 @@
 import Button from "../../../components/ui/Button";
 import { Plus } from "lucide-react";
 import NoteList from "../components/NoteList";
+import { useNotes } from "../hooks/useNotes";
 function SideBar({ className }: { className?: string }) {
+  const { handleAddNote } = useNotes();
+  const onAddNote = () => {
+    handleAddNote({
+      title: "",
+      content: "",
+    });
+  };
   return (
     <div
       className={`flex flex-col w-fullf p-4 h-full gap-5 bg-(--bg) ${className}`}
@@ -11,6 +19,7 @@ function SideBar({ className }: { className?: string }) {
         <Button
           variant="ghostTinted"
           className=" flex items-center justify-center px-1"
+          onClick={onAddNote}
         >
           <Plus className="w-4 y-4"></Plus>
         </Button>
