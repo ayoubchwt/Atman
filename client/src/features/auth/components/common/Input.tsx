@@ -5,10 +5,12 @@ function Input({
   label,
   type,
   placeholder,
+  value,
   onChange,
 }: {
   label: string;
   type: string;
+  value?: string;
   placeholder: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }) {
@@ -18,6 +20,7 @@ function Input({
       <InputField
         type={type}
         placeholder={placeholder}
+        value={value}
         onChange={onChange}
       ></InputField>
     </div>

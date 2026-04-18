@@ -7,7 +7,7 @@ export const useLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { handleLogin, isLoading, error, message, user } = useAuthStore();
+  const { handleLogin, isLoading, error, user, resetStatus } = useAuthStore();
   const onSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
     const result = await handleLogin({ email, password });
@@ -22,6 +22,6 @@ export const useLogin = () => {
     isLoading,
     error,
     onSubmit,
-    message,
+    resetStatus,
   };
 };

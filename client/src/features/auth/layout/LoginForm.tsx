@@ -3,12 +3,15 @@ import Button from "../../../components/ui/Button";
 import AuthHeader from "../components/common/AuthHeader";
 import Input from "../components/common/Input";
 import { useLogin } from "../hooks/useLogin";
-import type { ChangeEvent } from "react";
+import { useEffect, type ChangeEvent } from "react";
 import AlertBox from "../components/ui/AlertBox";
 
 function LoginForm() {
-  const { setEmail, setPassword, isLoading, error, onSubmit, message } =
+  const { setEmail, setPassword, isLoading, error, onSubmit, resetStatus } =
     useLogin();
+  useEffect(() => {
+    return () => resetStatus();
+  }, [resetStatus]);
   return (
     <form
       onSubmit={onSubmit}
@@ -36,11 +39,7 @@ function LoginForm() {
           setPassword(e.target.value)
         }
       ></Input>
-      <AlertBox
-        input={error ? error : ""}
-        className={error ? "text-(--failure)" : ""}
-      ></AlertBox>
-      <AlertBox input={error ? error : ""}></AlertBox>
+      {error && <AlertBox input={error} variant="failure"></AlertBox>}
       <Button
         variant="dark"
         className="py-3 px-2 w-full flex justify-center text-base"

@@ -2,19 +2,29 @@ import { Link } from "react-router-dom";
 import Button from "../../../components/ui/Button";
 import AuthHeader from "../components/common/AuthHeader";
 import Input from "../components/common/Input";
-import type { ChangeEvent } from "react";
+import { useEffect, type ChangeEvent } from "react";
 import { useRegister } from "../hooks/useRegister";
+import AlertBox from "../components/ui/AlertBox";
 
 function RegisterForm() {
   const {
     error,
+    message,
     setName,
+    name,
     setEmail,
+    email,
     setPassword,
+    password,
     setPasswordConfirm,
+    passwordConfirm,
     isLoading,
     onSubmit,
+    resetStatus,
   } = useRegister();
+  useEffect(() => {
+    return () => resetStatus();
+  }, [resetStatus]);
   return (
     <form
       onSubmit={onSubmit}
@@ -26,12 +36,11 @@ function RegisterForm() {
           description="Sign in to save and sync your notes"
         />
       </div>
-      <div className="min-h-2 w-full">
-        {error && <p className="text-red-500 text-sm">{error}</p>}
-      </div>
+      <div className="min-h-2 w-full"></div>
       <Input
         label="Name"
         type="text"
+        value={name}
         placeholder="John Doe"
         onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
       />
@@ -39,6 +48,7 @@ function RegisterForm() {
       <Input
         label="Email"
         type="email"
+        value={email}
         placeholder="you@example.com"
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
           setEmail(e.target.value)
@@ -48,6 +58,7 @@ function RegisterForm() {
       <Input
         label="Password"
         type="password"
+        value={password}
         placeholder="••••••••"
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
           setPassword(e.target.value)
@@ -57,12 +68,14 @@ function RegisterForm() {
       <Input
         label="Confirm Password"
         type="password"
+        value={passwordConfirm}
         placeholder="••••••••"
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
           setPasswordConfirm(e.target.value)
         }
       />
-
+      {error && <AlertBox input={error} variant="failure"></AlertBox>}
+      {message && <AlertBox input={message} variant="success"></AlertBox>}
       <Button
         variant="dark"
         className="py-3 px-2 w-full flex justify-center text-base"

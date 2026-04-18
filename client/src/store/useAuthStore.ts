@@ -14,6 +14,7 @@ interface AuthState {
   logout: () => void;
   setError: (error: string) => void;
   setMessage: (message: string) => void;
+  resetStatus: () => void;
 }
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
@@ -82,6 +83,12 @@ export const useAuthStore = create<AuthState>((set) => ({
   setMessage: (message: string) => {
     set({
       message: message,
+    });
+  },
+  resetStatus: () => {
+    set({
+      message: null,
+      error: null,
     });
   },
 }));
