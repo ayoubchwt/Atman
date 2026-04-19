@@ -1,9 +1,14 @@
 import { create } from "zustand";
 import type { NoteResponseDto } from "../../../types/Note";
+import { addNote, deleteNote, updateNote } from "../../../services/NoteService";
+import { useAuthStore } from "../../../store/useAuthStore";
+
+let syncTimer: ReturnType<typeof setTimeout>;
 
 interface noteState {
   notes: NoteResponseDto[];
   activeNoteId: string | null;
+
   setNotes: (notes: NoteResponseDto[]) => void;
   setActiveNote: (id: string | null) => void;
   updateNoteTitle: (id: string, title: string) => void;
@@ -17,35 +22,74 @@ export const useNoteStore = create<noteState>((set) => ({
   activeNoteId: null,
   setNotes: (notes) => set({ notes }),
   setActiveNote: (id) => set({ activeNoteId: id }),
-  updateNoteTitle: (id, title) =>
+
+  updateNoteTitle: (id, title) => {
     set((state) => ({
       notes: state.notes.map((note) =>
         note.id === id ? { ...note, title } : note,
       ),
-    })),
-  updateNoteContent: (id, content) =>
+    }));
+    const { isAuthenticated } = useAuthStore.getState();
+    if (isAuthenticated) {
+      clearTimeout(syncTimer);
+      syncTimer = setTimeout(async () => {
+        try {
+          await updateNote(id, { title });
+        } catch (error) {
+          console.log("error updaiting title", error);
+        }
+      }, 1000);
+    }
+  },
+  updateNoteContent: (id, content) => {
     set((state) => ({
       notes: state.notes.map((note) =>
         note.id === id ? { ...note, content } : note,
       ),
-    })),
-  addNote: () =>
-    set((state) => {
-      const newNote: NoteResponseDto = {
-        id: crypto.randomUUID(),
-        title: "",
-        content: "",
-        tags: [],
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        isLocal: true,
-      };
-      return {
-        notes: [newNote, ...state.notes],
-        activeNoteId: newNote.id,
-      };
-    }),
-  deleteNote: (id) => {
+    }));
+    const { isAuthenticated } = useAuthStore.getState();
+    if (isAuthenticated) {
+      clearTimeout(syncTimer);
+      syncTimer = setTimeout(async () => {
+        try {
+          await updateNote(id, { content });
+        } catch (error) {
+          console.log("error updating content", error);
+        }
+      }, 1000);
+    }
+  },
+  addNote: async () => {
+    const { isAuthenticated } = useAuthStore.getState();
+    if (isAuthenticated) {
+      try {
+        const savedNote = await addNote({ title: "New Notes", content: "" });
+        set((state) => ({
+          notes: [savedNote, ...state.notes],
+          activeNoteId: savedNote.id,
+        }));
+        return;
+      } catch (error) {
+        console.log("error adding note", error);
+        return;
+      }
+    }
+    const newNote: NoteResponseDto = {
+      id: crypto.randomUUID(),
+      title: "New Note",
+      content: "",
+      tags: [],
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      isLocal: true,
+    };
+    set((state) => ({
+      notes: [newNote, ...state.notes],
+      activeNoteId: newNote.id,
+    }));
+  },
+  deleteNote: async (id) => {
+    if (!id) return;
     set((state) => {
       const updatedNotes = state.notes.filter((note) => note.id !== id);
       let nextActiveNote = state.activeNoteId;
@@ -57,6 +101,14 @@ export const useNoteStore = create<noteState>((set) => ({
         activeNoteId: nextActiveNote,
       };
     });
+    const { isAuthenticated } = useAuthStore.getState();
+    if (isAuthenticated) {
+      try {
+        await deleteNote(id);
+      } catch (error) {
+        console.log("error deleting note", error);
+      }
+    }
   },
   clearStore: () => {
     set({

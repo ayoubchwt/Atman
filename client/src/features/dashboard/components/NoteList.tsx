@@ -4,7 +4,7 @@ import { useNotes } from "../hooks/useNotes";
 function NoteList() {
   const { notes, activeNoteId, setActiveNote } = useNotes();
   return (
-    <div className="flex flex-col items-start content start w-full">
+    <div className="flex flex-col items-start content-start w-full flex-1 min-h-0 overflow-y-auto scrollbar-hide">
       {notes.map((note) => {
         return (
           <NoteItem
