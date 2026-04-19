@@ -1,8 +1,8 @@
 import { create } from "zustand";
 import { AxiosError } from "axios";
 import { login, register } from "../services/AuthService";
-import type { LoginRequest, registerRequest } from "../types/auth";
-import api from "../api/axios";
+import type { LoginRequest, registerRequest } from "../types/Auth";
+import api from "../api/Axios";
 interface AuthState {
   user: { name: string; email: string; accessToken?: string } | null;
   isAuthenticated: boolean;

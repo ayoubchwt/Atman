@@ -7,6 +7,10 @@
     "client": "npm run dev --prefix client"
   },
   "dependencies": {
-    "concurrently": "^9.2.1"
+    "concurrently": "^9.2.1",
+    "lodash.debounce": "^4.0.8"
+  },
+  "devDependencies": {
+    "@types/lodash.debounce": "^4.0.9"
   }
 }

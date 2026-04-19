@@ -38,6 +38,7 @@ export const useNoteStore = create<noteState>((set) => ({
         tags: [],
         createdAt: new Date(),
         updatedAt: new Date(),
+        isLocal: true,
       };
       return {
         notes: [newNote, ...state.notes],
