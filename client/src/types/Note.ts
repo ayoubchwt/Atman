@@ -4,9 +4,8 @@ export interface CreateNoteDto {
   tags?: string[];
 }
 export interface UpdateNoteDto {
-  id: string;
-  title: string;
-  content: string;
+  title?: string;
+  content?: string;
   tags?: string[];
 }
 export interface NoteResponseDto {

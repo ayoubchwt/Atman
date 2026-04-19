@@ -13,7 +13,6 @@ export const useLogin = () => {
     const result = await handleLogin({ email, password });
     if (result) {
       navigate("/home");
-      console.info("JWT TOKEN", user?.accessToken, "for user :", user?.email);
     }
   };
   return {

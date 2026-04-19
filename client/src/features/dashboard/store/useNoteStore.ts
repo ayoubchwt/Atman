@@ -43,8 +43,16 @@ export const useNoteStore = create<noteState>((set) => ({
       };
     }),
   deleteNote: (id) => {
-    set((state) => ({
-      notes: state.notes.filter((note) => note.id !== id),
-    }));
+    set((state) => {
+      const updatedNotes = state.notes.filter((note) => note.id !== id);
+      let nextActiveNote = state.activeNoteId;
+      if (nextActiveNote === id) {
+        nextActiveNote = updatedNotes.length > 0 ? updatedNotes[0].id : null;
+      }
+      return {
+        notes: updatedNotes,
+        activeNoteId: nextActiveNote,
+      };
+    });
   },
 }));

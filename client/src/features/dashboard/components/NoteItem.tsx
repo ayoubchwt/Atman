@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { FileText, Trash2 } from "lucide-react";
+import { useNotes } from "../hooks/useNotes";
 function NoteItem({
   children,
   isSelected,
@@ -9,6 +10,7 @@ function NoteItem({
   isSelected: boolean;
   onClick: () => void;
 }) {
+  const { handleDeleteNote, activeNoteId } = useNotes();
   return (
     <div
       onClick={onClick}
@@ -26,7 +28,13 @@ function NoteItem({
           {children?.toString().trim() ? children : "Untitled Note"}
         </span>
       </div>
-      <button className="hidden group-hover:block bg-(--ghostTinted) text-(--text-light) hover:text-(--text) cursor-pointer px-1">
+      <button
+        className="hidden group-hover:block bg-(--ghostTinted) text-(--text-light) hover:text-(--text) cursor-pointer px-1"
+        onClick={(e) => {
+          e.stopPropagation();
+          if (activeNoteId) return handleDeleteNote(activeNoteId);
+        }}
+      >
         <Trash2 className="w-3.5 h-3.5"></Trash2>
       </button>
     </div>

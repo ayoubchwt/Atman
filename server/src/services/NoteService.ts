@@ -27,13 +27,11 @@ export class NoteService {
     userId: string,
     dto: CreateNoteDto,
   ): Promise<NoteResponseDto> {
-
     const note: INote = NoteMapper.toEntity(dto, userId);
-  
+
     const savedNote = await note.save();
-  
+
     return NoteMapper.toResponseDto(savedNote);
-  
   }
   public static async updateNote(
     noteId: string,

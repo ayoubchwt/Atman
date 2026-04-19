@@ -3,6 +3,7 @@ import { useNotes } from "../hooks/useNotes";
 
 function NoteList() {
   const { notes, activeNoteId, setActiveNote } = useNotes();
+  console.log("ACTIVE NOTE ID", activeNoteId);
   return (
     <div className="flex flex-col items-start content start w-full">
       {notes.map((note) => {
