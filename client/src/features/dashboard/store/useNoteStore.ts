@@ -10,6 +10,7 @@ interface noteState {
   updateNoteContent: (id: string, content: string) => void;
   addNote: () => void;
   deleteNote: (id: string | null) => void;
+  replaceNote: (id: string | null, createNoteDto: NoteResponseDto) => void;
 }
 export const useNoteStore = create<noteState>((set) => ({
   notes: [],
@@ -37,7 +38,6 @@ export const useNoteStore = create<noteState>((set) => ({
         tags: [],
         createdAt: new Date(),
         updatedAt: new Date(),
-        isSynced: false,
       };
       return {
         notes: [newNote, ...state.notes],
@@ -56,5 +56,13 @@ export const useNoteStore = create<noteState>((set) => ({
         activeNoteId: nextActiveNote,
       };
     });
+  },
+  replaceNote: (id, data) => {
+    set((state) => ({
+      notes: state.notes.map((note) =>
+        note.id === id ? { ...note, ...data } : note,
+      ),
+      activeNoteId: state.activeNoteId === id ? data.id : state.activeNoteId,
+    }));
   },
 }));

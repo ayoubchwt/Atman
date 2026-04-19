@@ -1,6 +1,7 @@
 import { useAuthStore } from "../../../store/useAuthStore";
 import { useNoteStore } from "../store/useNoteStore";
-import { updateNote, deleteNote } from "../../../services/NoteService";
+import { updateNote, deleteNote, addNote } from "../../../services/NoteService";
+import { useCallback } from "react";
 
 export const useNotes = () => {
   const { isAuthenticated } = useAuthStore();
@@ -43,12 +44,21 @@ export const useNotes = () => {
     }
   };
 
-  // const syncNote = async (id: string, title: string, content: string) => {
-  //   if (!isAuthenticated) return;
-  //   if (!title.trim() || !content.trim()) return;
-
-  //   }
-  // };
+  const syncNote = async (id: string, title: string, content: string) => {
+    if (!isAuthenticated) return;
+    const note = noteStore.notes.find((note) => note.id === id);
+    if (!title.trim() || !content.trim()) return;
+    try {
+      if (note?.isLocal) {
+        const savedNote = await addNote({ title, content });
+        noteStore.replaceNote(note.id, savedNote);
+      } else {
+        await updateNote(id, { title, content });
+      }
+    } catch (error) {
+      console.log("Sync error", error);
+    }
+  };
 
   return {
     ...noteStore,
