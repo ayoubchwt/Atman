@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { AxiosError } from "axios";
-import { login, register } from "../services/AuthService";
+import { login, register, refresh } from "../services/AuthService";
 import type { LoginRequest, registerRequest } from "../types/Auth";
 import api from "../api/Axios";
 interface AuthState {
@@ -11,6 +11,7 @@ interface AuthState {
   message: string | null;
   handleLogin: (loginRequest: LoginRequest) => Promise<boolean>;
   handleRegister: (registerRequest: registerRequest) => Promise<boolean>;
+  handleRefresh: () => Promise<boolean>;
   logout: () => void;
   setError: (error: string) => void;
   setMessage: (message: string) => void;
@@ -64,6 +65,27 @@ export const useAuthStore = create<AuthState>((set) => ({
     } catch (err) {
       const axiosError = err as AxiosError<{ message: string }>;
       set({ error: axiosError?.response?.data?.message, isLoading: false });
+      return false;
+    }
+  },
+  handleRefresh: async (): Promise<boolean> => {
+    set({ isLoading: true });
+    try {
+      const result = await refresh();
+      set({
+        user: {
+          name: result.name,
+          email: result.email,
+          accessToken: result.accessToken,
+        },
+        isLoading: false,
+        isAuthenticated: true,
+      });
+      return true;
+    } catch (error) {
+      const axiosError = error as AxiosError<{ message: string }>;
+      console.log(axiosError?.response?.data?.message);
+      set({ isAuthenticated: false, isLoading: false });
       return false;
     }
   },

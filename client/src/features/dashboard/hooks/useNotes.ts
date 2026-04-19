@@ -23,7 +23,7 @@ export const useNotes = () => {
   };
 
   const handleUpdateTitle = (id: string, title: string) => {
-    noteStore.updateNoteTitle(id, title); 
+    noteStore.updateNoteTitle(id, title);
 
     if (isAuthenticated) {
       clearTimeout(syncTimer);
@@ -50,7 +50,7 @@ export const useNotes = () => {
         } catch (e) {
           console.error(e);
         }
-      }, 2000); 
+      }, 2000);
     }
   };
 

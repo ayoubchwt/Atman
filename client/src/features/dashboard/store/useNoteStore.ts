@@ -10,7 +10,7 @@ interface noteState {
   updateNoteContent: (id: string, content: string) => void;
   addNote: () => void;
   deleteNote: (id: string | null) => void;
-  replaceNote: (id: string | null, createNoteDto: NoteResponseDto) => void;
+  clearStore: () => void;
 }
 export const useNoteStore = create<noteState>((set) => ({
   notes: [],
@@ -58,12 +58,10 @@ export const useNoteStore = create<noteState>((set) => ({
       };
     });
   },
-  replaceNote: (id, data) => {
-    set((state) => ({
-      notes: state.notes.map((note) =>
-        note.id === id ? { ...note, ...data } : note,
-      ),
-      activeNoteId: state.activeNoteId === id ? data.id : state.activeNoteId,
-    }));
+  clearStore: () => {
+    set({
+      notes: [],
+      activeNoteId: null,
+    });
   },
 }));
