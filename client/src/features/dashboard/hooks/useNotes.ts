@@ -1,26 +1,15 @@
 import { useAuthStore } from "../../../store/useAuthStore";
 import { useNoteStore } from "../store/useNoteStore";
-import type { CreateNoteDto } from "../../../types/Note";
-import {
-  addNote,
-  updateNote,
-  deleteNote,
-  getNotes,
-} from "../../../services/NoteService";
+import { updateNote, deleteNote } from "../../../services/NoteService";
+
 export const useNotes = () => {
   const { isAuthenticated } = useAuthStore();
   const noteStore = useNoteStore();
-  const handleAddNote = async (note: CreateNoteDto) => {
-    if (isAuthenticated) {
-      try {
-        await addNote(note);
-      } catch (error) {
-        console.log("Error while creating note", error);
-      }
-    } else {
-      noteStore.addNote(note);
-    }
+
+  const handleAddNote = async () => {
+    noteStore.addNote();
   };
+
   const handleUpdateTitle = async (id: string, title: string) => {
     noteStore.updateNoteTitle(id, title);
     if (isAuthenticated) {
@@ -31,6 +20,7 @@ export const useNotes = () => {
       }
     }
   };
+
   const handleUpdateContent = async (id: string, content: string) => {
     noteStore.updateNoteContent(id, content);
     if (isAuthenticated) {
@@ -41,6 +31,7 @@ export const useNotes = () => {
       }
     }
   };
+
   const handleDeleteNote = async (id: string) => {
     noteStore.deleteNote(id);
     if (isAuthenticated) {
@@ -51,6 +42,14 @@ export const useNotes = () => {
       }
     }
   };
+
+  // const syncNote = async (id: string, title: string, content: string) => {
+  //   if (!isAuthenticated) return;
+  //   if (!title.trim() || !content.trim()) return;
+
+  //   }
+  // };
+
   return {
     ...noteStore,
     handleAddNote,

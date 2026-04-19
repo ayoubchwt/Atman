@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { CreateNoteDto, NoteResponseDto } from "../../../types/Note";
+import type { NoteResponseDto } from "../../../types/Note";
 
 interface noteState {
   notes: NoteResponseDto[];
@@ -8,7 +8,7 @@ interface noteState {
   setActiveNote: (id: string | null) => void;
   updateNoteTitle: (id: string, title: string) => void;
   updateNoteContent: (id: string, content: string) => void;
-  addNote: (note: CreateNoteDto) => void;
+  addNote: () => void;
   deleteNote: (id: string | null) => void;
 }
 export const useNoteStore = create<noteState>((set) => ({
@@ -28,14 +28,16 @@ export const useNoteStore = create<noteState>((set) => ({
         note.id === id ? { ...note, content } : note,
       ),
     })),
-  addNote: (note) =>
+  addNote: () =>
     set((state) => {
       const newNote: NoteResponseDto = {
-        ...note,
         id: crypto.randomUUID(),
-        tags: note.tags ?? [],
+        title: "",
+        content: "",
+        tags: [],
         createdAt: new Date(),
         updatedAt: new Date(),
+        isSynced: false,
       };
       return {
         notes: [newNote, ...state.notes],

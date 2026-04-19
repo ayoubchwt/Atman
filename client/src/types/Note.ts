@@ -15,4 +15,5 @@ export interface NoteResponseDto {
   tags?: string[];
   createdAt: Date;
   updatedAt: Date;
+  isSynced?: boolean;
 }

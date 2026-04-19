@@ -5,10 +5,7 @@ import { useNotes } from "../hooks/useNotes";
 function SideBar({ className }: { className?: string }) {
   const { handleAddNote } = useNotes();
   const onAddNote = () => {
-    handleAddNote({
-      title: "",
-      content: "",
-    });
+    handleAddNote();
   };
   return (
     <div
