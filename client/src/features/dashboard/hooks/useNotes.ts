@@ -34,7 +34,7 @@ export const useNotes = () => {
         } catch (e) {
           console.error(e);
         }
-      }, 2000);
+      }, 1000);
     }
   };
 
@@ -50,7 +50,7 @@ export const useNotes = () => {
         } catch (e) {
           console.error(e);
         }
-      }, 2000);
+      }, 1000);
     }
   };
 

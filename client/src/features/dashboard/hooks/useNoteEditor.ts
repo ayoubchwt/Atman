@@ -1,17 +1,14 @@
 import { Placeholder } from "@tiptap/extensions";
 import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNotes } from "./useNotes";
 
-export const useNoteEditor = ({
-  content,
-  onUpdate,
-}: {
-  content: string;
-  onUpdate: (html: string) => void;
-}) => {
+export const useNoteEditor = () => {
   const [tick, setTick] = useState(0);
-  return useEditor({
+  const { notes, activeNoteId, handleUpdateContent } = useNotes();
+  const activeNote = notes.find((note) => note.id === activeNoteId);
+  const editor = useEditor({
     extensions: [
       StarterKit,
       Placeholder.configure({
@@ -19,7 +16,7 @@ export const useNoteEditor = ({
       }),
     ],
     autofocus: true,
-    content: content,
+    content: activeNote?.content ?? "",
     editorProps: {
       attributes: {
         class: "prose prose-p:text-xl focus:outline-none font-serif w-full",
@@ -27,7 +24,13 @@ export const useNoteEditor = ({
     },
     onTransaction: () => setTick(tick + 1),
     onUpdate: ({ editor }) => {
-      onUpdate(editor.getHTML());
+      if (activeNoteId) handleUpdateContent(activeNoteId, editor.getHTML());
     },
   });
+  useEffect(() => {
+    if (!editor || !activeNote) return;
+    if (editor.getHTML() === activeNote.content) return;
+    editor.commands.setContent(activeNote.content);
+  }, [activeNote, editor]);
+  return editor;
 };
