@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { AxiosError } from "axios";
-import { login, register, refresh } from "../services/AuthService";
+import { login, register, refresh, logout } from "../services/AuthService";
 import type { LoginRequest, registerRequest } from "../types/Auth";
 import api from "../api/Axios";
 interface AuthState {
@@ -89,7 +89,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       return false;
     }
   },
-  logout: () => {
+  logout: async () => {
     delete api.defaults.headers.common["Authorization"];
     set({
       isAuthenticated: false,
@@ -97,6 +97,11 @@ export const useAuthStore = create<AuthState>((set) => ({
       error: null,
       isLoading: false,
     });
+    try {
+      await logout();
+    } catch (error) {
+      console.log("backend logout failed , but client session cleared", error);
+    }
   },
   setError: (error: string) => {
     set({

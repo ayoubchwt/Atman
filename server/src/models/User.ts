@@ -4,7 +4,7 @@ export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
-  refreshToken: string;
+  refreshToken: string | null;
   premium: boolean;
 }
 
@@ -28,6 +28,7 @@ const UserShema: Schema = new Schema(
     refreshToken: {
       type: Schema.Types.String,
       select: false,
+      default: null,
     },
     premium: {
       type: Schema.Types.Boolean,

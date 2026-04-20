@@ -29,7 +29,11 @@ export const useNoteEditor = () => {
     },
   });
   useEffect(() => {
-    if (!editor || !activeNote) return;
+    if (!editor) return;
+    if (!activeNote) {
+      editor.commands.clearContent();
+      return;
+    }
     if (editor.getHTML() === activeNote.content) return;
     editor.commands.setContent(activeNote.content);
   }, [activeNote, editor]);

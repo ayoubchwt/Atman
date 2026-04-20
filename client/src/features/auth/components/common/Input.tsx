@@ -16,7 +16,7 @@ function Input({
 }) {
   return (
     <div className="flex flex-col w-full gap-2">
-      <label className="font-semibold text-sm">{label}</label>
+      <label className="font-semibold text-sm text-(--text)">{label}</label>
       <InputField
         type={type}
         placeholder={placeholder}

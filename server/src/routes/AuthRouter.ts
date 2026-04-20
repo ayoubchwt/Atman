@@ -13,6 +13,11 @@ export class AuthRouter {
       AuthMiddleware.verifyRefreshToken,
       AuthController.refresh,
     );
+    router.post(
+      "/logout",
+      AuthMiddleware.verifyRefreshToken,
+      AuthController.logout,
+    );
     return router;
   }
 }

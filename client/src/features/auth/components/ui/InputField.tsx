@@ -17,7 +17,7 @@ function InputField({
       placeholder={placeholder}
       value={value}
       onChange={onChange}
-      className="border border-(--text-light) rounded-md px-2 py-2 w-full outline-none text-sm"
+      className="border border-(--text-light) rounded-md px-2 py-2 w-full outline-none text-sm text-(--text)"
     ></input>
   );
 }

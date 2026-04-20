@@ -15,5 +15,4 @@ export interface NoteResponseDto {
   tags?: string[];
   createdAt: Date;
   updatedAt: Date;
-  isLocal?: boolean;
 }

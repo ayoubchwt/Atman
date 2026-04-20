@@ -64,4 +64,15 @@ export class AuthService {
     const accessToken = AuthUtil.GenerateAccessToken(user._id.toString());
     return UserMapper.toLoginResponseDto(accessToken, user);
   }
+  public static async logout(
+    userId: string,
+    refreshToken: string,
+  ): Promise<void> {
+    const user: IUser = await User.findById(userId).select("+refreshToken");
+    if (user.refreshToken !== refreshToken) {
+      throw new UnauthorizedException();
+    }
+    user.refreshToken = null;
+    await user.save();
+  }
 }

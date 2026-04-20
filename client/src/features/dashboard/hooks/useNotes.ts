@@ -18,7 +18,6 @@ export const useNotes = () => {
   const handleDeleteNote = async (id: string) => {
     noteStore.deleteNote(id);
   };
-
   return {
     ...noteStore,
     handleAddNote,

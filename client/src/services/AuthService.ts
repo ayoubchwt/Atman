@@ -20,3 +20,6 @@ export const refresh = async (): Promise<LoginResponse> => {
   const response = await api.post<LoginResponse>("/auth/refresh");
   return response.data;
 };
+export const logout = async (): Promise<void> => {
+  await api.post<void>("/auth/logout");
+};
