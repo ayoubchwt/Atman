@@ -11,7 +11,7 @@ function Dashboard() {
 
         <SideBar className="[grid-area:sidebar]"></SideBar>
 
-        <Editor className="[grid-area:editor]"></Editor>
+        <Editor className="[grid-area:editor] min-w-0"></Editor>
       </div>
     </AppInitializer>
   );

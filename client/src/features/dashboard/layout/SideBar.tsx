@@ -2,6 +2,7 @@ import Button from "../../../components/ui/Button";
 import { Plus } from "lucide-react";
 import NoteList from "../components/NoteList";
 import { useNotes } from "../hooks/useNotes";
+import SidebarActions from "../components/SidebarActions";
 function SideBar({ className }: { className?: string }) {
   const { handleAddNote } = useNotes();
   const onAddNote = () => {
@@ -23,6 +24,7 @@ function SideBar({ className }: { className?: string }) {
       </div>
 
       <NoteList></NoteList>
+      <SidebarActions></SidebarActions>
     </div>
   );
 }

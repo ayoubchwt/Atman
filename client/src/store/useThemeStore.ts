@@ -20,8 +20,10 @@ export const useThemeStore = create<themeState>()(
     }),
     {
       name: "Atman",
-      onRehydrateStorage: (state) => {
-        if (state.isDark) document.documentElement.classList.add("dark");
+      onRehydrateStorage: () => (state) => {
+        if (state?.isDark) {
+          document.documentElement.classList.add("dark");
+        }
       },
     },
   ),

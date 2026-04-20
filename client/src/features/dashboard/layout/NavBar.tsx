@@ -1,6 +1,6 @@
 import { Sparkles } from "lucide-react";
 import Button from "../../../components/ui/Button";
-import Logo from "../components/Logo";
+import Logo from "../../../components/ui/Logo";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../../../store/useAuthStore";
 import user from "../../../assets/pictures/user.png";

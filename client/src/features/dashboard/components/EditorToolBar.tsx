@@ -17,7 +17,7 @@ function EditorToolBar({ editor }: { editor: Editor | null }) {
     return <></>;
   }
   return (
-    <div className="flex items-center gap-1 px-5 py-2 border border-(--bg-dark) bg-(--item-light)">
+    <div className="flex items-center gap-1 px-5 py-2 border border-(--bg-dark) bg-(--item-light) text-(--text)">
       <Button
         variant={editor.isActive("bold") ? "primary" : "ghostTinted"}
         className="p-2"

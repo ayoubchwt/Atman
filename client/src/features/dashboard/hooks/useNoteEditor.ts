@@ -19,7 +19,8 @@ export const useNoteEditor = () => {
     content: activeNote?.content ?? "",
     editorProps: {
       attributes: {
-        class: "prose prose-p:text-xl focus:outline-none font-serif w-full",
+        class:
+          "prose prose-p:text-xl prose-headings:text-(--text) prose-blockquote:text-(--text) prose-strong:text-(--text) focus:outline-none max-w-none font-serif w-full text-(--text)",
       },
     },
     onTransaction: () => setTick(tick + 1),

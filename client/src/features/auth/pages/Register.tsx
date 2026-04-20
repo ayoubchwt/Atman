@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Logo from "../../dashboard/components/Logo";
+import Logo from "../../../components/ui/Logo";
 import RegisterForm from "../layout/RegisterForm";
 
 function Register() {

@@ -29,17 +29,31 @@
   --font-sans: "Inter", sans-serif;
 }
 .dark {
-  /* backgrounds (Dark Mode) */
-  --bg-dark: hsl(220, 15%, 10%);
-  --bg: hsl(220, 15%, 13%);
-  --bg-light: hsl(220, 15%, 16%);
-  --item-light: hsl(220, 15%, 20%);
+  /* backgrounds */
+  --bg-dark: #181926;
+  --bg: #1e2030;
+  --bg-light: #24273a;
 
-  /* text (Dark Mode) */
-  --text: hsl(220, 10%, 90%);
-  --text-light: hsl(220, 10%, 60%);
+  /* backgrounds items */
+  --item-light: #363a4f;
 
-  --secondary: hsl(220, 10%, 80%);
+  /* text */
+  --text: #cad3f5;
+  --text-light: #a5adcb;
+
+  /* status */
+  --success: #a6da95;
+  --failure: #ed8796;
+
+  /* buttons / accents */
+  --primary: #f5a97f;
+  --primary-light: #ee99a0;
+
+  --secondary: #b8c0e0;
+  --secondary-light: #939ab7;
+
+  --ghostTinted: transparent;
+  --ghostTinted-light: rgba(245, 169, 127, 0.1);
 }
 html,
 body,
