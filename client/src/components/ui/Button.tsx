@@ -9,6 +9,7 @@ const variants = {
     "bg-(--ghostTinted) text-(--text) rounded-md font-semibold text-sm cursor-pointer flex items-center contnent-center hover:bg-(--primary) border-(--bg-light) border",
 };
 type Variant = keyof typeof variants;
+
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   variant: Variant;

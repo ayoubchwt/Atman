@@ -1,17 +1,20 @@
-import { Sparkles } from "lucide-react";
+import { Menu, Sparkles } from "lucide-react";
 import Button from "../../../components/ui/Button";
 import Logo from "../../../components/ui/Logo";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../../../store/useAuthStore";
 import user from "../../../assets/pictures/user.png";
+import { useState } from "react";
+import NavbarDropDown from "../components/NavbarDropDown";
 function NavBar({ className }: { className?: string }) {
   const { isAuthenticated } = useAuthStore();
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <div
       className={`flex p-4 w-full justify-between items-center border-(--bg-dark) border ${className}`}
     >
       <Logo></Logo>
-      <div className="flex flex-row gap-3 items-center">
+      <div className="hidden md:flex flex-row gap-3 items-center">
         <Button variant="primary">
           <Sparkles className="w-5 h-5"></Sparkles>
           Upgrade Plan
@@ -24,6 +27,16 @@ function NavBar({ className }: { className?: string }) {
           </Link>
         )}
       </div>
+      <div className="flex md:hidden">
+        <Button variant="ghostTinted" onClick={() => setIsOpen(true)}>
+          <Menu />
+        </Button>
+      </div>
+      <NavbarDropDown
+        isAuthenticated={isAuthenticated}
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+      ></NavbarDropDown>
     </div>
   );
 }

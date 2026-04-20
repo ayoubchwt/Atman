@@ -18,12 +18,12 @@ function NoteItem({
         isSelected ? "bg-(--bg-dark)" : "bg-(--bg) hover:bg-(--item-light)"
       }`}
     >
-      <div className="flex gap-2 items-center">
+      <div className="flex gap-2 items-center min-w-0">
         <FileText
-          className={`w-4 h-4 ${isSelected ? "text-(--text)" : "text-(--text-light)"}`}
+          className={`w-4 h-4 shrink-0 ${isSelected ? "text-(--text)" : "text-(--text-light)"}`}
         ></FileText>
         <span
-          className={`text-sm ${isSelected ? "text-(--text)" : "text-(--text-light)"}`}
+          className={`text-sm truncate ${isSelected ? "text-(--text)" : "text-(--text-light)"}`}
         >
           {children?.toString().trim() ? children : "Untitled Note"}
         </span>
