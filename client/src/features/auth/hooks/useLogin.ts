@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../../store/useAuthStore";
 import { getNotes } from "../../../services/NoteService";
-import { useNoteStore } from "../../dashboard/store/useNoteStore";
+import { useNoteStore } from "../../../store/useNoteStore";
 export const useLogin = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");

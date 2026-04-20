@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lora:ital,wght@0,400..700;1,400..700&display=swap");
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+@plugin "tailwind-scrollbar-hide";
 :root {
   /* backgrounds */
   --bg-dark: hsl(40, 26%, 91%);
@@ -26,6 +27,19 @@
   /* fonts */
   --font-serif: "Lora", serif;
   --font-sans: "Inter", sans-serif;
+}
+.dark {
+  /* backgrounds (Dark Mode) */
+  --bg-dark: hsl(220, 15%, 10%);
+  --bg: hsl(220, 15%, 13%);
+  --bg-light: hsl(220, 15%, 16%);
+  --item-light: hsl(220, 15%, 20%);
+
+  /* text (Dark Mode) */
+  --text: hsl(220, 10%, 90%);
+  --text-light: hsl(220, 10%, 60%);
+
+  --secondary: hsl(220, 10%, 80%);
 }
 html,
 body,

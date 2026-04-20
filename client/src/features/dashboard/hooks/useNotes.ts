@@ -1,4 +1,4 @@
-import { useNoteStore } from "../store/useNoteStore";
+import { useNoteStore } from "../../../store/useNoteStore";
 
 export const useNotes = () => {
   const noteStore = useNoteStore();

@@ -1,7 +1,12 @@
 import { create } from "zustand";
-import type { NoteResponseDto } from "../../../types/Note";
-import { addNote, deleteNote, updateNote } from "../../../services/NoteService";
-import { useAuthStore } from "../../../store/useAuthStore";
+import type { NoteResponseDto } from "../types/Note";
+import {
+  addNote,
+  deleteNote,
+  getNotes,
+  updateNote,
+} from "../services/NoteService";
+import { useAuthStore } from "./useAuthStore";
 
 let syncTimer: ReturnType<typeof setTimeout>;
 
@@ -10,6 +15,7 @@ interface noteState {
   activeNoteId: string | null;
 
   setNotes: (notes: NoteResponseDto[]) => void;
+  fetchNotes: () => void;
   setActiveNote: (id: string | null) => void;
   updateNoteTitle: (id: string, title: string) => void;
   updateNoteContent: (id: string, content: string) => void;
@@ -21,6 +27,18 @@ export const useNoteStore = create<noteState>((set) => ({
   notes: [],
   activeNoteId: null,
   setNotes: (notes) => set({ notes }),
+  fetchNotes: async () => {
+    const { isAuthenticated } = useAuthStore.getState();
+    if (!isAuthenticated) return;
+    try {
+      const result = await getNotes();
+      set({
+        notes: result,
+      });
+    } catch (error) {
+      console.log("error fetching notes", error);
+    }
+  },
   setActiveNote: (id) => set({ activeNoteId: id }),
 
   updateNoteTitle: (id, title) => {
