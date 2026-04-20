@@ -3,11 +3,10 @@ import { Plus } from "lucide-react";
 import NoteList from "../components/NoteList";
 import { useNotes } from "../hooks/useNotes";
 import SidebarActions from "../components/SidebarActions";
+import { useUIStore } from "../../../store/useUIStore";
 function SideBar({ className }: { className?: string }) {
   const { handleAddNote } = useNotes();
-  const onAddNote = () => {
-    handleAddNote();
-  };
+  const { setSideBarOpen } = useUIStore();
   return (
     <div
       className={`flex flex-col w-full p-4 h-full gap-5 bg-(--bg) overflow-auto ${className}`}
@@ -17,7 +16,10 @@ function SideBar({ className }: { className?: string }) {
         <Button
           variant="ghostTinted"
           className=" flex items-center justify-center px-1"
-          onClick={onAddNote}
+          onClick={() => {
+            handleAddNote();
+            setSideBarOpen(false);
+          }}
         >
           <Plus className="w-4 y-4"></Plus>
         </Button>

@@ -1,15 +1,20 @@
 import NoteItem from "./NoteItem";
 import { useNotes } from "../hooks/useNotes";
+import { useUIStore } from "../../../store/useUIStore";
 
 function NoteList() {
   const { notes, activeNoteId, setActiveNote } = useNotes();
+  const { setSideBarOpen } = useUIStore();
   return (
     <div className="flex flex-col items-start content-start w-full flex-1 min-h-0 overflow-y-auto scrollbar-hide">
       {notes.map((note) => {
         return (
           <NoteItem
             key={note.id}
-            onClick={() => setActiveNote(note.id)}
+            onClick={() => {
+              setActiveNote(note.id);
+              setSideBarOpen(false);
+            }}
             isSelected={note.id === activeNoteId}
           >
             {note.title}
