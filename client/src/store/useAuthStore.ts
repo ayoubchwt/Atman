@@ -27,7 +27,6 @@ export const useAuthStore = create<AuthState>((set) => ({
     set({ isLoading: true, error: null });
     try {
       const result = await login(loginRequest);
-      console.log("LOGIN RESULT", result);
       set({
         user: {
           name: result.name,

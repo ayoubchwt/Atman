@@ -23,7 +23,9 @@ export const useNoteEditor = () => {
           "prose prose-p:text-xl prose-headings:text-(--text) prose-blockquote:text-(--text) prose-strong:text-(--text) focus:outline-none max-w-none font-serif w-full text-(--text)",
       },
     },
-    onTransaction: () => setTick(tick + 1),
+    onTransaction: () => {
+      setTick(tick + 1);
+    },
     onUpdate: ({ editor }) => {
       if (activeNoteId) handleUpdateContent(activeNoteId, editor.getHTML());
     },
