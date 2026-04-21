@@ -11,8 +11,10 @@ import {
 } from "../exceptions/AuthException";
 import { UserMapper } from "../mappers/AuthMapper";
 import User, { IUser } from "../models/User";
+import RefreshToken, { IRefreshToken } from "../models/RefreshToken";
 import bcrypt from "bcrypt";
 import { AuthUtil } from "../utlis/Auth";
+
 export class AuthService {
   public static async register(
     dto: registerRequestDto,
@@ -46,7 +48,10 @@ export class AuthService {
     }
     const acessToken = AuthUtil.GenerateAccessToken(user._id.toString());
     const refreshToken = AuthUtil.GenerateRefreshToken(user._id.toString());
-    user.refreshToken = refreshToken;
+    await RefreshToken.create({
+      userId: user._id,
+      token: refreshToken,
+    });
     await user.save();
     return {
       dto: UserMapper.toLoginResponseDto(acessToken, user),
@@ -57,10 +62,15 @@ export class AuthService {
     userId: string,
     refreshToken: string,
   ): Promise<LoginResponseDto> {
-    const user: IUser = await User.findById(userId).select("+refreshToken");
-    if (user.refreshToken !== refreshToken) {
+    const trueRefreshToken: IRefreshToken | null = await RefreshToken.findOne({
+      userId: userId,
+      token: refreshToken,
+    });
+    if (!trueRefreshToken) {
       throw new UnauthorizedException();
     }
+    const user = await User.findById(userId);
+    if (!user) throw new UserNotFoundException();
     const accessToken = AuthUtil.GenerateAccessToken(user._id.toString());
     return UserMapper.toLoginResponseDto(accessToken, user);
   }
@@ -68,11 +78,12 @@ export class AuthService {
     userId: string,
     refreshToken: string,
   ): Promise<void> {
-    const user: IUser = await User.findById(userId).select("+refreshToken");
-    if (user.refreshToken !== refreshToken) {
+    const result = await RefreshToken.deleteOne({
+      userId: userId,
+      token: refreshToken,
+    });
+    if (result.deletedCount === 0) {
       throw new UnauthorizedException();
     }
-    user.refreshToken = null;
-    await user.save();
   }
 }

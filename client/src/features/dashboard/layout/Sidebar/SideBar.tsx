@@ -1,12 +1,12 @@
-import Button from "../../../components/ui/Button";
-import { Plus } from "lucide-react";
-import NoteList from "../components/NoteList";
-import { useNotes } from "../hooks/useNotes";
-import SidebarActions from "../components/SidebarActions";
-import { useUIStore } from "../../../store/useUIStore";
+import { Plus, X } from "lucide-react";
+import { useNotes } from "../../hooks/useNotes";
+import { useUIStore } from "../../../../store/useUIStore";
+import Button from "../../../../components/ui/Button";
+import NoteList from "../../components/NoteList";
+import SidebarActions from "../../components/SidebarActions";
 function SideBar({ className }: { className?: string }) {
   const { handleAddNote } = useNotes();
-  const { setSideBarOpen } = useUIStore();
+  const { setSideBarOpen, isSideBarOpen } = useUIStore();
   return (
     <div
       className={`flex flex-col w-full p-4 h-full gap-5 bg-(--bg) overflow-auto ${className}`}
@@ -24,9 +24,16 @@ function SideBar({ className }: { className?: string }) {
           <Plus className="w-4 y-4"></Plus>
         </Button>
       </div>
-
       <NoteList></NoteList>
-      <SidebarActions></SidebarActions>
+      {!isSideBarOpen ? (
+        <SidebarActions className="flex justify-between items-center w-full"></SidebarActions>
+      ) : (
+        <div className="flex justify-center items-center w-full">
+          <Button variant="ghostTinted" onClick={() => setSideBarOpen(false)}>
+            <X className="w-8 h-5"></X>
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

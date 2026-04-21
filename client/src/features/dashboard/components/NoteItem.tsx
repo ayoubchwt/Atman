@@ -29,7 +29,7 @@ function NoteItem({
         </span>
       </div>
       <button
-        className="hidden group-hover:block bg-(--ghostTinted) text-(--text-light) hover:text-(--text) cursor-pointer px-1"
+        className="md:hidden group-hover:block bg-(--ghostTinted) text-(--text-light) hover:text-(--text) cursor-pointer px-1"
         onClick={(e) => {
           e.stopPropagation();
           if (activeNoteId) return handleDeleteNote(activeNoteId);

@@ -4,7 +4,7 @@ import RegisterForm from "../layout/RegisterForm";
 
 function Register() {
   return (
-    <div className="flex justify-center items-center w-full h-full relative">
+    <div className="flex justify-center items-center w-full h-full relative px-2">
       <div className="absolute left-4 top-5">
         <Link to="/home">
           <Logo></Logo>

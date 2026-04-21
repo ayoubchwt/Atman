@@ -1,16 +1,15 @@
 import Button from "../../../components/ui/Button";
-import { useThemeStore } from "../../../store/useThemeStore";
 import ToggleInput from "../../../components/ui/ToggleInput";
 import { LogOut } from "lucide-react";
 import { useSidebarActions } from "../hooks/useSideBarActions";
 
-function SidebarActions() {
+function SidebarActions({ className }: { className?: string }) {
   const { handleLogout, isAuthenticated, toggleTheme, isDark } =
     useSidebarActions();
-  useThemeStore();
+
   return (
-    <div className="flex justify-between items-center w-full">
-      <ToggleInput onChange={toggleTheme} checked={isDark}></ToggleInput>
+    <div className={className}>
+      <ToggleInput onChange={toggleTheme} checked={isDark} />
       {isAuthenticated && (
         <Button variant="ghostTinted" onClick={handleLogout}>
           <LogOut className="w-4 h-4" />

@@ -4,7 +4,7 @@ import EditorToolBar from "../components/EditorToolBar";
 import { useNoteEditor } from "../hooks/useNoteEditor";
 import Button from "../../../components/ui/Button";
 import { LibraryBig } from "lucide-react";
-import SidebarOverlay from "../components/SidebarOverlay";
+import SidebarOverlay from "./Sidebar/SidebarOverlay";
 import { useUIStore } from "../../../store/useUIStore";
 function Editor({ className }: { className?: string }) {
   const editor = useNoteEditor();

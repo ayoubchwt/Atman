@@ -33,6 +33,7 @@ export const useNoteStore = create<noteState>((set) => ({
     try {
       const result = await getNotes();
       set({
+        activeNoteId: result[0].id,
         notes: result,
       });
     } catch (error) {
@@ -99,7 +100,6 @@ export const useNoteStore = create<noteState>((set) => ({
       tags: [],
       createdAt: new Date(),
       updatedAt: new Date(),
-      isLocal: true,
     };
     set((state) => ({
       notes: [newNote, ...state.notes],

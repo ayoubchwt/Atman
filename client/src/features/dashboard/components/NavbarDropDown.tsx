@@ -2,6 +2,7 @@ import { Sparkles, X } from "lucide-react";
 import Button from "../../../components/ui/Button";
 import user from "../../../assets/pictures/user.png";
 import { Link } from "react-router-dom";
+import SidebarActions from "./SidebarActions";
 function NavbarDropDown({
   isOpen,
   isAuthenticated,
@@ -41,6 +42,7 @@ function NavbarDropDown({
           <Sparkles className="w-5 h-5"></Sparkles>
           Upgrade Plan
         </Button>
+        <SidebarActions className="flex flex-col items-center justify-center gap-5 p-6"></SidebarActions>
       </div>
     </div>
   );

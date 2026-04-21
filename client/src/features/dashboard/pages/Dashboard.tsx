@@ -1,7 +1,7 @@
 import AppInitializer from "../../../components/AppInitializer";
 import Editor from "../layout/Editor";
 import NavBar from "../layout/NavBar";
-import SideBar from "../layout/SideBar";
+import SideBar from "../layout/Sidebar/SideBar";
 
 function Dashboard() {
   return (
