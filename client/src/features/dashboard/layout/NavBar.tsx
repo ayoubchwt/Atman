@@ -1,4 +1,4 @@
-import { Menu, Sparkles } from "lucide-react";
+import { Menu } from "lucide-react";
 import Button from "../../../components/ui/Button";
 import Logo from "../../../components/ui/Logo";
 import { Link } from "react-router-dom";
@@ -15,10 +15,6 @@ function NavBar({ className }: { className?: string }) {
     >
       <Logo></Logo>
       <div className="hidden md:flex flex-row gap-3 items-center">
-        <Button variant="primary">
-          <Sparkles className="w-5 h-5"></Sparkles>
-          Upgrade Plan
-        </Button>
         {isAuthenticated ? (
           <img src={user} className="w-8 h-8"></img>
         ) : (

@@ -1,4 +1,4 @@
-import { Sparkles, X } from "lucide-react";
+import { X } from "lucide-react";
 import Button from "../../../components/ui/Button";
 import user from "../../../assets/pictures/user.png";
 import { Link } from "react-router-dom";
@@ -35,13 +35,6 @@ function NavbarDropDown({
             </Button>
           </Link>
         )}
-        <Button
-          variant="primary"
-          className="p-2 w-40 h-10 flex justify-center items-center"
-        >
-          <Sparkles className="w-5 h-5"></Sparkles>
-          Upgrade Plan
-        </Button>
         <SidebarActions className="flex flex-col items-center justify-center gap-5 p-6"></SidebarActions>
       </div>
     </div>
