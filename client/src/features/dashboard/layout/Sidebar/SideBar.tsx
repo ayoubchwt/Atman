@@ -4,8 +4,10 @@ import { useUIStore } from "../../../../store/useUIStore";
 import Button from "../../../../components/ui/Button";
 import NoteList from "../../components/NoteList";
 import SidebarActions from "../../components/SidebarActions";
+import SearchInput from "../../../../components/ui/SearchInput";
+
 function SideBar({ className }: { className?: string }) {
-  const { handleAddNote } = useNotes();
+  const { handleAddNote, handleSearchByTitle } = useNotes();
   const { setSideBarOpen, isSideBarOpen } = useUIStore();
   return (
     <div
@@ -15,7 +17,7 @@ function SideBar({ className }: { className?: string }) {
         <h1 className="text-sm text-(--text-light) font-semibold">NOTES</h1>
         <Button
           variant="ghostTinted"
-          className=" flex items-center justify-center px-1"
+          className=" flex items-center justify-center px-1 rounded-md"
           onClick={() => {
             handleAddNote();
             setSideBarOpen(false);
@@ -24,6 +26,7 @@ function SideBar({ className }: { className?: string }) {
           <Plus className="w-4 y-4"></Plus>
         </Button>
       </div>
+      <SearchInput onChange={handleSearchByTitle}></SearchInput>
       <NoteList></NoteList>
       {!isSideBarOpen ? (
         <SidebarActions className="flex justify-between items-center w-full"></SidebarActions>

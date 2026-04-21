@@ -5,6 +5,7 @@ import {
   deleteNote,
   getNotes,
   updateNote,
+  getNotesByTitle,
 } from "../services/NoteService";
 import { useAuthStore } from "./useAuthStore";
 
@@ -16,6 +17,7 @@ interface noteState {
 
   setNotes: (notes: NoteResponseDto[]) => void;
   fetchNotes: () => void;
+  searchNotes: (search: string) => void;
   setActiveNote: (id: string | null) => void;
   updateNoteTitle: (id: string, title: string) => void;
   updateNoteContent: (id: string, content: string) => void;
@@ -39,6 +41,21 @@ export const useNoteStore = create<noteState>((set) => ({
     } catch (error) {
       console.log("error fetching notes", error);
     }
+  },
+  searchNotes: async (search) => {
+    const { isAuthenticated } = useAuthStore.getState();
+    if (!isAuthenticated) return;
+    clearTimeout(syncTimer);
+    syncTimer = setTimeout(async () => {
+      try {
+        const result = await getNotesByTitle(search);
+        set({
+          notes: result,
+        });
+      } catch (error) {
+        console.log("error searching notes", error);
+      }
+    }, 200);
   },
   setActiveNote: (id) => set({ activeNoteId: id }),
 

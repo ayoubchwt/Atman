@@ -5,23 +5,24 @@ import { AuthMiddleware } from "../middleware/AuthMiddleware";
 export class NoteRouter {
   public static getRoutes(): Router {
     const router = Router();
+    router.get("/", AuthMiddleware.verifyAccessToken, NoteController.getNotes);
     router.get(
-      "/get",
+      "/search",
       AuthMiddleware.verifyAccessToken,
-      NoteController.getNotes,
+      NoteController.getNotesByTitle,
     );
     router.post(
-      "/add",
+      "/",
       AuthMiddleware.verifyAccessToken,
       NoteController.createNote,
     );
     router.patch(
-      "/update/:id",
+      "/:id",
       AuthMiddleware.verifyAccessToken,
       NoteController.updateNote,
     );
     router.delete(
-      "/delete/:id",
+      "/:id",
       AuthMiddleware.verifyAccessToken,
       NoteController.deleteNote,
     );

@@ -7,6 +7,10 @@ export const useNotes = () => {
     noteStore.addNote();
   };
 
+  const handleSearchByTitle = (search: string) => {
+    noteStore.searchNotes(search);
+  };
+
   const handleUpdateTitle = (id: string, title: string) => {
     noteStore.updateNoteTitle(id, title);
   };
@@ -21,6 +25,7 @@ export const useNotes = () => {
   return {
     ...noteStore,
     handleAddNote,
+    handleSearchByTitle,
     handleUpdateTitle,
     handleUpdateContent,
     handleDeleteNote,

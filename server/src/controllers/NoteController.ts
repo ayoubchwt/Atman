@@ -9,9 +9,9 @@ export class NoteController {
     next: NextFunction,
   ): Promise<void> {
     try {
-      const mockUserId = request.user.id;
+      const userId = request.user.id;
       const createNoteDto = request.body as CreateNoteDto;
-      const result = await NoteService.createNote(mockUserId, createNoteDto);
+      const result = await NoteService.createNote(userId, createNoteDto);
       response.status(201).json(result);
     } catch (error) {
       next(error);
@@ -24,8 +24,8 @@ export class NoteController {
     next: NextFunction,
   ): Promise<void> {
     try {
-      const mockUserId = request.user.id;
-      const result = await NoteService.getNotes(mockUserId);
+      const userId = request.user.id;
+      const result = await NoteService.getNotes(userId);
       response.status(200).json(result);
     } catch (error) {
       next(error);
@@ -38,9 +38,24 @@ export class NoteController {
     next: NextFunction,
   ): Promise<void> {
     try {
-      const mockUserId = request.user.id;
+      const userId = request.user.id;
       const noteId = request.params.id as string;
-      const result = await NoteService.getNoteById(noteId, mockUserId);
+      const result = await NoteService.getNoteById(noteId, userId);
+      response.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  public static async getNotesByTitle(
+    request: Request,
+    response: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const userId = request.user.id;
+      const searchValue = request.query.searchValue as string;
+      const result = await NoteService.getNoteByTitle(searchValue, userId);
       response.status(200).json(result);
     } catch (error) {
       next(error);
@@ -53,12 +68,12 @@ export class NoteController {
     next: NextFunction,
   ): Promise<void> {
     try {
-      const mockUserId = request.user.id;
+      const userId = request.user.id;
       const noteId = request.params.id as string;
       const updateNoteDto = request.body as UpdateNoteDto;
       const result = await NoteService.updateNote(
         noteId,
-        mockUserId,
+        userId,
         updateNoteDto,
       );
       response.status(200).json(result);
@@ -72,9 +87,9 @@ export class NoteController {
     response: Response,
     next: NextFunction,
   ): Promise<void> {
-    const mockUserId = request.user.id;
+    const userId = request.user.id;
     const noteId = request.params.id as string;
-    await NoteService.deleteNote(noteId, mockUserId);
+    await NoteService.deleteNote(noteId, userId);
     response.status(204).send();
   }
 }

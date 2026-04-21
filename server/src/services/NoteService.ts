@@ -23,6 +23,16 @@ export class NoteService {
     }
     return NoteMapper.toResponseDto(note);
   }
+  public static async getNoteByTitle(
+    title: string,
+    userId: string,
+  ): Promise<NoteResponseDto[]> {
+    const notes: INote[] = await Note.find({
+      title: { $regex: new RegExp(title, "i") },
+      user: userId,
+    });
+    return NoteMapper.toListResponseDto(notes);
+  }
   public static async createNote(
     userId: string,
     dto: CreateNoteDto,
