@@ -17,3 +17,8 @@ export class UnauthorizedException extends AppError {
     super(message, 401);
   }
 }
+export class BadGateway extends AppError {
+  constructor(message: string = "Bad Gateway") {
+    super(message, 502);
+  }
+}

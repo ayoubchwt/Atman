@@ -5,7 +5,8 @@ export interface IUser extends Document {
   email: string;
   password: string;
   refreshToken: string | null;
-  premium: boolean;
+  passwordResetToken: string | null;
+  passwordResetExpires: Date | null;
 }
 
 const UserShema: Schema = new Schema(
@@ -30,9 +31,15 @@ const UserShema: Schema = new Schema(
       select: false,
       default: null,
     },
-    premium: {
-      type: Schema.Types.Boolean,
-      default: false,
+    passwordResetToken: {
+      type: Schema.Types.String,
+      select: false,
+      default: null,
+    },
+    passwordResetExpires: {
+      type: Schema.Types.Date,
+      select: false,
+      default: null,
     },
   },
   { timestamps: true },

@@ -16,3 +16,11 @@ export interface RegisterResponseDto {
   name: string;
   email: string;
 }
+export interface ForgotPasswordRequestDto {
+  email: string;
+}
+export interface ResetPasswordRequestDto {
+  email: string;
+  code: string;
+  newPassword: string;
+}

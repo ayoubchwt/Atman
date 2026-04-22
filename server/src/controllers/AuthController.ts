@@ -1,5 +1,9 @@
 import { NextFunction, Request, Response } from "express";
-import { LoginRequestDto, registerRequestDto } from "../dtos/AuthDTO";
+import {
+  ForgotPasswordRequestDto,
+  LoginRequestDto,
+  registerRequestDto,
+} from "../dtos/AuthDTO";
 import { AuthService } from "../services/AuthService";
 import ms from "ms";
 import { UnauthorizedException } from "../exceptions/AuthException";
@@ -70,6 +74,22 @@ export class AuthController {
       }
       await AuthService.logout(userId, refreshToken);
       response.status(200).json();
+    } catch (error) {
+      next(error);
+    }
+  }
+  public static async forgotPassword(
+    request: Request,
+    response: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const dto: ForgotPasswordRequestDto = request.body;
+      await AuthService.forgotPassword(dto.email);
+      response.status(200).json({
+        message:
+          "If an account with that email exists, a reset code has been sent.",
+      });
     } catch (error) {
       next(error);
     }
