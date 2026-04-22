@@ -4,6 +4,7 @@ import {
   LoginRequestDto,
   registerRequestDto,
   ResetPasswordRequestDto,
+  VerifyOtpRequestDto,
 } from "../dtos/AuthDTO";
 import { AuthService } from "../services/AuthService";
 import ms from "ms";
@@ -86,11 +87,10 @@ export class AuthController {
   ): Promise<void> {
     try {
       const dto: ForgotPasswordRequestDto = request.body;
-      await AuthService.forgotPassword(dto.email);
-      response.status(200).json({
-        message:
-          "If an account with that email exists, a reset code has been sent.",
-      });
+      await AuthService.forgotPassword(dto);
+      response
+        .status(200)
+        .json({ message: "If the user exists, an email has been sent" });
     } catch (error) {
       next(error);
     }
@@ -101,9 +101,9 @@ export class AuthController {
     next: NextFunction,
   ): Promise<void> {
     try {
-      const dto: ResetPasswordRequestDto = request.body;
-      const result = await AuthService.verifyOtp(dto.email, dto.code);
-      response.status(200).json(result);
+      const dto: VerifyOtpRequestDto = request.body;
+      await AuthService.verifyOtp(dto);
+      response.status(200).json({ message: "OTP verified successfully" });
     } catch (error) {
       next(error);
     }
@@ -115,11 +115,8 @@ export class AuthController {
   ): Promise<void> {
     try {
       const dto: ResetPasswordRequestDto = request.body;
-      const result = await AuthService.resetPassword(
-        dto.email,
-        dto.newPassword,
-      );
-      response.status(200).json(result);
+      await AuthService.resetPassword(dto);
+      response.status(200).json({ message: "Password restored successfully" });
     } catch (error) {
       next(error);
     }

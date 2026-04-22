@@ -19,11 +19,12 @@ export interface RegisterResponse {
 export interface ForgotPasswordRequest {
   email: string;
 }
-export interface ResetPasswordRequest {
-  email?: string;
-  code?: string;
-  newPassword?: string;
+export interface VerifyOtpRequest {
+  email: string;
+  code: string;
 }
-export interface verifyOtpResponse {
-  isValid: boolean;
+export interface ResetPasswordRequest {
+  email: string;
+  code: string;
+  newPassword: string;
 }

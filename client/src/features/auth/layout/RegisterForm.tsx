@@ -9,6 +9,7 @@ import AlertBox from "../components/ui/AlertBox";
 function RegisterForm() {
   const {
     error,
+    passwordError,
     message,
     setName,
     name,
@@ -74,11 +75,12 @@ function RegisterForm() {
           setPasswordConfirm(e.target.value)
         }
       />
+      {passwordError && <AlertBox input={passwordError} variant="failure" />}
       {error && <AlertBox input={error} variant="failure"></AlertBox>}
       {message && <AlertBox input={message} variant="success"></AlertBox>}
       <Button
         variant="dark"
-        className="py-3 px-2 w-full flex justify-center text-base"
+        className="py-3 px-2 w-full flex justify-center text-base rounded-md"
         disabled={isLoading}
       >
         {isLoading ? "Creating account" : "Create Account"}

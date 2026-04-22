@@ -1,12 +1,12 @@
 import api from "../api/Axios";
 import type {
-  ForgotPasswordRequest,
   LoginRequest,
   LoginResponse,
   registerRequest,
   RegisterResponse,
+  ForgotPasswordRequest,
+  VerifyOtpRequest,
   ResetPasswordRequest,
-  verifyOtpResponse,
 } from "../types/Auth";
 
 export const login = async (data: LoginRequest): Promise<LoginResponse> => {
@@ -31,11 +31,8 @@ export const forgotPassword = async (
 ): Promise<void> => {
   await api.post<void>("/auth/forgot-password", data);
 };
-export const verifyOtp = async (
-  data: ResetPasswordRequest,
-): Promise<verifyOtpResponse> => {
-  const response = await api.post<verifyOtpResponse>("/auth/verify-otp", data);
-  return response.data;
+export const verifyOtp = async (data: VerifyOtpRequest): Promise<void> => {
+  await api.post<void>("/auth/verify-otp", data);
 };
 export const resetPassword = async (
   data: ResetPasswordRequest,

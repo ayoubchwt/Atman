@@ -5,14 +5,8 @@ import AlertBox from "../components/ui/AlertBox";
 import { useRestorePassword } from "../hooks/useRestorePassword";
 
 function ForgotPasswordForm() {
-  const {
-    recovery,
-    setRecoveryEmail,
-    onForgotPasswordSubmit,
-    isLoading,
-    error,
-    message,
-  } = useRestorePassword();
+  const { email, setEmail, onForgotPasswordSubmit, isLoading, error, message } =
+    useRestorePassword();
   return (
     <form
       onSubmit={onForgotPasswordSubmit}
@@ -26,14 +20,14 @@ function ForgotPasswordForm() {
         label="Email"
         type="email"
         placeholder="you@example.com"
-        value={recovery?.email || ""}
-        onChange={(e) => setRecoveryEmail(e.target.value)}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
       ></Input>
       {error && <AlertBox input={error} variant="failure"></AlertBox>}
       {message && <AlertBox input={message} variant="success"></AlertBox>}
       <Button
         variant="dark"
-        className="py-3 px-2 w-full flex justify-center text-base"
+        className="py-3 px-2 w-full flex justify-center text-base rounded-md"
         disabled={isLoading}
       >
         {isLoading ? "Sending ..." : "Send"}

@@ -2,7 +2,6 @@ import {
   LoginResponseDto,
   registerRequestDto,
   RegisterResponseDto,
-  verifyOtpResponseDto,
 } from "../dtos/AuthDTO";
 import User, { IUser } from "../models/User";
 
@@ -21,11 +20,6 @@ export class UserMapper {
       accessToken: token,
       name: user.name,
       email: user.email,
-    };
-  }
-  public static toVerifyOtpResponseDto(isValid: boolean): verifyOtpResponseDto {
-    return {
-      isValid: isValid,
     };
   }
   public static toEntity(dto: registerRequestDto): IUser {

@@ -18,7 +18,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 function Button({
   children,
   variant = "primary",
-  className = "px-3 py-2 rounded-md",
+  className = "px-3 py-2 rounded",
   ...props
 }: ButtonProps) {
   return (

@@ -6,32 +6,28 @@ export const useRegister = () => {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [name, setName] = useState("");
-  const {
-    isLoading,
-    error,
-    message,
-    handleRegister,
-    setMessage,
-    setError,
-    resetStatus,
-  } = useAuthStore();
+  const [passwordError, setPasswordError] = useState("");
+  const { isLoading, error, message, handleRegister, resetStatus } =
+    useAuthStore();
   const onSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
+    setPasswordError("");
     if (password !== passwordConfirm) {
-      setError("Passwords dosent match");
+      setPasswordError("Passwords dosen't match");
       return;
     }
     const result = await handleRegister({ name, email, password });
     if (result) {
-      setMessage(`created a user with email ${email}`);
       setName("");
       setEmail("");
       setPassword("");
       setPasswordConfirm("");
+      setPasswordError("");
     }
   };
   return {
     error,
+    passwordError,
     message,
     setName,
     name,

@@ -19,11 +19,12 @@ export interface RegisterResponseDto {
 export interface ForgotPasswordRequestDto {
   email: string;
 }
+export interface VerifyOtpRequestDto {
+  email: string;
+  code: string;
+}
 export interface ResetPasswordRequestDto {
   email: string;
   code: string;
   newPassword: string;
-}
-export interface verifyOtpResponseDto {
-  isValid: boolean;
 }

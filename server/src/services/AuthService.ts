@@ -1,9 +1,11 @@
 import {
+  ForgotPasswordRequestDto,
   LoginRequestDto,
   LoginResponseDto,
   registerRequestDto,
   RegisterResponseDto,
-  verifyOtpResponseDto,
+  ResetPasswordRequestDto,
+  VerifyOtpRequestDto,
 } from "../dtos/AuthDTO";
 import {
   InvalidRequestParameters,
@@ -89,8 +91,10 @@ export class AuthService {
       throw new UnauthorizedException();
     }
   }
-  public static async forgotPassword(email: string): Promise<void> {
-    const user: IUser | null = await User.findOne({ email: email }).select(
+  public static async forgotPassword(
+    dto: ForgotPasswordRequestDto,
+  ): Promise<void> {
+    const user: IUser | null = await User.findOne({ email: dto.email }).select(
       "+passwordResetToken +passwordResetExpires",
     );
     if (!user) return;
@@ -101,13 +105,10 @@ export class AuthService {
       Date.now() + Number(process.env.OTP_EXPIRATION) || 3600000,
     );
     await user.save();
-    await EmailUtils.sendMail(email, code);
+    await EmailUtils.sendMail(dto.email, code);
   }
-  public static async verifyOtp(
-    email: string,
-    code: string,
-  ): Promise<verifyOtpResponseDto> {
-    const user: IUser = await User.findOne({ email: email }).select(
+  public static async verifyOtp(dto: VerifyOtpRequestDto): Promise<boolean> {
+    const user: IUser | null = await User.findOne({ email: dto.email }).select(
       "+passwordResetToken +passwordResetExpires",
     );
     if (!user) throw new UserNotFoundException("User not found");
@@ -118,20 +119,24 @@ export class AuthService {
         " The password reset token is expired",
       );
     }
-    const isCodeValid = await bcrypt.compare(code, user.passwordResetToken);
+    const isCodeValid = await bcrypt.compare(dto.code, user.passwordResetToken);
     if (!isCodeValid)
       throw new InvalidRequestParameters("The provided code is incorrect");
-    return UserMapper.toVerifyOtpResponseDto(isCodeValid);
+    return true;
   }
   public static async resetPassword(
-    email: string,
-    password: string,
+    dto: ResetPasswordRequestDto,
   ): Promise<void> {
-    const user: IUser | null = await User.findOne({ email: email });
+    const user: IUser | null = await User.findOne({ email: dto.email });
     if (!user) throw new UserNotFoundException("User not found");
+    await this.verifyOtp({
+      email: dto.email,
+      code: dto.code,
+    });
     const saltRounds = Number(process.env.SALT_ROUNDS) || 10;
-    const newPassword = await bcrypt.hash(password, saltRounds);
-    user.password = newPassword;
+    user.password = await bcrypt.hash(dto.newPassword, saltRounds);
+    user.passwordResetToken = null;
+    user.passwordResetExpires = null;
     await user.save();
   }
 }
