@@ -3,6 +3,7 @@ import {
   ForgotPasswordRequestDto,
   LoginRequestDto,
   registerRequestDto,
+  ResetPasswordRequestDto,
 } from "../dtos/AuthDTO";
 import { AuthService } from "../services/AuthService";
 import ms from "ms";
@@ -85,11 +86,25 @@ export class AuthController {
   ): Promise<void> {
     try {
       const dto: ForgotPasswordRequestDto = request.body;
-      console.log("FULL REQUEST BODY:", request.body);
       await AuthService.forgotPassword(dto.email);
       response.status(200).json({
         message:
           "If an account with that email exists, a reset code has been sent.",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+  public static async resetPassword(
+    request: Request,
+    response: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const dto: ResetPasswordRequestDto = request.body;
+      await AuthService.resetPassword(dto.email, dto.code, dto.newPassword);
+      response.status(200).json({
+        message: `Password of the account ${dto.email} changed successfully`,
       });
     } catch (error) {
       next(error);

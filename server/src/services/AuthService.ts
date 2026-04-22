@@ -5,6 +5,7 @@ import {
   RegisterResponseDto,
 } from "../dtos/AuthDTO";
 import {
+  InvalidRequestParameters,
   UnauthorizedException,
   UserAlreadyExistException,
   UserNotFoundException,
@@ -88,13 +89,10 @@ export class AuthService {
     }
   }
   public static async forgotPassword(email: string): Promise<void> {
-    console.log("EMAIL", email);
     const user: IUser = await User.findOne({ email: email }).select(
       "+passwordResetToken +passwordResetExpires",
     );
-    console.log("before user check");
     if (!user) return;
-    console.log("after user check");
     const code = (Math.floor(Math.random() * 90000) + 10000).toString();
     const hashedCode = await bcrypt.hash(code, 10);
     user.passwordResetToken = hashedCode;
@@ -103,5 +101,29 @@ export class AuthService {
     );
     await user.save();
     await EmailUtils.sendMail(email, code);
+  }
+  public static async resetPassword(
+    email: string,
+    code: string,
+    password: string,
+  ): Promise<void> {
+    const user: IUser = await User.findOne({ email: email }).select(
+      "+passwordResetToken +passwordResetExpires",
+    );
+    if (!user) throw new UserNotFoundException("User not found");
+    if (!user.passwordResetExpires || !user.passwordResetToken)
+      throw new InvalidRequestParameters();
+    if (user.passwordResetExpires < new Date()) {
+      throw new InvalidRequestParameters(
+        " The password reset token is expired",
+      );
+    }
+    const isCodeValid = await bcrypt.compare(code, user.passwordResetToken);
+    if (!isCodeValid)
+      throw new InvalidRequestParameters("The provided code is incorrect");
+    const saltRounds = Number(process.env.SALT_ROUNDS) || 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    user.password = hashedPassword;
+    await user.save();
   }
 }

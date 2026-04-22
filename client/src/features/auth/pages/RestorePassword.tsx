@@ -1,8 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import Logo from "../../../components/ui/Logo";
-import ForgotPasswordForm from "../layout/ForgotPasswordForm";
 
-function ForgotPassword() {
+function RestorePassword() {
   return (
     <div className="flex justify-center items-center w-full h-full relative px-2">
       <div className="absolute left-4 top-5">
@@ -10,8 +9,8 @@ function ForgotPassword() {
           <Logo></Logo>
         </Link>
       </div>
-      <ForgotPasswordForm></ForgotPasswordForm>
+      <Outlet></Outlet>
     </div>
   );
 }
-export default ForgotPassword;
+export default RestorePassword;

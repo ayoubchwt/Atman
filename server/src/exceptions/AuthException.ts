@@ -12,6 +12,11 @@ export class UserNotFoundException extends AppError {
     super(message, 400);
   }
 }
+export class InvalidRequestParameters extends AppError {
+  constructor(message: string = "The provided parameters are not valid") {
+    super(message, 400);
+  }
+}
 export class UnauthorizedException extends AppError {
   constructor(message: string = "Access denied") {
     super(message, 401);
