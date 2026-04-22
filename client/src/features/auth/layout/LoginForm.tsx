@@ -58,6 +58,17 @@ function LoginForm() {
           Sign up
         </Link>
       </div>
+      <div className="flex items-center gap-2">
+        <p className="text-(--text-light) font-base text-sm">
+          Forgot your password?
+        </p>
+        <Link
+          to="/auth/forgot"
+          className="text-(--text) font-base text-sm underline hover:text-(--primary)"
+        >
+          recover
+        </Link>
+      </div>
     </form>
   );
 }

@@ -88,10 +88,13 @@ export class AuthService {
     }
   }
   public static async forgotPassword(email: string): Promise<void> {
+    console.log("EMAIL", email);
     const user: IUser = await User.findOne({ email: email }).select(
       "+passwordResetToken +passwordResetExpires",
     );
+    console.log("before user check");
     if (!user) return;
+    console.log("after user check");
     const code = (Math.floor(Math.random() * 90000) + 10000).toString();
     const hashedCode = await bcrypt.hash(code, 10);
     user.passwordResetToken = hashedCode;
@@ -99,6 +102,6 @@ export class AuthService {
       Date.now() + Number(process.env.OTP_EXPIRATION) || 3600000,
     );
     await user.save();
-    await EmailUtils.sendMail(email, hashedCode);
+    await EmailUtils.sendMail(email, code);
   }
 }

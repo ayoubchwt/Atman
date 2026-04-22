@@ -1,6 +1,12 @@
 import { create } from "zustand";
 import { AxiosError } from "axios";
-import { login, register, refresh, logout } from "../services/AuthService";
+import {
+  login,
+  register,
+  refresh,
+  logout,
+  forgotPassword,
+} from "../services/AuthService";
 import type { LoginRequest, registerRequest } from "../types/Auth";
 import api from "../api/Axios";
 interface AuthState {
@@ -13,6 +19,7 @@ interface AuthState {
   handleRegister: (registerRequest: registerRequest) => Promise<boolean>;
   handleRefresh: () => Promise<boolean>;
   logout: () => void;
+  ForgetPassword: (email: string) => Promise<void>;
   setError: (error: string) => void;
   setMessage: (message: string) => void;
   resetStatus: () => void;
@@ -100,6 +107,19 @@ export const useAuthStore = create<AuthState>((set) => ({
       await logout();
     } catch (error) {
       console.log("backend logout failed , but client session cleared", error);
+    }
+  },
+  ForgetPassword: async (email): Promise<void> => {
+    set({ isLoading: true });
+    try {
+      await forgotPassword({ email: email });
+      set({
+        isLoading: false,
+        message: `If an account with that email ${email} exists, a reset code has been sent.`,
+      });
+    } catch (error) {
+      const axiosError = error as AxiosError<{ message: string }>;
+      set({ error: axiosError?.response?.data?.message, isLoading: false });
     }
   },
   setError: (error: string) => {

@@ -85,6 +85,7 @@ export class AuthController {
   ): Promise<void> {
     try {
       const dto: ForgotPasswordRequestDto = request.body;
+      console.log("FULL REQUEST BODY:", request.body);
       await AuthService.forgotPassword(dto.email);
       response.status(200).json({
         message:

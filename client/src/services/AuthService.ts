@@ -1,5 +1,6 @@
 import api from "../api/Axios";
 import type {
+  ForgotPasswordRequest,
   LoginRequest,
   LoginResponse,
   registerRequest,
@@ -22,4 +23,9 @@ export const refresh = async (): Promise<LoginResponse> => {
 };
 export const logout = async (): Promise<void> => {
   await api.post<void>("/auth/logout");
+};
+export const forgotPassword = async (
+  data: ForgotPasswordRequest,
+): Promise<void> => {
+  await api.post<void>("/auth/forgot", { email: data.email });
 };

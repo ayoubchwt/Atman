@@ -3,8 +3,8 @@ import { BadGateway } from "../exceptions/AuthException";
 export class EmailUtils {
   private static transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
-    port: Number(process.env.PORT),
-    secure: process.env.EMIAL_SECURE === "true",
+    port: Number(process.env.EMAIL_PORT),
+    secure: process.env.EMAIL_SECURE === "true",
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.PASSWORD_USER,
