@@ -6,11 +6,13 @@ import {
   refresh,
   logout,
   forgotPassword,
+  verifyOtp,
 } from "../services/AuthService";
 import type { LoginRequest, registerRequest } from "../types/Auth";
 import api from "../api/Axios";
 interface AuthState {
   user: { name: string; email: string; accessToken?: string } | null;
+  recovery: { email: string | null; isOtpVerified: boolean } | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
@@ -19,13 +21,16 @@ interface AuthState {
   handleRegister: (registerRequest: registerRequest) => Promise<boolean>;
   handleRefresh: () => Promise<boolean>;
   logout: () => void;
-  ForgetPassword: (email: string) => Promise<void>;
+  ForgotPassword: (email: string) => Promise<void>;
+  verifyOtp: (code: string) => Promise<boolean>;
+  setRecoveryEmail: (email: string) => void;
   setError: (error: string) => void;
   setMessage: (message: string) => void;
   resetStatus: () => void;
 }
-export const useAuthStore = create<AuthState>((set) => ({
+export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
+  recovery: null,
   isAuthenticated: false,
   isLoading: false,
   error: null,
@@ -109,7 +114,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       console.log("backend logout failed , but client session cleared", error);
     }
   },
-  ForgetPassword: async (email): Promise<void> => {
+  ForgotPassword: async (email): Promise<void> => {
     set({ isLoading: true });
     try {
       await forgotPassword({ email: email });
@@ -121,6 +126,27 @@ export const useAuthStore = create<AuthState>((set) => ({
       const axiosError = error as AxiosError<{ message: string }>;
       set({ error: axiosError?.response?.data?.message, isLoading: false });
     }
+  },
+  verifyOtp: async (code: string): Promise<boolean> => {
+    set({ isLoading: true });
+    try {
+      const recovery = get().recovery;
+      if (!recovery?.email) return false;
+      const result = await verifyOtp({ code: code, email: recovery.email });
+      return result.isValid;
+    } catch (error) {
+      const axiosError = error as AxiosError<{ message: string }>;
+      set({ error: axiosError?.response?.data?.message, isLoading: false });
+      return false;
+    }
+  },
+  setRecoveryEmail: (email): void => {
+    set({
+      recovery: {
+        email: email,
+        isOtpVerified: false,
+      },
+    });
   },
   setError: (error: string) => {
     set({

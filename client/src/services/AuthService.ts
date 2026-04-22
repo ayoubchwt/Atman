@@ -6,6 +6,7 @@ import type {
   registerRequest,
   RegisterResponse,
   ResetPasswordRequest,
+  verifyOtpResponse,
 } from "../types/Auth";
 
 export const login = async (data: LoginRequest): Promise<LoginResponse> => {
@@ -29,6 +30,12 @@ export const forgotPassword = async (
   data: ForgotPasswordRequest,
 ): Promise<void> => {
   await api.post<void>("/auth/forgot-password", data);
+};
+export const verifyOtp = async (
+  data: ResetPasswordRequest,
+): Promise<verifyOtpResponse> => {
+  const response = await api.post<verifyOtpResponse>("/auth/verify-otp", data);
+  return response.data;
 };
 export const resetPassword = async (
   data: ResetPasswordRequest,

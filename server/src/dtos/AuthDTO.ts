@@ -24,3 +24,6 @@ export interface ResetPasswordRequestDto {
   code: string;
   newPassword: string;
 }
+export interface verifyOtpResponseDto {
+  isValid: boolean;
+}

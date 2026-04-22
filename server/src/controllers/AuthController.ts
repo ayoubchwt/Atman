@@ -95,6 +95,19 @@ export class AuthController {
       next(error);
     }
   }
+  public static async verifyOtp(
+    request: Request,
+    response: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const dto: ResetPasswordRequestDto = request.body;
+      const result = await AuthService.verifyOtp(dto.email, dto.code);
+      response.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
   public static async resetPassword(
     request: Request,
     response: Response,
@@ -102,10 +115,11 @@ export class AuthController {
   ): Promise<void> {
     try {
       const dto: ResetPasswordRequestDto = request.body;
-      await AuthService.resetPassword(dto.email, dto.code, dto.newPassword);
-      response.status(200).json({
-        message: `Password of the account ${dto.email} changed successfully`,
-      });
+      const result = await AuthService.resetPassword(
+        dto.email,
+        dto.newPassword,
+      );
+      response.status(200).json(result);
     } catch (error) {
       next(error);
     }

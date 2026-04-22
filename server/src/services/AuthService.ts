@@ -3,6 +3,7 @@ import {
   LoginResponseDto,
   registerRequestDto,
   RegisterResponseDto,
+  verifyOtpResponseDto,
 } from "../dtos/AuthDTO";
 import {
   InvalidRequestParameters,
@@ -89,7 +90,7 @@ export class AuthService {
     }
   }
   public static async forgotPassword(email: string): Promise<void> {
-    const user: IUser = await User.findOne({ email: email }).select(
+    const user: IUser | null = await User.findOne({ email: email }).select(
       "+passwordResetToken +passwordResetExpires",
     );
     if (!user) return;
@@ -102,11 +103,10 @@ export class AuthService {
     await user.save();
     await EmailUtils.sendMail(email, code);
   }
-  public static async resetPassword(
+  public static async verifyOtp(
     email: string,
     code: string,
-    password: string,
-  ): Promise<void> {
+  ): Promise<verifyOtpResponseDto> {
     const user: IUser = await User.findOne({ email: email }).select(
       "+passwordResetToken +passwordResetExpires",
     );
@@ -121,9 +121,17 @@ export class AuthService {
     const isCodeValid = await bcrypt.compare(code, user.passwordResetToken);
     if (!isCodeValid)
       throw new InvalidRequestParameters("The provided code is incorrect");
+    return UserMapper.toVerifyOtpResponseDto(isCodeValid);
+  }
+  public static async resetPassword(
+    email: string,
+    password: string,
+  ): Promise<void> {
+    const user: IUser | null = await User.findOne({ email: email });
+    if (!user) throw new UserNotFoundException("User not found");
     const saltRounds = Number(process.env.SALT_ROUNDS) || 10;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-    user.password = hashedPassword;
+    const newPassword = await bcrypt.hash(password, saltRounds);
+    user.password = newPassword;
     await user.save();
   }
 }
