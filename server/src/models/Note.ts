@@ -5,7 +5,7 @@ export interface INote extends Document {
   user: mongoose.Types.ObjectId;
   title: string;
   content: string;
-  tags?: string[];
+  folder: mongoose.Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -24,9 +24,8 @@ const NoteSchema: Schema = new Schema(
       type: Schema.Types.String,
       required: false,
     },
-    tags: {
-      type: [Schema.Types.String],
-      default: [],
+    folder: {
+      type: Schema.Types.ObjectId,
       required: false,
     },
   },
