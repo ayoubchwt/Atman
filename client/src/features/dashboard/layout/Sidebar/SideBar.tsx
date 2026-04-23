@@ -5,6 +5,7 @@ import Button from "../../../../components/ui/Button";
 import NoteList from "../../components/NoteList";
 import SidebarActions from "../../components/SidebarActions";
 import SearchInput from "../../../../components/ui/SearchInput";
+import FolderActions from "../../components/FolderActions";
 
 function SideBar({ className }: { className?: string }) {
   const { handleAddNote, handleSearchByTitle } = useNotes();
@@ -26,6 +27,7 @@ function SideBar({ className }: { className?: string }) {
           <Plus className="w-4 y-4"></Plus>
         </Button>
       </div>
+      <FolderActions></FolderActions>
       <SearchInput onChange={handleSearchByTitle}></SearchInput>
       <NoteList></NoteList>
       {!isSideBarOpen ? (

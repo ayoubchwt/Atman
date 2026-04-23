@@ -5,6 +5,8 @@ const variants = {
   dark: "bg-(--secondary) text-(--bg) font-semibold text-sm hover:bg-(--secondary-light) cursor-pointer flex items-center contnent-center",
   ghostTinted:
     "bg-(--ghostTinted) text-(--text) font-semibold text-sm cursor-pointer flex items-center contnent-center hover:bg-(--ghostTinted-light)",
+  ghostTintedReversed:
+    "bg-(--ghostTinted-light) text-(--text) font-semibold text-sm cursor-pointer flex items-center contnent-center",
   ghostPrimary:
     "bg-(--ghostTinted) text-(--text) font-semibold text-sm cursor-pointer flex items-center contnent-center hover:bg-(--primary) border-(--bg-light) border",
 };
