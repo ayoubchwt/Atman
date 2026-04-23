@@ -29,6 +29,7 @@ interface AuthState {
   logout: () => void;
   forgotPassword: (email: string) => Promise<boolean>;
   verifyOtp: (code: string) => Promise<boolean>;
+  resetPassword: (password: string) => Promise<void>;
   resetStatus: () => void;
 }
 export const useAuthStore = create<AuthState>((set, get) => ({
@@ -152,25 +153,24 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     }
   },
 
-  resetPassword: async (password: string): Promise<boolean> => {
+  resetPassword: async (password: string): Promise<void> => {
     set({ isLoading: true });
     try {
       const recovery = get().recovery;
-      if (!recovery?.email || !recovery?.code) return false;
+      if (!recovery?.email || !recovery?.code) return;
       await resetPassword({
         email: recovery.email,
         code: recovery.code,
         newPassword: password,
       });
       set({
+        message: `Your password has been reset successfully.`,
         recovery: null,
         isLoading: false,
       });
-      return true;
     } catch (error) {
       const axiosError = error as AxiosError<{ message: string }>;
       set({ error: axiosError?.response?.data?.message, isLoading: false });
-      return false;
     }
   },
   resetStatus: () => {

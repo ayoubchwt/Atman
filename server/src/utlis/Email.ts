@@ -19,7 +19,6 @@ export class EmailUtils {
         text: `Your password reset code is : ${code}`,
         html: `<b>Your password reset code is : ${code}</b>`,
       });
-      console.log(`email has been sent successfully to ${email}`);
     } catch (error) {
       console.error(`Error sending mail to ${email} : `, error);
       throw new BadGateway("Failed to send email. Please try again later.");

@@ -5,8 +5,18 @@ import { useNavigate } from "react-router-dom";
 export const useRestorePassword = () => {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
-  const { forgotPassword, isLoading, error, message, verifyOtp } =
-    useAuthStore();
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const {
+    forgotPassword,
+    verifyOtp,
+    resetPassword,
+    isLoading,
+    error,
+    message,
+    resetStatus,
+  } = useAuthStore();
   const navigate = useNavigate();
   const onForgotPasswordSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
@@ -14,6 +24,7 @@ export const useRestorePassword = () => {
       const result = await forgotPassword(email);
       if (result) {
         navigate("/auth/forgot/verify");
+        resetStatus();
       }
     }
   };
@@ -21,15 +32,33 @@ export const useRestorePassword = () => {
     const result = await verifyOtp(otp);
     if (result) {
       navigate("/auth/forgot/reset");
+      resetStatus();
     }
+  };
+  const onResetPasswordSubmit = async (e: React.SubmitEvent) => {
+    e.preventDefault();
+    setPasswordError("");
+    if (password !== passwordConfirm) {
+      setPasswordError("Passwords dosen't match");
+      return;
+    }
+    await resetPassword(password);
+    setPassword("");
+    setPasswordConfirm("");
   };
   return {
     email,
     setEmail,
     onForgotPasswordSubmit,
     onOtpSubmit,
+    onResetPasswordSubmit,
     isLoading,
     error,
+    passwordError,
+    password,
+    passwordConfirm,
+    setPassword,
+    setPasswordConfirm,
     message,
     otp,
     setOtp,
