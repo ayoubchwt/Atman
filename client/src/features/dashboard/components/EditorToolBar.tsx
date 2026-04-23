@@ -20,7 +20,7 @@ function EditorToolBar({ editor }: { editor: Editor | null }) {
     <div className="flex items-center gap-1 px-5 py-2 border border-(--bg-dark) bg-(--item-light) text-(--text)">
       <Button
         variant={editor.isActive("bold") ? "primary" : "ghostTinted"}
-        className="p-2"
+        className="p-2 rounded-md"
         onClick={() => editor.chain().focus().toggleBold().run()}
       >
         <Bold className="w-4 h-4" />
@@ -28,7 +28,7 @@ function EditorToolBar({ editor }: { editor: Editor | null }) {
 
       <Button
         variant={editor.isActive("italic") ? "primary" : "ghostTinted"}
-        className="p-2"
+        className="p-2 rounded-md"
         onClick={() => editor.chain().focus().toggleItalic().run()}
       >
         <Italic className="w-4 h-4" />
@@ -40,7 +40,7 @@ function EditorToolBar({ editor }: { editor: Editor | null }) {
         variant={
           editor.isActive("heading", { level: 1 }) ? "primary" : "ghostTinted"
         }
-        className="p-2"
+        className="p-2 rounded-md"
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
       >
         <Heading1 className="w-4 h-4" />
@@ -50,7 +50,7 @@ function EditorToolBar({ editor }: { editor: Editor | null }) {
         variant={
           editor.isActive("heading", { level: 2 }) ? "primary" : "ghostTinted"
         }
-        className="p-2"
+        className="p-2 rounded-md"
         onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
       >
         <Heading2 className="w-4 h-4" />
@@ -60,7 +60,7 @@ function EditorToolBar({ editor }: { editor: Editor | null }) {
 
       <Button
         variant={editor.isActive("bulletList") ? "primary" : "ghostTinted"}
-        className="p-2"
+        className="p-2 rounded-md"
         onClick={() => editor.chain().focus().toggleBulletList().run()}
       >
         <List className="w-4 h-4" />
@@ -68,7 +68,7 @@ function EditorToolBar({ editor }: { editor: Editor | null }) {
 
       <Button
         variant={editor.isActive("orderedList") ? "primary" : "ghostTinted"}
-        className="p-2"
+        className="p-2 rounded-md"
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
       >
         <ListOrdered className="w-4 h-4" />
@@ -76,7 +76,7 @@ function EditorToolBar({ editor }: { editor: Editor | null }) {
 
       <Button
         variant={editor.isActive("blockquote") ? "primary" : "ghostTinted"}
-        className="p-2"
+        className="p-2 rounded-md"
         onClick={() => editor.chain().focus().toggleBlockquote().run()}
       >
         <Quote className="w-4 h-4" />
@@ -87,7 +87,7 @@ function EditorToolBar({ editor }: { editor: Editor | null }) {
       <div className="flex gap-1 ml-auto">
         <Button
           variant="ghostTinted"
-          className="p-2"
+          className="p-2 rounded-md"
           onClick={() => editor.chain().focus().undo().run()}
           disabled={!editor.can().undo()}
         >
@@ -96,7 +96,7 @@ function EditorToolBar({ editor }: { editor: Editor | null }) {
 
         <Button
           variant="ghostTinted"
-          className="p-2"
+          className="p-2 rounded-md"
           onClick={() => editor.chain().focus().redo().run()}
           disabled={!editor.can().redo()}
         >

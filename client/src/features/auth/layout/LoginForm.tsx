@@ -31,14 +31,22 @@ function LoginForm() {
           setEmail(e.target.value)
         }
       ></Input>
-      <Input
-        label="Password"
-        type="password"
-        placeholder="••••••••"
-        onChange={(e: ChangeEvent<HTMLInputElement>) =>
-          setPassword(e.target.value)
-        }
-      ></Input>
+      <div className=" flex flex-col w-full gap-1">
+        <Input
+          label="Password"
+          type="password"
+          placeholder="••••••••"
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setPassword(e.target.value)
+          }
+        ></Input>
+        <Link
+          to="/auth/forgot"
+          className="text-(--text-light) font-base text-sm underline hover:text-(--primary)"
+        >
+          Forgot password?
+        </Link>
+      </div>
       {error && <AlertBox input={error} variant="failure"></AlertBox>}
       <Button
         variant="dark"
@@ -58,17 +66,7 @@ function LoginForm() {
           Sign up
         </Link>
       </div>
-      <div className="flex items-center gap-2">
-        <p className="text-(--text-light) font-base text-sm">
-          Forgot your password?
-        </p>
-        <Link
-          to="/auth/forgot"
-          className="text-(--text) font-base text-sm underline hover:text-(--primary)"
-        >
-          recover
-        </Link>
-      </div>
+      <div className="flex items-center gap-2"></div>
     </form>
   );
 }
