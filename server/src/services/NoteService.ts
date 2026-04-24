@@ -33,6 +33,14 @@ export class NoteService {
     });
     return NoteMapper.toListResponseDto(notes);
   }
+  public static async getNoteByFolder(
+    folderId: string,
+  ): Promise<NoteResponseDto[]> {
+    const notes: INote[] = await Note.find({
+      folder: folderId,
+    });
+    return NoteMapper.toListResponseDto(notes);
+  }
   public static async createNote(
     userId: string,
     dto: CreateNoteDto,

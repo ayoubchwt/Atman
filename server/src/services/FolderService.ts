@@ -1,7 +1,8 @@
 import { createFolderDto, FolderResponseDto } from "../dtos/FolderDTOs";
+import { NoteResponseDto } from "../dtos/NoteDTO";
 import { FolderMapper } from "../mappers/FolderMapper";
 import Folder, { IFolder } from "../models/Folder";
-
+import { NoteService } from "./NoteService";
 export class FolderService {
   public static async createFolder(
     userId: string,
@@ -13,8 +14,8 @@ export class FolderService {
 
     return FolderMapper.toResponseDto(savedFolder);
   }
-//   public static async getFolders(userId: string): Promise<FolderResponseDto[]> {
-//     const folders: IFolder[] = await Folder.find({ user: userId });
-
-//   }
+  public static async getFolders(userId: string): Promise<FolderResponseDto[]> {
+    const folders: IFolder[] = await Folder.find({ user: userId });
+    return FolderMapper.toListResponseDto(folders);
+  }
 }

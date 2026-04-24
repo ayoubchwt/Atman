@@ -3,15 +3,14 @@ import { NoteResponseDto } from "../dtos/NoteDTO";
 import Folder, { IFolder } from "../models/Folder";
 
 export class FolderMapper {
-  public static toResponseDto(
-    folder: IFolder,
-    notes?: NoteResponseDto[],
-  ): FolderResponseDto {
+  public static toResponseDto(folder: IFolder): FolderResponseDto {
     return {
       id: folder._id.toString(),
       label: folder.label,
-      notes: notes,
     };
+  }
+  public static toListResponseDto(folders: IFolder[]): FolderResponseDto[] {
+    return folders.map((folder) => this.toResponseDto(folder));
   }
   public static toEnity(userId: string, dto: createFolderDto): IFolder {
     return new Folder({
