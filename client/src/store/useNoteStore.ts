@@ -14,8 +14,6 @@ let syncTimer: ReturnType<typeof setTimeout>;
 interface noteState {
   notes: NoteResponseDto[];
   activeNoteId: string | null;
-
-  setNotes: (notes: NoteResponseDto[]) => void;
   fetchNotes: () => void;
   searchNotes: (search: string) => void;
   setActiveNote: (id: string | null) => void;
@@ -28,7 +26,6 @@ interface noteState {
 export const useNoteStore = create<noteState>((set) => ({
   notes: [],
   activeNoteId: null,
-  setNotes: (notes) => set({ notes }),
   fetchNotes: async () => {
     const { isAuthenticated } = useAuthStore.getState();
     if (!isAuthenticated) return;
