@@ -6,6 +6,7 @@ import NoteList from "../../components/NoteList";
 import SidebarActions from "../../components/SidebarActions";
 import SearchInput from "../../../../components/ui/SearchInput";
 import FolderActions from "../../components/FolderActions";
+import FolderList from "../../components/FolderList";
 
 function SideBar({ className }: { className?: string }) {
   const { handleAddNote, handleSearchByTitle } = useNotes();
@@ -29,6 +30,7 @@ function SideBar({ className }: { className?: string }) {
       </div>
       <FolderActions></FolderActions>
       <SearchInput onChange={handleSearchByTitle}></SearchInput>
+      <FolderList></FolderList>
       <NoteList></NoteList>
       {!isSideBarOpen ? (
         <SidebarActions className="flex justify-between items-center w-full"></SidebarActions>

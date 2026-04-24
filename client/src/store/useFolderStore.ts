@@ -5,14 +5,20 @@ import { addFolder, getFolders } from "../services/FolderService";
 
 interface FolderState {
   folders: FolderResponseDto[];
-  activeFolder: string | null;
+  activeFolderId: string | null;
+  setActiveFolderId: (id: string) => void;
   fetchFolders: () => void;
   addFolder: (dto: createFolderDto) => void;
 }
 
 export const useFolderStore = create<FolderState>((set) => ({
   folders: [],
-  activeFolder: null,
+  activeFolderId: null,
+  setActiveFolderId: (id): void => {
+    set({
+      activeFolderId: id,
+    });
+  },
   fetchFolders: async (): Promise<void> => {
     const isAuthenticated = useAuthStore.getState();
     if (!isAuthenticated) return;
@@ -32,7 +38,7 @@ export const useFolderStore = create<FolderState>((set) => ({
       const savedFolder = await addFolder(dto);
       set((state) => ({
         folders: [savedFolder, ...state.folders],
-        activeFolder: state.folders[0].id,
+        activeFolderId: state.folders[0].id,
       }));
     } catch (error) {
       console.log("error adding folder", error);
