@@ -17,6 +17,12 @@ export const getNotesByTitle = async (
   });
   return response.data;
 };
+export const getNotesByFolder = async (
+  folderId: string,
+): Promise<NoteResponseDto[]> => {
+  const response = await api.get<NoteResponseDto[]>(`/note/folder/${folderId}`);
+  return response.data;
+};
 export const addNote = async (
   data: CreateNoteDto,
 ): Promise<NoteResponseDto> => {

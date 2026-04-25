@@ -11,6 +11,11 @@ export class NoteRouter {
       AuthMiddleware.verifyAccessToken,
       NoteController.getNotesByTitle,
     );
+    router.get(
+      "/folder/:id",
+      AuthMiddleware.verifyAccessToken,
+      NoteController.getByFolder,
+    );
     router.post(
       "/",
       AuthMiddleware.verifyAccessToken,

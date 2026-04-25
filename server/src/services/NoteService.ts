@@ -35,6 +35,7 @@ export class NoteService {
   }
   public static async getNoteByFolder(
     folderId: string,
+    userId: string,
   ): Promise<NoteResponseDto[]> {
     const notes: INote[] = await Note.find({
       folder: folderId,

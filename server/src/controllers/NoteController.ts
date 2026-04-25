@@ -46,7 +46,20 @@ export class NoteController {
       next(error);
     }
   }
-
+  public static async getByFolder(
+    request: Request,
+    response: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const userId = request.user.id;
+      const folderId = request.params.id as string;
+      const result = await NoteService.getNoteByFolder(folderId, userId);
+      response.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
   public static async getNotesByTitle(
     request: Request,
     response: Response,
