@@ -1,4 +1,3 @@
-import { useUIStore } from "../../../store/useUIStore";
 import { useFolders } from "../hooks/useFolders";
 import FolderItem from "./FolderItem";
 
@@ -10,8 +9,10 @@ function FolderList() {
     tempLabel,
     handleKeyDown,
     setTempLabel,
+    isFolderView,
+    isAddingFolder,
+    setAddingFolder,
   } = useFolders();
-  const { isFolderView, isAddingFolder, setAddingFolder } = useUIStore();
   return (
     <div
       className={`flex-col items-start gap-2 content-start w-full ${isFolderView ? "flex" : "hidden"}`}

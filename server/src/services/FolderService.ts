@@ -1,17 +1,13 @@
 import { createFolderDto, FolderResponseDto } from "../dtos/FolderDTOs";
-import { NoteResponseDto } from "../dtos/NoteDTO";
 import { FolderMapper } from "../mappers/FolderMapper";
 import Folder, { IFolder } from "../models/Folder";
-import { NoteService } from "./NoteService";
 export class FolderService {
   public static async createFolder(
     userId: string,
     dto: createFolderDto,
   ): Promise<FolderResponseDto> {
-    const folder: IFolder = FolderMapper.toEnity(userId, dto);
-
+    const folder: IFolder = FolderMapper.toEntity(userId, dto);
     const savedFolder = await folder.save();
-
     return FolderMapper.toResponseDto(savedFolder);
   }
   public static async getFolders(userId: string): Promise<FolderResponseDto[]> {

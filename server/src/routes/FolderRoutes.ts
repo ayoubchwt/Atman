@@ -13,7 +13,7 @@ export class FolderRouter {
     router.post(
       "/",
       AuthMiddleware.verifyAccessToken,
-      FolderController.getFolders,
+      FolderController.createFolder,
     );
     return router;
   }

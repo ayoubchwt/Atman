@@ -12,7 +12,7 @@ export class FolderMapper {
   public static toListResponseDto(folders: IFolder[]): FolderResponseDto[] {
     return folders.map((folder) => this.toResponseDto(folder));
   }
-  public static toEnity(userId: string, dto: createFolderDto): IFolder {
+  public static toEntity(userId: string, dto: createFolderDto): IFolder {
     return new Folder({
       label: dto.label,
       user: userId,

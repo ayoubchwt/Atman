@@ -8,7 +8,6 @@ import { NoteRouter } from "./src/routes/NoteRouter";
 import { FolderRouter } from "./src/routes/FolderRoutes";
 
 const app = express();
-app.set("etag", false);
 connectDB();
 
 app.use(

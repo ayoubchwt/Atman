@@ -1,7 +1,6 @@
 import mongoose, { model, Schema, Document } from "mongoose";
 
 export interface IFolder extends Document {
-  id: mongoose.Types.ObjectId;
   user: mongoose.Types.ObjectId;
   label: string;
 }
