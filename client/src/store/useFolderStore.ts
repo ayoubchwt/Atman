@@ -7,8 +7,8 @@ interface FolderState {
   folders: FolderResponseDto[];
   activeFolderId: string | null;
   setActiveFolderId: (id: string) => void;
-  fetchFolders: () => void;
-  addFolder: (dto: createFolderDto) => void;
+  fetchFolders: () => Promise<void>;
+  addFolder: (dto: createFolderDto) => Promise<void>;
 }
 
 export const useFolderStore = create<FolderState>((set) => ({
@@ -38,7 +38,7 @@ export const useFolderStore = create<FolderState>((set) => ({
       const savedFolder = await addFolder(dto);
       set((state) => ({
         folders: [savedFolder, ...state.folders],
-        activeFolderId: state.folders[0].id,
+        activeFolderId: savedFolder.id,
       }));
     } catch (error) {
       console.log("error adding folder", error);

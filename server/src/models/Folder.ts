@@ -5,14 +5,18 @@ export interface IFolder extends Document {
   user: mongoose.Types.ObjectId;
   label: string;
 }
-const FolderSchema: Schema = new Schema({
-  user: {
-    type: Schema.Types.ObjectId,
-    required: true,
+const FolderSchema: Schema = new Schema(
+  {
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    label: {
+      type: Schema.Types.String,
+      required: true,
+    },
   },
-  label: {
-    type: Schema.Types.String,
-    required: true,
-  },
-});
+  { timestamps: true },
+);
 export default model<IFolder>("Folder", FolderSchema);

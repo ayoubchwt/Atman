@@ -30,8 +30,10 @@ function SideBar({ className }: { className?: string }) {
       </div>
       <FolderActions></FolderActions>
       <SearchInput onChange={handleSearchByTitle}></SearchInput>
-      <FolderList></FolderList>
-      <NoteList></NoteList>
+      <div className="flex flex-col flex-1 gap-3 min-h-0 overflow-y-auto scrollbar-hide">
+        <FolderList></FolderList>
+        <NoteList></NoteList>
+      </div>
       {!isSideBarOpen ? (
         <SidebarActions className="flex justify-between items-center w-full"></SidebarActions>
       ) : (

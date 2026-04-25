@@ -18,7 +18,7 @@ function FolderItem({
         isSelected ? "bg-(--bg-dark)" : "bg-(--bg) hover:bg-(--item-light)"
       }`}
     >
-      <div className="flex gap-2 items-center min-w-0">
+      <div className="flex gap-2 items-center min-w-0 text-(--text)">
         {isSelected ? (
           <ChevronDown className="w-4 h-4" />
         ) : (
@@ -33,23 +33,25 @@ function FolderItem({
           {children?.toString().trim() ? children : "Untitled Folder"}
         </span>
       </div>
-      <button
-        className="md:hidden group-hover:block bg-(--ghostTinted) text-(--text-light) hover:text-(--text) cursor-pointer px-1"
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
-      >
-        <Pen className="w-3.5 h-3.5"></Pen>
-      </button>
-      <button
-        className="md:hidden group-hover:block bg-(--ghostTinted) text-(--text-light) hover:text-(--text) cursor-pointer px-1"
-        onClick={(e) => {
-          e.stopPropagation();
-          if (activeFolderId) return handleDeleteNote(activeFolderId);
-        }}
-      >
-        <Trash2 className="w-3.5 h-3.5"></Trash2>
-      </button>
+      <div className="flex items-center justify-between">
+        <button
+          className="md:hidden group-hover:block bg-(--ghostTinted) text-(--text-light) hover:text-(--text) cursor-pointer px-1"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          <Pen className="w-3.5 h-3.5"></Pen>
+        </button>
+        <button
+          className="md:hidden group-hover:block bg-(--ghostTinted) text-(--text-light) hover:text-(--text) cursor-pointer px-1"
+          onClick={(e) => {
+            e.stopPropagation();
+            if (activeFolderId) return handleDeleteNote(activeFolderId);
+          }}
+        >
+          <Trash2 className="w-3.5 h-3.5"></Trash2>
+        </button>
+      </div>
     </div>
   );
 }
