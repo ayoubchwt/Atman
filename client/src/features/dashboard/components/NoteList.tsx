@@ -7,7 +7,7 @@ function NoteList() {
   const { setSideBarOpen } = useUIStore();
   return (
     <div className="flex flex-col items-start content-start w-full flex-1 min-h-0">
-      <h1 className="text-sm text-(--text-light) font-semibold pb-2">
+      <h1 className="text-sm text-(--text-light) font-semibold pb-2 pl-2">
         ALL NOTES
       </h1>
       {notes.map((note) => {

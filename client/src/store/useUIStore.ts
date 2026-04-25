@@ -4,15 +4,18 @@ interface useUI {
   isSideBarOpen: boolean;
   isNavOpen: boolean;
   isFolderView: boolean;
+  isAddingFolder: boolean;
   setFolderView: (state: boolean) => void;
   setSideBarOpen: (open: boolean) => void;
   setNavOpen: (open: boolean) => void;
+  setAddingFolder: (open: boolean) => void;
   closeAll: () => void;
 }
 export const useUIStore = create<useUI>((set) => ({
   isSideBarOpen: false,
   isNavOpen: false,
   isFolderView: false,
+  isAddingFolder: false,
 
   setSideBarOpen: (open) => {
     set({
@@ -27,6 +30,11 @@ export const useUIStore = create<useUI>((set) => ({
   setFolderView: (state) => {
     set({
       isFolderView: state,
+    });
+  },
+  setAddingFolder: (state: boolean): void => {
+    set({
+      isAddingFolder: state,
     });
   },
   closeAll: () => {

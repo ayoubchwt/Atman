@@ -6,9 +6,9 @@ function FolderItem({
   isSelected,
   onClick,
 }: {
-  children: React.ReactNode;
-  isSelected: boolean;
-  onClick: () => void;
+  children?: React.ReactNode;
+  isSelected?: boolean;
+  onClick?: () => void;
 }) {
   const { handleDeleteNote, activeFolderId } = useFolders();
   return (
@@ -18,7 +18,7 @@ function FolderItem({
         isSelected ? "bg-(--bg-dark)" : "bg-(--bg) hover:bg-(--item-light)"
       }`}
     >
-      <div className="flex gap-2 items-center min-w-0 text-(--text)">
+      <div className="flex gap-2 items-center flex-1 min-w-0 text-(--text)">
         {isSelected ? (
           <ChevronDown className="w-4 h-4" />
         ) : (
@@ -33,9 +33,9 @@ function FolderItem({
           {children?.toString().trim() ? children : "Untitled Folder"}
         </span>
       </div>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between md:invisible group-hover:visible">
         <button
-          className="md:hidden group-hover:block bg-(--ghostTinted) text-(--text-light) hover:text-(--text) cursor-pointer px-1"
+          className=" bg-(--ghostTinted) text-(--text-light) hover:text-(--text) cursor-pointer px-1"
           onClick={(e) => {
             e.stopPropagation();
           }}
@@ -43,7 +43,7 @@ function FolderItem({
           <Pen className="w-3.5 h-3.5"></Pen>
         </button>
         <button
-          className="md:hidden group-hover:block bg-(--ghostTinted) text-(--text-light) hover:text-(--text) cursor-pointer px-1"
+          className="bg-(--ghostTinted) text-(--text-light) hover:text-(--text) cursor-pointer px-1"
           onClick={(e) => {
             e.stopPropagation();
             if (activeFolderId) return handleDeleteNote(activeFolderId);

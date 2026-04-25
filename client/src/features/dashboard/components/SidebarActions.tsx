@@ -6,7 +6,6 @@ import { useSidebarActions } from "../hooks/useSideBarActions";
 function SidebarActions({ className }: { className?: string }) {
   const { handleLogout, isAuthenticated, toggleTheme, isDark } =
     useSidebarActions();
-
   return (
     <div className={className}>
       <ToggleInput onChange={toggleTheme} checked={isDark} />
