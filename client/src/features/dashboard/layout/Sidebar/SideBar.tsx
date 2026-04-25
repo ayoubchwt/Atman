@@ -25,7 +25,6 @@ function SideBar({ className }: { className?: string }) {
               className=" flex items-center justify-center px-1 rounded-md"
               onClick={() => {
                 setAddingFolder(true);
-                setSideBarOpen(false);
               }}
             >
               <FolderPlus className="w-4 y-4"></FolderPlus>
@@ -37,7 +36,6 @@ function SideBar({ className }: { className?: string }) {
             onClick={() => {
               handleAddNote();
               setSideBarOpen(false);
-              setAddingFolder(true);
             }}
           >
             <Plus className="w-4 y-4"></Plus>
