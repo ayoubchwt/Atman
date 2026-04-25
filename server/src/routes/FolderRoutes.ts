@@ -15,6 +15,11 @@ export class FolderRouter {
       AuthMiddleware.verifyAccessToken,
       FolderController.createFolder,
     );
+    router.delete(
+      "/",
+      AuthMiddleware.verifyAccessToken,
+      FolderController.deleteFolder,
+    );
     return router;
   }
 }

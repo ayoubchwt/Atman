@@ -54,7 +54,7 @@ function FolderList() {
                 {folder.label}
               </FolderItem>
               {extendedFolderId === folder.id && (
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-1 ml-3 pl-3 min-h-0 border-l border-(--bg-dark)">
                   {folderNotes.map((note) => {
                     return (
                       <NoteItem

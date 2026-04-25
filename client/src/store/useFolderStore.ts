@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import type { createFolderDto, FolderResponseDto } from "../types/Folder";
 import { useAuthStore } from "./useAuthStore";
-import { addFolder, getFolders } from "../services/FolderService";
+import { addFolder, deleteFolder, getFolders } from "../services/FolderService";
 import type { NoteResponseDto } from "../types/Note";
 import { getNotesByFolder } from "../services/NoteService";
 
@@ -12,6 +12,7 @@ interface FolderState {
   setActiveFolderId: (id: string) => void;
   fetchFolders: () => Promise<void>;
   FetchFolderNotes: (folderId: string) => Promise<void>;
+  deleteFolder: (id: string) => Promise<void>;
   addFolder: (dto: createFolderDto) => Promise<void>;
 }
 
@@ -46,6 +47,18 @@ export const useFolderStore = create<FolderState>((set) => ({
       });
     } catch (error) {
       console.log(error);
+    }
+  },
+  deleteFolder: async (id): Promise<void> => {
+    const isAuthenticated = useAuthStore.getState();
+    if (!isAuthenticated) return;
+    try {
+      await deleteFolder(id);
+      set({
+        
+      })
+    } catch (error) {
+      console.log("error deleting folder", error);
     }
   },
   addFolder: async (dto): Promise<void> => {

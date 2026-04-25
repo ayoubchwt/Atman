@@ -60,7 +60,7 @@ export class NoteService {
     const updatedNote = await Note.findOneAndUpdate(
       { _id: noteId, user: userId },
       { $set: dto },
-      { new: true },
+      { returnDocument: "after" },
     );
     if (!updatedNote) {
       throw new NoteNotFoundException(

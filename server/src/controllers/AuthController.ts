@@ -75,7 +75,7 @@ export class AuthController {
         throw new UnauthorizedException();
       }
       await AuthService.logout(userId, refreshToken);
-      response.status(200).json();
+      response.status(200).send();
     } catch (error) {
       next(error);
     }

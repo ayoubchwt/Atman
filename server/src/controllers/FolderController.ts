@@ -29,4 +29,18 @@ export class FolderController {
       next(error);
     }
   }
+  public static async deleteFolder(
+    request: Request,
+    response: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const userId = request.user.id;
+      const folderId = request.params.id as string;
+      await FolderService.deleteFolder(userId, folderId);
+      response.status(204).send();
+    } catch (error) {
+      next(error);
+    }
+  }
 }

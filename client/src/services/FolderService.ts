@@ -11,3 +11,6 @@ export const addFolder = async (
   const response = await api.post<FolderResponseDto>("/folder/", data);
   return response.data;
 };
+export const deleteFolder = async (id: string): Promise<void> => {
+  await api.delete<void>(`/folder/:${id}`);
+};
