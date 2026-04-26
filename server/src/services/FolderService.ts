@@ -1,4 +1,8 @@
-import { createFolderDto, FolderResponseDto } from "../dtos/FolderDTOs";
+import {
+  createFolderDto,
+  FolderResponseDto,
+  UpdateFolderDto,
+} from "../dtos/FolderDTOs";
 import { FolderNotFoundExceeption } from "../exceptions/FolderException";
 import { FolderMapper } from "../mappers/FolderMapper";
 import Folder, { IFolder } from "../models/Folder";
@@ -14,6 +18,22 @@ export class FolderService {
   public static async getFolders(userId: string): Promise<FolderResponseDto[]> {
     const folders: IFolder[] = await Folder.find({ user: userId });
     return FolderMapper.toListResponseDto(folders);
+  }
+  public static async updateFolder(
+    folderId: string,
+    userId: string,
+    dto: UpdateFolderDto,
+  ): Promise<FolderResponseDto> {
+    const updatedFolder = await Folder.findOneAndUpdate(
+      {
+        _id: folderId,
+        user: userId,
+      },
+      { $set: dto },
+      { returnDocument: "after" },
+    );
+    if (!updatedFolder) throw new FolderNotFoundExceeption("folder not found");
+    return FolderMapper.toResponseDto(updatedFolder);
   }
   public static async deleteFolder(
     userId: string,

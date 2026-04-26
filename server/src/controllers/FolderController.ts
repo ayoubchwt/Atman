@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { FolderService } from "../services/FolderService";
-import { createFolderDto } from "../dtos/FolderDTOs";
+import { createFolderDto, UpdateFolderDto } from "../dtos/FolderDTOs";
 export class FolderController {
   public static async createFolder(
     request: Request,
@@ -39,6 +39,21 @@ export class FolderController {
       const folderId = request.params.id as string;
       await FolderService.deleteFolder(userId, folderId);
       response.status(204).send();
+    } catch (error) {
+      next(error);
+    }
+  }
+  public static async updateFolder(
+    request: Request,
+    response: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const userId = request.user.id;
+      const folderId = request.params.id as string;
+      const dto = request.body as UpdateFolderDto;
+      const result = await FolderService.updateFolder(folderId, userId, dto);
+      response.status(200).json(result);
     } catch (error) {
       next(error);
     }

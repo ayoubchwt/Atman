@@ -22,10 +22,14 @@ export const useFolders = () => {
   const handleAddFolder = async (label: string) => {
     await folderStore.addFolder({ label: label });
   };
+  const handleUpdateFolder = async (id: string, label: string) => {
+    await folderStore.updateFolder(id, { label: label });
+  };
   return {
     ...folderStore,
     ...uiStore,
     handleAddFolder,
+    handleUpdateFolder,
     handleDeleteFolder,
     extendedFolderId,
     setExtendedFolderId,

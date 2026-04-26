@@ -1,7 +1,16 @@
 import { create } from "zustand";
-import type { createFolderDto, FolderResponseDto } from "../types/Folder";
+import type {
+  CreateFolderDto,
+  FolderResponseDto,
+  UpdateFolderDto,
+} from "../types/Folder";
 import { useAuthStore } from "./useAuthStore";
-import { addFolder, deleteFolder, getFolders } from "../services/FolderService";
+import {
+  addFolder,
+  deleteFolder,
+  getFolders,
+  updateFolder,
+} from "../services/FolderService";
 import type { NoteResponseDto } from "../types/Note";
 import { getNotesByFolder } from "../services/NoteService";
 
@@ -13,7 +22,8 @@ interface FolderState {
   fetchFolders: () => Promise<void>;
   FetchFolderNotes: (folderId: string) => Promise<void>;
   deleteFolder: (id: string) => Promise<void>;
-  addFolder: (dto: createFolderDto) => Promise<void>;
+  addFolder: (dto: CreateFolderDto) => Promise<void>;
+  updateFolder: (id: string, dto: UpdateFolderDto) => Promise<void>;
   clearFolderStore: () => void;
 }
 
@@ -89,7 +99,23 @@ export const useFolderStore = create<FolderState>((set) => ({
       folders: [newFolder, ...state.folders],
       activeFolderId: newFolder.id,
     }));
-    return;
+  },
+  updateFolder: async (id: string, dto: UpdateFolderDto): Promise<void> => {
+    const isAuthenticated = useAuthStore.getState();
+    if (isAuthenticated) {
+      try {
+        await updateFolder(id, dto);
+        // to do : local changes if it gets stuck
+        return;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    set((state) => ({
+      folders: state.folders.map((folder) =>
+        folder.id === id ? { ...folder, ...dto } : folder,
+      ),
+    }));
   },
   clearFolderStore: (): void => {
     set({

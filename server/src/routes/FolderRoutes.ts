@@ -15,6 +15,11 @@ export class FolderRouter {
       AuthMiddleware.verifyAccessToken,
       FolderController.createFolder,
     );
+    router.patch(
+      "/",
+      AuthMiddleware.verifyAccessToken,
+      FolderController.updateFolder,
+    );
     router.delete(
       "/:id",
       AuthMiddleware.verifyAccessToken,

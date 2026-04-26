@@ -1,3 +1,4 @@
+import React from "react";
 import { useUIStore } from "../../../store/useUIStore";
 import { useFolders } from "../hooks/useFolders";
 import { useNotes } from "../hooks/useNotes";
@@ -10,18 +11,24 @@ function FolderList() {
     folders,
     setActiveFolderId,
     handleAddFolder,
+    handleUpdateFolder,
     isFolderView,
     isAddingFolder,
+    isUpdatingFolder,
     setAddingFolder,
+    setUpdatingFolder,
     extendedFolderId,
     setExtendedFolderId,
     folderNotes,
   } = useFolders();
   const { activeNoteId, setActiveNote } = useNotes();
   const { setSideBarOpen } = useUIStore();
+
   return (
     <div
-      className={`flex-col items-start gap-2 content-start w-full ${isFolderView ? "flex" : "hidden"}`}
+      className={`flex-col items-start gap-2 content-start w-full ${
+        isFolderView ? "flex" : "hidden"
+      }`}
     >
       <h1 className="text-sm text-(--text-light) font-semibold pl-2">
         FOLDERS
@@ -32,27 +39,28 @@ function FolderList() {
             <FolderInput
               onSubmit={handleAddFolder}
               onCancel={() => setAddingFolder(false)}
-            ></FolderInput>
+            />
           </FolderItem>
         )}
-        {folders.map((folder) => {
-          return (
-            <div className="flex flex-col gap-1">
-              <FolderItem
-                key={folder.id}
-                folderId={folder.id}
-                isSelected={extendedFolderId === folder.id}
-                onClick={() => {
-                  setActiveFolderId(folder.id);
-                  setExtendedFolderId(folder.id);
-                }}
-              >
-                {folder.label}
-              </FolderItem>
-              {extendedFolderId === folder.id && (
-                <div className="flex flex-col gap-1 ml-3 pl-3 min-h-0 border-l border-(--bg-dark)">
-                  {folderNotes.map((note) => {
-                    return (
+
+        {folders.map((folder) => (
+          <React.Fragment key={folder.id}>
+            {!isUpdatingFolder ? (
+              <div className="flex flex-col gap-1">
+                <FolderItem
+                  folderId={folder.id}
+                  isSelected={extendedFolderId === folder.id}
+                  onClick={() => {
+                    setActiveFolderId(folder.id);
+                    setExtendedFolderId(folder.id);
+                  }}
+                >
+                  {folder.label}
+                </FolderItem>
+
+                {extendedFolderId === folder.id && (
+                  <div className="flex flex-col gap-1 ml-3 pl-3 min-h-0 border-l border-(--bg-dark)">
+                    {folderNotes.map((note) => (
                       <NoteItem
                         key={note.id}
                         noteId={note.id}
@@ -64,15 +72,26 @@ function FolderList() {
                       >
                         {note.title}
                       </NoteItem>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-          );
-        })}
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <FolderItem>
+                <FolderInput
+                  initialValue={folder.label}
+                  onCancel={() => setUpdatingFolder(false)}
+                  onSubmit={async (label) => {
+                    await handleUpdateFolder(folder.id, label);
+                  }}
+                />
+              </FolderItem>
+            )}
+          </React.Fragment>
+        ))}
       </div>
     </div>
   );
 }
+
 export default FolderList;

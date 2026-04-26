@@ -12,5 +12,5 @@ export interface NoteResponseDto {
   content: string;
   createdAt: Date;
   updatedAt: Date;
-  folder: string;
+  folder: string | null;
 }

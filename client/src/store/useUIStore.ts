@@ -1,24 +1,24 @@
 import { create } from "zustand";
 
-interface useUI {
+interface UseUI {
   isSideBarOpen: boolean;
   isNavOpen: boolean;
   isFolderView: boolean;
   isAddingFolder: boolean;
-  isModifyingFolder: boolean;
+  isUpdatingFolder: boolean;
   setFolderView: (state: boolean) => void;
   setSideBarOpen: (open: boolean) => void;
   setNavOpen: (open: boolean) => void;
   setAddingFolder: (state: boolean) => void;
-  setModifyingFolder: (state: boolean) => void;
+  setUpdatingFolder: (state: boolean) => void;
   closeAll: () => void;
 }
-export const useUIStore = create<useUI>((set) => ({
+export const useUIStore = create<UseUI>((set) => ({
   isSideBarOpen: false,
   isNavOpen: false,
   isFolderView: false,
   isAddingFolder: false,
-  isModifyingFolder: false,
+  isUpdatingFolder: false,
 
   setSideBarOpen: (open) => {
     set({
@@ -40,9 +40,9 @@ export const useUIStore = create<useUI>((set) => ({
       isAddingFolder: state,
     });
   },
-  setModifyingFolder: (state): void => {
+  setUpdatingFolder: (state): void => {
     set({
-      isModifyingFolder: state,
+      isUpdatingFolder: state,
     });
   },
   closeAll: () => {

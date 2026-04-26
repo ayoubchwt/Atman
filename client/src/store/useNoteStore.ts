@@ -11,7 +11,7 @@ import { useAuthStore } from "./useAuthStore";
 
 let syncTimer: ReturnType<typeof setTimeout>;
 
-interface noteState {
+interface NoteState {
   notes: NoteResponseDto[];
   activeNoteId: string | null;
   fetchNotes: () => void;
@@ -23,7 +23,7 @@ interface noteState {
   deleteNote: (id: string | null) => void;
   clearNoteStore: () => void;
 }
-export const useNoteStore = create<noteState>((set) => ({
+export const useNoteStore = create<NoteState>((set) => ({
   notes: [],
   activeNoteId: null,
   fetchNotes: async () => {
@@ -111,7 +111,7 @@ export const useNoteStore = create<noteState>((set) => ({
       id: crypto.randomUUID(),
       title: "New Note",
       content: "",
-      tags: [],
+      folder: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     };

@@ -12,7 +12,7 @@ function FolderItem({
   isSelected?: boolean;
   onClick?: () => void;
 }) {
-  const { handleDeleteFolder } = useFolders();
+  const { handleDeleteFolder, setUpdatingFolder } = useFolders();
   return (
     <div
       onClick={onClick}
@@ -40,6 +40,7 @@ function FolderItem({
           className=" bg-(--ghostTinted) text-(--text-light) hover:text-(--text) cursor-pointer px-1"
           onClick={(e) => {
             e.stopPropagation();
+            setUpdatingFolder(true);
           }}
         >
           <Pen className="w-3.5 h-3.5"></Pen>
