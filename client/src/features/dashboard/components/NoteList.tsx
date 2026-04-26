@@ -14,6 +14,7 @@ function NoteList() {
         return (
           <NoteItem
             key={note.id}
+            noteId={note.id}
             onClick={() => {
               setActiveNote(note.id);
               setSideBarOpen(false);

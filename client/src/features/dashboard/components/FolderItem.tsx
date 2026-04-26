@@ -3,14 +3,16 @@ import { useFolders } from "../hooks/useFolders";
 
 function FolderItem({
   children,
+  folderId,
   isSelected,
   onClick,
 }: {
   children?: React.ReactNode;
+  folderId?: string;
   isSelected?: boolean;
   onClick?: () => void;
 }) {
-  const { handleDeleteFolder, activeFolderId } = useFolders();
+  const { handleDeleteFolder } = useFolders();
   return (
     <div
       onClick={onClick}
@@ -46,7 +48,7 @@ function FolderItem({
           className="bg-(--ghostTinted) text-(--text-light) hover:text-(--text) cursor-pointer px-1"
           onClick={async (e) => {
             e.stopPropagation();
-            if (activeFolderId) return await handleDeleteFolder(activeFolderId);
+            if (folderId) return await handleDeleteFolder(folderId);
           }}
         >
           <Trash2 className="w-3.5 h-3.5"></Trash2>

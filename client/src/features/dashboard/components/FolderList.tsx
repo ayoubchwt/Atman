@@ -45,6 +45,7 @@ function FolderList() {
             <div className="flex flex-col gap-1">
               <FolderItem
                 key={folder.id}
+                folderId={folder.id}
                 isSelected={extendedFolderId === folder.id}
                 onClick={() => {
                   setActiveFolderId(folder.id);
@@ -59,6 +60,7 @@ function FolderList() {
                     return (
                       <NoteItem
                         key={note.id}
+                        noteId={note.id}
                         onClick={() => {
                           setActiveNote(note.id);
                           setSideBarOpen(false);

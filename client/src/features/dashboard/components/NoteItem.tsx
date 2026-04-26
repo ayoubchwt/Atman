@@ -3,14 +3,16 @@ import { FileText, Trash2 } from "lucide-react";
 import { useNotes } from "../hooks/useNotes";
 function NoteItem({
   children,
+  noteId,
   isSelected,
   onClick,
 }: {
   children: ReactNode;
+  noteId: string;
   isSelected: boolean;
   onClick: () => void;
 }) {
-  const { handleDeleteNote, activeNoteId } = useNotes();
+  const { handleDeleteNote } = useNotes();
   return (
     <div
       onClick={onClick}
@@ -32,7 +34,7 @@ function NoteItem({
         className="md:hidden group-hover:block bg-(--ghostTinted) text-(--text-light) hover:text-(--text) cursor-pointer px-1"
         onClick={(e) => {
           e.stopPropagation();
-          if (activeNoteId) return handleDeleteNote(activeNoteId);
+          if (noteId) return handleDeleteNote(noteId);
         }}
       >
         <Trash2 className="w-3.5 h-3.5"></Trash2>
