@@ -9,7 +9,7 @@ export class NoteMapper {
       content: note.content,
       createdAt: note.createdAt,
       updatedAt: note.updatedAt,
-      folder: note.folder.toString(),
+      folder: note.folder ? note.folder.toString() : null,
     };
   }
   public static toListResponseDto(notes: INote[]): NoteResponseDto[] {

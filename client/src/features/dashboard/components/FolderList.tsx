@@ -1,6 +1,7 @@
 import { useUIStore } from "../../../store/useUIStore";
 import { useFolders } from "../hooks/useFolders";
 import { useNotes } from "../hooks/useNotes";
+import FolderInput from "./FolderInput";
 import FolderItem from "./FolderItem";
 import NoteItem from "./NoteItem";
 
@@ -8,9 +9,7 @@ function FolderList() {
   const {
     folders,
     setActiveFolderId,
-    tempLabel,
-    handleKeyDown,
-    setTempLabel,
+    handleAddFolder,
     isFolderView,
     isAddingFolder,
     setAddingFolder,
@@ -30,14 +29,10 @@ function FolderList() {
       <div className="flex flex-col gap-1 w-full">
         {isAddingFolder && (
           <FolderItem>
-            <input
-              autoFocus
-              value={tempLabel}
-              onChange={(e) => setTempLabel(e.target.value)}
-              onKeyDown={handleKeyDown}
-              onBlur={() => setAddingFolder(false)}
-              placeholder="Folder name ..."
-            />
+            <FolderInput
+              onSubmit={handleAddFolder}
+              onCancel={() => setAddingFolder(false)}
+            ></FolderInput>
           </FolderItem>
         )}
         {folders.map((folder) => {
