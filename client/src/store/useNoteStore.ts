@@ -14,11 +14,14 @@ let syncTimer: ReturnType<typeof setTimeout>;
 interface NoteState {
   notes: NoteResponseDto[];
   activeNoteId: string | null;
+  openedMenuNoteId: string | null;
   fetchNotes: () => void;
   searchNotes: (search: string) => void;
   setActiveNote: (id: string | null) => void;
+  setOpenedMenuNote: (id: string | null) => void;
   updateNoteTitle: (id: string, title: string) => void;
   updateNoteContent: (id: string, content: string) => void;
+  updateNoteFolder: (id: string, folder: string | null) => Promise<void>;
   addNote: () => void;
   deleteNote: (id: string | null) => void;
   clearNoteStore: () => void;
@@ -26,6 +29,7 @@ interface NoteState {
 export const useNoteStore = create<NoteState>((set) => ({
   notes: [],
   activeNoteId: null,
+  openedMenuNoteId: null,
   fetchNotes: async () => {
     const { isAuthenticated } = useAuthStore.getState();
     if (!isAuthenticated) return;
@@ -55,7 +59,7 @@ export const useNoteStore = create<NoteState>((set) => ({
     }, 200);
   },
   setActiveNote: (id) => set({ activeNoteId: id }),
-
+  setOpenedMenuNote: (id): void => set({ openedMenuNoteId: id }),
   updateNoteTitle: (id, title) => {
     set((state) => ({
       notes: state.notes.map((note) =>
@@ -90,6 +94,21 @@ export const useNoteStore = create<NoteState>((set) => ({
           console.log("error updating content", error);
         }
       }, 1000);
+    }
+  },
+  updateNoteFolder: async (id, folder) => {
+    set((state) => ({
+      notes: state.notes.map((note) =>
+        note.id === id ? { ...note, folder } : note,
+      ),
+    }));
+    const { isAuthenticated } = useAuthStore.getState();
+    if (isAuthenticated) {
+      try {
+        await updateNote(id, { folder });
+      } catch (error) {
+        console.log("error assigning folder", error);
+      }
     }
   },
   addNote: async () => {

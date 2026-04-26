@@ -5,6 +5,7 @@ export interface CreateNoteDto {
 export interface UpdateNoteDto {
   title?: string;
   content?: string;
+  folder?: string | null;
 }
 export interface NoteResponseDto {
   id: string;

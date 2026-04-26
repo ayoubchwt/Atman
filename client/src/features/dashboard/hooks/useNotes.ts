@@ -22,6 +22,10 @@ export const useNotes = () => {
   const handleDeleteNote = async (id: string) => {
     noteStore.deleteNote(id);
   };
+  const assignNoteToFolder = async (FolderId: string) => {
+    const menuNote = noteStore.openedMenuNoteId;
+    if (menuNote) await noteStore.updateNoteFolder(menuNote, FolderId);
+  };
   return {
     ...noteStore,
     handleAddNote,
@@ -29,5 +33,6 @@ export const useNotes = () => {
     handleUpdateTitle,
     handleUpdateContent,
     handleDeleteNote,
+    assignNoteToFolder,
   };
 };
