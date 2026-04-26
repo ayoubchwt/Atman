@@ -18,7 +18,9 @@ interface FolderState {
   folders: FolderResponseDto[];
   folderNotes: NoteResponseDto[];
   activeFolderId: string | null;
+  updatingFolderId: string | null;
   setActiveFolderId: (id: string) => void;
+  setUpdatingFolderId: (id: string | null) => void;
   fetchFolders: () => Promise<void>;
   FetchFolderNotes: (folderId: string) => Promise<void>;
   deleteFolder: (id: string) => Promise<void>;
@@ -31,9 +33,15 @@ export const useFolderStore = create<FolderState>((set) => ({
   folders: [],
   folderNotes: [],
   activeFolderId: null,
+  updatingFolderId: null,
   setActiveFolderId: (id): void => {
     set({
       activeFolderId: id,
+    });
+  },
+  setUpdatingFolderId: (id): void => {
+    set({
+      updatingFolderId: id,
     });
   },
   fetchFolders: async (): Promise<void> => {
@@ -104,8 +112,12 @@ export const useFolderStore = create<FolderState>((set) => ({
     const isAuthenticated = useAuthStore.getState();
     if (isAuthenticated) {
       try {
-        await updateFolder(id, dto);
-        // to do : local changes if it gets stuck
+        const result = await updateFolder(id, dto);
+        set((state) => ({
+          folders: state.folders.map((folder) =>
+            folder.id === result.id ? { ...folder, ...result } : folder,
+          ),
+        }));
         return;
       } catch (error) {
         console.log(error);

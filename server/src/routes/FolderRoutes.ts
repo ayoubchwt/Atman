@@ -16,7 +16,7 @@ export class FolderRouter {
       FolderController.createFolder,
     );
     router.patch(
-      "/",
+      "/:id",
       AuthMiddleware.verifyAccessToken,
       FolderController.updateFolder,
     );

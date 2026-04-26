@@ -14,12 +14,12 @@ function FolderList() {
     handleUpdateFolder,
     isFolderView,
     isAddingFolder,
-    isUpdatingFolder,
     setAddingFolder,
-    setUpdatingFolder,
     extendedFolderId,
     setExtendedFolderId,
     folderNotes,
+    updatingFolderId,
+    setUpdatingFolderId,
   } = useFolders();
   const { activeNoteId, setActiveNote } = useNotes();
   const { setSideBarOpen } = useUIStore();
@@ -45,7 +45,8 @@ function FolderList() {
 
         {folders.map((folder) => (
           <React.Fragment key={folder.id}>
-            {!isUpdatingFolder ? (
+            {/* Added curly brace here */}
+            {updatingFolderId !== folder.id ? (
               <div className="flex flex-col gap-1">
                 <FolderItem
                   folderId={folder.id}
@@ -80,13 +81,15 @@ function FolderList() {
               <FolderItem>
                 <FolderInput
                   initialValue={folder.label}
-                  onCancel={() => setUpdatingFolder(false)}
+                  onCancel={() => setUpdatingFolderId(null)}
                   onSubmit={async (label) => {
                     await handleUpdateFolder(folder.id, label);
+                    setUpdatingFolderId(null);
                   }}
                 />
               </FolderItem>
             )}
+            {/* Added curly brace here */}
           </React.Fragment>
         ))}
       </div>
