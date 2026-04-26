@@ -16,7 +16,7 @@ export class FolderRouter {
       FolderController.createFolder,
     );
     router.delete(
-      "/",
+      "/:id",
       AuthMiddleware.verifyAccessToken,
       FolderController.deleteFolder,
     );

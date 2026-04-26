@@ -1,11 +1,9 @@
 import { FolderTree, List } from "lucide-react";
 import Button from "../../../components/ui/Button";
 import { useFolderActions } from "../hooks/useFolderActions";
-import { useFolders } from "../hooks/useFolders";
 
 function FolderActions() {
   const { isFolderView, setFolderView } = useFolderActions();
-  const { fetchFolders } = useFolders();
   return (
     <div className="flex flex-row items-center justify-between w-full gap-1">
       <Button
@@ -20,7 +18,6 @@ function FolderActions() {
         variant={isFolderView ? "ghostTintedReversed" : "ghostTinted"}
         className="gap-2 p-2 rounded-md w-full items-center justify-center"
         onClick={async () => {
-          await fetchFolders();
           setFolderView(true);
         }}
       >

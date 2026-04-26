@@ -14,6 +14,7 @@ interface FolderState {
   FetchFolderNotes: (folderId: string) => Promise<void>;
   deleteFolder: (id: string) => Promise<void>;
   addFolder: (dto: createFolderDto) => Promise<void>;
+  clearFolderStore: () => void;
 }
 
 export const useFolderStore = create<FolderState>((set) => ({
@@ -50,28 +51,51 @@ export const useFolderStore = create<FolderState>((set) => ({
     }
   },
   deleteFolder: async (id): Promise<void> => {
+    set((state) => {
+      const updatedFolders = state.folders.filter((folder) => folder.id !== id);
+      return {
+        folders: updatedFolders,
+      };
+    });
     const isAuthenticated = useAuthStore.getState();
-    if (!isAuthenticated) return;
-    try {
-      await deleteFolder(id);
-      set({
-        
-      })
-    } catch (error) {
-      console.log("error deleting folder", error);
+    if (isAuthenticated) {
+      try {
+        await deleteFolder(id);
+      } catch (error) {
+        console.log("error deleting folder", error);
+      }
     }
   },
   addFolder: async (dto): Promise<void> => {
     const isAuthenticated = useAuthStore.getState();
-    if (!isAuthenticated) return;
-    try {
-      const savedFolder = await addFolder(dto);
-      set((state) => ({
-        folders: [savedFolder, ...state.folders],
-        activeFolderId: savedFolder.id,
-      }));
-    } catch (error) {
-      console.log("error adding folder", error);
+    if (isAuthenticated) {
+      try {
+        const savedFolder = await addFolder(dto);
+        set((state) => ({
+          folders: [savedFolder, ...state.folders],
+          activeFolderId: savedFolder.id,
+        }));
+        return;
+      } catch (error) {
+        console.log("error adding folder", error);
+        return;
+      }
     }
+    const newFolder: FolderResponseDto = {
+      id: crypto.randomUUID(),
+      label: dto.label,
+    };
+    set((state) => ({
+      folders: [newFolder, ...state.folders],
+      activeFolderId: newFolder.id,
+    }));
+    return;
+  },
+  clearFolderStore: (): void => {
+    set({
+      folders: [],
+      folderNotes: [],
+      activeFolderId: null,
+    });
   },
 }));

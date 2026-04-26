@@ -6,7 +6,7 @@ import SideBar from "../layout/Sidebar/SideBar";
 function Dashboard() {
   return (
     <AppInitializer>
-      <div className="relative grid h-screen w-full grid-rows-[auto_1fr] grid-cols-[minmax(150px,1fr)_5fr] [grid-template-areas:'navbar_navbar''editor_editor'] md:[grid-template-areas:'navbar_navbar''sidebar_editor']">
+      <div className="relative grid h-screen w-full grid-rows-[auto_1fr] grid-cols-[minmax(200px,1fr)_5fr] [grid-template-areas:'navbar_navbar''editor_editor'] md:[grid-template-areas:'navbar_navbar''sidebar_editor']">
         <NavBar className="[grid-area:navbar]"></NavBar>
 
         <SideBar className="[grid-area:sidebar] hidden md:flex"></SideBar>

@@ -10,7 +10,7 @@ function FolderItem({
   isSelected?: boolean;
   onClick?: () => void;
 }) {
-  const { handleDeleteNote, activeFolderId } = useFolders();
+  const { handleDeleteFolder, activeFolderId } = useFolders();
   return (
     <div
       onClick={onClick}
@@ -44,9 +44,9 @@ function FolderItem({
         </button>
         <button
           className="bg-(--ghostTinted) text-(--text-light) hover:text-(--text) cursor-pointer px-1"
-          onClick={(e) => {
+          onClick={async (e) => {
             e.stopPropagation();
-            if (activeFolderId) return handleDeleteNote(activeFolderId);
+            if (activeFolderId) return await handleDeleteFolder(activeFolderId);
           }}
         >
           <Trash2 className="w-3.5 h-3.5"></Trash2>

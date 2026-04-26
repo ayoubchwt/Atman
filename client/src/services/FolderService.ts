@@ -12,5 +12,5 @@ export const addFolder = async (
   return response.data;
 };
 export const deleteFolder = async (id: string): Promise<void> => {
-  await api.delete<void>(`/folder/:${id}`);
+  await api.delete<void>(`/folder/${id}`);
 };

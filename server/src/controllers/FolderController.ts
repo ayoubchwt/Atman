@@ -11,7 +11,7 @@ export class FolderController {
       const userId = request.user.id;
       const createFolderDto = request.body as createFolderDto;
       const result = await FolderService.createFolder(userId, createFolderDto);
-      response.status(200).json(result);
+      response.status(201).json(result);
     } catch (error) {
       next(error);
     }

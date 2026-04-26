@@ -21,7 +21,7 @@ interface noteState {
   updateNoteContent: (id: string, content: string) => void;
   addNote: () => void;
   deleteNote: (id: string | null) => void;
-  clearStore: () => void;
+  clearNoteStore: () => void;
 }
 export const useNoteStore = create<noteState>((set) => ({
   notes: [],
@@ -142,7 +142,7 @@ export const useNoteStore = create<noteState>((set) => ({
       }
     }
   },
-  clearStore: () => {
+  clearNoteStore: () => {
     set({
       notes: [],
       activeNoteId: null,

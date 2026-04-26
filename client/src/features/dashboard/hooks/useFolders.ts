@@ -15,9 +15,8 @@ export const useFolders = () => {
       setExtendedFolderIdState(id);
     }
   };
-  const handleDeleteNote = (id: string) => {
-    console.log("stop crying about not using you : ", id);
-    return;
+  const handleDeleteFolder = async (id: string) => {
+    await folderStore.deleteFolder(id);
   };
   const handleKeyDown = async (e: React.KeyboardEvent) => {
     if (e.key === "Escape") {
@@ -36,7 +35,7 @@ export const useFolders = () => {
     tempLabel,
     handleKeyDown,
     setTempLabel,
-    handleDeleteNote,
+    handleDeleteFolder,
     extendedFolderId,
     setExtendedFolderId,
   };
