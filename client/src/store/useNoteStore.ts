@@ -101,6 +101,7 @@ export const useNoteStore = create<NoteState>((set) => ({
       notes: state.notes.map((note) =>
         note.id === id ? { ...note, folder } : note,
       ),
+      openedMenuNoteId: null,
     }));
     const { isAuthenticated } = useAuthStore.getState();
     if (isAuthenticated) {

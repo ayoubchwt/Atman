@@ -26,6 +26,10 @@ export const useNotes = () => {
     const menuNote = noteStore.openedMenuNoteId;
     if (menuNote) await noteStore.updateNoteFolder(menuNote, FolderId);
   };
+  const UnassignNoteToFolder = async () => {
+    const menuNote = noteStore.openedMenuNoteId;
+    if (menuNote) await noteStore.updateNoteFolder(menuNote, null);
+  };
   return {
     ...noteStore,
     handleAddNote,
@@ -34,5 +38,6 @@ export const useNotes = () => {
     handleUpdateContent,
     handleDeleteNote,
     assignNoteToFolder,
+    UnassignNoteToFolder,
   };
 };

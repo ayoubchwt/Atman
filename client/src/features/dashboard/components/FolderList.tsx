@@ -42,7 +42,11 @@ function FolderList() {
             />
           </FolderItem>
         )}
-
+        {folders.length === 0 && !isAddingFolder && (
+          <p className="p-2 text-sm text-(--text-light) w-full text-center">
+            You didn't add any folders yet !
+          </p>
+        )}
         {folders.map((folder) => (
           <React.Fragment key={folder.id}>
             {/* Added curly brace here */}
@@ -61,19 +65,25 @@ function FolderList() {
 
                 {extendedFolderId === folder.id && (
                   <div className="flex flex-col gap-1 ml-3 pl-3 min-h-0 border-l border-(--bg-dark)">
-                    {folderNotes.map((note) => (
-                      <NoteItem
-                        key={note.id}
-                        noteId={note.id}
-                        onClick={() => {
-                          setActiveNote(note.id);
-                          setSideBarOpen(false);
-                        }}
-                        isSelected={note.id === activeNoteId}
-                      >
-                        {note.title}
-                      </NoteItem>
-                    ))}
+                    {folderNotes.length === 0 ? (
+                      <p className="py-2 text-sm text-center text-(--text-light) w-full ">
+                        No notes yet !
+                      </p>
+                    ) : (
+                      folderNotes.map((note) => (
+                        <NoteItem
+                          key={note.id}
+                          noteId={note.id}
+                          onClick={() => {
+                            setActiveNote(note.id);
+                            setSideBarOpen(false);
+                          }}
+                          isSelected={note.id === activeNoteId}
+                        >
+                          {note.title}
+                        </NoteItem>
+                      ))
+                    )}
                   </div>
                 )}
               </div>
@@ -96,5 +106,4 @@ function FolderList() {
     </div>
   );
 }
-
 export default FolderList;

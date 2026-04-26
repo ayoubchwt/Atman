@@ -5,7 +5,6 @@ import { useUIStore } from "../../../store/useUIStore";
 export const useFolders = () => {
   const folderStore = useFolderStore();
   const uiStore = useUIStore();
-
   const [extendedFolderId, setExtendedFolderIdState] = useState<string>("");
   const setExtendedFolderId = async (id: string) => {
     if (extendedFolderId === id) {
@@ -15,7 +14,6 @@ export const useFolders = () => {
       setExtendedFolderIdState(id);
     }
   };
-
   const handleDeleteFolder = async (id: string) => {
     await folderStore.deleteFolder(id);
   };

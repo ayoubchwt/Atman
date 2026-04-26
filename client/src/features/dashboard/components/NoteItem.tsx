@@ -17,11 +17,10 @@ function NoteItem({
     handleDeleteNote,
     setOpenedMenuNote,
     assignNoteToFolder,
+    UnassignNoteToFolder,
     openedMenuNoteId,
   } = useNotes();
-
   const isMenuOpen = openedMenuNoteId === noteId;
-
   return (
     <div
       onClick={onClick}
@@ -48,7 +47,9 @@ function NoteItem({
           <NoteMenu
             onSelect={async (folderId) => {
               await assignNoteToFolder(folderId);
-              setOpenedMenuNote(null);
+            }}
+            onDeselect={async () => {
+              await UnassignNoteToFolder();
             }}
           />
         )}
