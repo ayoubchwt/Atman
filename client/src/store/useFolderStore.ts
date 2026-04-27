@@ -19,8 +19,10 @@ interface FolderState {
   folderNotes: NoteResponseDto[];
   activeFolderId: string | null;
   updatingFolderId: string | null;
+  extendedFolderId: string | null;
   setActiveFolderId: (id: string) => void;
   setUpdatingFolderId: (id: string | null) => void;
+  setExtendedFolderId: (id: string | null) => void;
   fetchFolders: () => Promise<void>;
   FetchFolderNotes: (folderId: string) => Promise<void>;
   deleteFolder: (id: string) => Promise<void>;
@@ -34,6 +36,7 @@ export const useFolderStore = create<FolderState>((set) => ({
   folderNotes: [],
   activeFolderId: null,
   updatingFolderId: null,
+  extendedFolderId: null,
   setActiveFolderId: (id): void => {
     set({
       activeFolderId: id,
@@ -42,6 +45,11 @@ export const useFolderStore = create<FolderState>((set) => ({
   setUpdatingFolderId: (id): void => {
     set({
       updatingFolderId: id,
+    });
+  },
+  setExtendedFolderId: (id): void => {
+    set({
+      extendedFolderId: id,
     });
   },
   fetchFolders: async (): Promise<void> => {

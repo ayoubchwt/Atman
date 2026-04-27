@@ -49,7 +49,6 @@ function FolderList() {
         )}
         {folders.map((folder) => (
           <React.Fragment key={folder.id}>
-            {/* Added curly brace here */}
             {updatingFolderId !== folder.id ? (
               <div className="flex flex-col gap-1">
                 <FolderItem
@@ -99,7 +98,6 @@ function FolderList() {
                 />
               </FolderItem>
             )}
-            {/* Added curly brace here */}
           </React.Fragment>
         ))}
       </div>
