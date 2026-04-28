@@ -13,11 +13,16 @@ export const useFolders = () => {
   const handleUpdateFolder = async (id: string, label: string) => {
     await folderStore.updateFolder(id, { label: label });
   };
+  const handleFolderRefresh = async () => {
+    const extendedFolderId = folderStore.extendedFolderId;
+    if (extendedFolderId) await folderStore.FetchFolderNotes(extendedFolderId);
+  };
   return {
     ...folderStore,
     ...uiStore,
     handleAddFolder,
     handleUpdateFolder,
     handleDeleteFolder,
+    handleFolderRefresh,
   };
 };

@@ -22,16 +22,16 @@ interface FolderState {
   extendedFolderId: string | null;
   setActiveFolderId: (id: string) => void;
   setUpdatingFolderId: (id: string | null) => void;
-  setExtendedFolderId: (id: string | null) => void;
+  setExtendedFolderId: (id: string | null) => Promise<void>;
   fetchFolders: () => Promise<void>;
-  FetchFolderNotes: (folderId: string) => Promise<void>;
+  FetchFolderNotes: (id: string) => Promise<void>;
   deleteFolder: (id: string) => Promise<void>;
   addFolder: (dto: CreateFolderDto) => Promise<void>;
   updateFolder: (id: string, dto: UpdateFolderDto) => Promise<void>;
   clearFolderStore: () => void;
 }
 
-export const useFolderStore = create<FolderState>((set) => ({
+export const useFolderStore = create<FolderState>((set, get) => ({
   folders: [],
   folderNotes: [],
   activeFolderId: null,
@@ -47,10 +47,23 @@ export const useFolderStore = create<FolderState>((set) => ({
       updatingFolderId: id,
     });
   },
-  setExtendedFolderId: (id): void => {
-    set({
-      extendedFolderId: id,
-    });
+  setExtendedFolderId: async (id): Promise<void> => {
+    const currentId = get().extendedFolderId;
+    if (id === currentId || id === null) {
+      set({
+        extendedFolderId: null,
+        folderNotes: [],
+      });
+    } else {
+      try {
+        await get().FetchFolderNotes(id);
+        set({
+          extendedFolderId: id,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
   },
   fetchFolders: async (): Promise<void> => {
     const isAuthenticated = useAuthStore.getState();
@@ -64,14 +77,16 @@ export const useFolderStore = create<FolderState>((set) => ({
       console.log("error fetching folders", error);
     }
   },
-  FetchFolderNotes: async (folderId): Promise<void> => {
+  FetchFolderNotes: async (id): Promise<void> => {
     const isAuthenticated = useAuthStore.getState();
     if (!isAuthenticated) return;
     try {
-      const result = await getNotesByFolder(folderId);
-      set({
-        folderNotes: result,
-      });
+      if (id) {
+        const result = await getNotesByFolder(id);
+        set({
+          folderNotes: result,
+        });
+      }
     } catch (error) {
       console.log(error);
     }

@@ -21,7 +21,7 @@ function NoteItem({
     UnassignNoteToFolder,
     openedMenuNoteId,
   } = useNotes();
-  const { setExtendedFolderId } = useFolders();
+  const { handleFolderRefresh } = useFolders();
   const isMenuOpen = openedMenuNoteId === noteId;
   return (
     <div
@@ -49,9 +49,11 @@ function NoteItem({
           <NoteMenu
             onSelect={async (folderId) => {
               await assignNoteToFolder(folderId);
+              await handleFolderRefresh();
             }}
             onDeselect={async () => {
               await UnassignNoteToFolder();
+              await handleFolderRefresh();
             }}
           />
         )}
