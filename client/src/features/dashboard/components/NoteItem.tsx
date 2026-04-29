@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import { FileText, Folder, Trash2 } from "lucide-react";
 import { useNotes } from "../hooks/useNotes";
 import NoteMenu from "./NoteMenu";
-import { useFolders } from "../hooks/useFolders";
 function NoteItem({
   children,
   noteId,
@@ -21,7 +20,6 @@ function NoteItem({
     UnassignNoteToFolder,
     openedMenuNoteId,
   } = useNotes();
-  const { handleFolderRefresh } = useFolders();
   const isMenuOpen = openedMenuNoteId === noteId;
   return (
     <div
@@ -49,11 +47,9 @@ function NoteItem({
           <NoteMenu
             onSelect={async (folderId) => {
               await assignNoteToFolder(folderId);
-              await handleFolderRefresh();
             }}
             onDeselect={async () => {
               await UnassignNoteToFolder();
-              await handleFolderRefresh();
             }}
           />
         )}

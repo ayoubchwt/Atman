@@ -11,20 +11,16 @@ import {
   getFolders,
   updateFolder,
 } from "../services/FolderService";
-import type { NoteResponseDto } from "../types/Note";
-import { getNotesByFolder } from "../services/NoteService";
 
 interface FolderState {
   folders: FolderResponseDto[];
-  folderNotes: NoteResponseDto[];
   activeFolderId: string | null;
   updatingFolderId: string | null;
   extendedFolderId: string | null;
   setActiveFolderId: (id: string) => void;
   setUpdatingFolderId: (id: string | null) => void;
-  setExtendedFolderId: (id: string | null) => Promise<void>;
+  setExtendedFolderId: (id: string | null) => void;
   fetchFolders: () => Promise<void>;
-  FetchFolderNotes: (id: string) => Promise<void>;
   deleteFolder: (id: string) => Promise<void>;
   addFolder: (dto: CreateFolderDto) => Promise<void>;
   updateFolder: (id: string, dto: UpdateFolderDto) => Promise<void>;
@@ -33,7 +29,6 @@ interface FolderState {
 
 export const useFolderStore = create<FolderState>((set, get) => ({
   folders: [],
-  folderNotes: [],
   activeFolderId: null,
   updatingFolderId: null,
   extendedFolderId: null,
@@ -47,23 +42,16 @@ export const useFolderStore = create<FolderState>((set, get) => ({
       updatingFolderId: id,
     });
   },
-  setExtendedFolderId: async (id): Promise<void> => {
+  setExtendedFolderId: (id): void => {
     const currentId = get().extendedFolderId;
-    if (id === currentId || id === null) {
+    if (id === currentId || id === null)
       set({
         extendedFolderId: null,
-        folderNotes: [],
       });
-    } else {
-      try {
-        await get().FetchFolderNotes(id);
-        set({
-          extendedFolderId: id,
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }
+    else
+      set({
+        extendedFolderId: id,
+      });
   },
   fetchFolders: async (): Promise<void> => {
     const isAuthenticated = useAuthStore.getState();
@@ -75,20 +63,6 @@ export const useFolderStore = create<FolderState>((set, get) => ({
       });
     } catch (error) {
       console.log("error fetching folders", error);
-    }
-  },
-  FetchFolderNotes: async (id): Promise<void> => {
-    const isAuthenticated = useAuthStore.getState();
-    if (!isAuthenticated) return;
-    try {
-      if (id) {
-        const result = await getNotesByFolder(id);
-        set({
-          folderNotes: result,
-        });
-      }
-    } catch (error) {
-      console.log(error);
     }
   },
   deleteFolder: async (id): Promise<void> => {
@@ -155,7 +129,6 @@ export const useFolderStore = create<FolderState>((set, get) => ({
   clearFolderStore: (): void => {
     set({
       folders: [],
-      folderNotes: [],
       activeFolderId: null,
     });
   },
