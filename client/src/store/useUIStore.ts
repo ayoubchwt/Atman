@@ -3,10 +3,12 @@ import { create } from "zustand";
 interface UseUI {
   isSideBarOpen: boolean;
   isNavOpen: boolean;
+  isTimerOpen: boolean;
   isFolderView: boolean;
   isAddingFolder: boolean;
   setFolderView: (state: boolean) => void;
   setSideBarOpen: (open: boolean) => void;
+  setTimerOpen: (open: boolean) => void;
   setNavOpen: (open: boolean) => void;
   setAddingFolder: (state: boolean) => void;
   closeAll: () => void;
@@ -14,6 +16,7 @@ interface UseUI {
 export const useUIStore = create<UseUI>((set) => ({
   isSideBarOpen: false,
   isNavOpen: false,
+  isTimerOpen: false,
   isFolderView: false,
   isAddingFolder: false,
 
@@ -25,6 +28,11 @@ export const useUIStore = create<UseUI>((set) => ({
   setNavOpen: (open) => {
     set({
       isNavOpen: open,
+    });
+  },
+  setTimerOpen: (open) => {
+    set({
+      isTimerOpen: open,
     });
   },
   setFolderView: (state) => {

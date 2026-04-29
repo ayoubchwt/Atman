@@ -2,13 +2,15 @@ import { type ButtonHTMLAttributes, type ReactNode } from "react";
 const variants = {
   primary:
     "bg-(--primary) hover:bg-(--primary-light) text-(--text) text-sm font-semibold flex gap-2 items-center content-center cursor-pointer",
-  dark: "bg-(--secondary) text-(--bg) font-semibold text-sm hover:bg-(--secondary-light) cursor-pointer flex items-center contnent-center",
+  dark: "bg-(--secondary) text-(--bg) font-semibold text-sm hover:bg-(--secondary-light) cursor-pointer flex items-center justify-center",
+  ghost:
+    "bg-(--ghostTinted) text-(--text-light) font-semibold text-sm cursor-pointer flex items-center justify-center hover:text-(--text)",
   ghostTinted:
     "bg-(--ghostTinted) text-(--text) font-semibold text-sm cursor-pointer flex items-center contnent-center hover:bg-(--ghostTinted-light)",
   ghostTintedReversed:
-    "bg-(--ghostTinted-light) text-(--text) font-semibold text-sm cursor-pointer flex items-center contnent-center",
+    "bg-(--ghostTinted-light) text-(--text) font-semibold text-sm cursor-pointer flex items-center justify-center",
   ghostPrimary:
-    "bg-(--ghostTinted) text-(--text) font-semibold text-sm cursor-pointer flex items-center contnent-center hover:bg-(--primary) border-(--bg-light) border",
+    "bg-(--ghostTinted) text-(--text) font-semibold text-sm cursor-pointer flex items-center justify-center hover:bg-(--primary) border-(--bg-light) border",
 };
 type Variant = keyof typeof variants;
 

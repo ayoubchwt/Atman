@@ -34,12 +34,13 @@ Atman is a minimalist, high-performance note-taking application designed for cla
 - [x] **Smart Auto-Save:** Never lose a thought. Notes are automatically persisted in the background as you type.
 - [x] **Responsive Layout:** Mobile-first design that adapts perfectly to desktop, tablet, and smartphone screens.
 - [x] **Dark Mode:** Theme switching for comfortable night-time writing.
+- [x] **Note Categorization:** Tags and folders for advanced organization.
 
 ## Roadmap (Upcoming Features)
-
+- [ ] **Pomodoro Timer:** Integrated focus sessions with customizable work-rest intervals to boost productivity.
+- [ ] **Shared Notes:** Collaborative workspaces featuring real-time sharing.
 - [ ] **User Profiles:** Customizable user settings, avatars, and account management.
 - [ ] **AI-Powered Explainer:** Integrated AI to summarize long notes or explain complex topics within your entries.
-- [ ] **Note Categorization:** Tags and folders for advanced organization.
 - [ ] **Rich Text Support:** Markdown support for better note formatting.
 
 ## Installation (Run Locally)
