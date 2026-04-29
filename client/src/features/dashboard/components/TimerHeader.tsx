@@ -5,7 +5,8 @@ import { useTimer } from "../hooks/useTimer";
 function TimerHeader() {
   const { setTimerOpen } = useTimer();
   return (
-    <div className="w-full flex items-center justify-end">
+    <div className="w-full flex items-center justify-between">
+      <h1 className="font-semibold text-(--text)">Pomodoro</h1>
       <Button
         variant="ghost"
         className="p-2"

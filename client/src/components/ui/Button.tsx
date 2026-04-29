@@ -5,6 +5,8 @@ const variants = {
   dark: "bg-(--secondary) text-(--bg) font-semibold text-sm hover:bg-(--secondary-light) cursor-pointer flex items-center justify-center",
   ghost:
     "bg-(--ghostTinted) text-(--text-light) font-semibold text-sm cursor-pointer flex items-center justify-center hover:text-(--text)",
+  ghostStatic:
+    "bg-(--bg-light) text-(--text) font-semibold text-sm cursor-pointer flex items-center justify-center shadow-sm",
   ghostTinted:
     "bg-(--ghostTinted) text-(--text) font-semibold text-sm cursor-pointer flex items-center contnent-center hover:bg-(--ghostTinted-light)",
   ghostTintedReversed:
@@ -31,5 +33,4 @@ function Button({
     </button>
   );
 }
-
 export default Button;

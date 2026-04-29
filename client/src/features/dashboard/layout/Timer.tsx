@@ -5,7 +5,7 @@ import TimerHeader from "../components/TimerHeader";
 
 function Timer() {
   return (
-    <div className="absolute flex flex-col justify-between w-95 h-120 right-4 bottom-4 bg-(--bg) z-50 p-4 rounded-md shadow-xl">
+    <div className="absolute flex flex-col justify-between w-95 h-120 right-4 bottom-4 bg-(--bg) z-50 p-4 rounded-md shadow-xl border-(--bg-dark) border">
       <div className="flex flex-col w-full gap-3">
         <TimerHeader></TimerHeader>
         <TimerSettings></TimerSettings>
