@@ -22,9 +22,9 @@ function FolderItem({
     >
       <div className="flex gap-2 items-center flex-1 min-w-0 text-(--text)">
         {isSelected ? (
-          <ChevronDown className="w-4 h-4" />
+          <ChevronDown className="w-4 h-4 shrink-0" />
         ) : (
-          <ChevronRight className="w-4 h-4" />
+          <ChevronRight className="w-4 h-4 shrink-0" />
         )}
         <Folder
           className={`w-4 h-4 shrink-0 ${isSelected ? "text-(--text)" : "text-(--text-light)"}`}
