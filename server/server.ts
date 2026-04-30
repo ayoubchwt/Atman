@@ -6,6 +6,7 @@ import { AuthRouter } from "./src/routes/AuthRouter";
 import { ErrorMiddleware } from "./src/middleware/ErrorMiddleware";
 import { NoteRouter } from "./src/routes/NoteRouter";
 import { FolderRouter } from "./src/routes/FolderRoutes";
+import { UserRouter } from "./src/routes/UserRouter";
 
 const app = express();
 connectDB();
@@ -16,11 +17,13 @@ app.use(
     credentials: true,
   }),
 );
+
 app.use(express.json());
 app.use(cookieParser());
 app.use("/api/auth", AuthRouter.getRoutes());
 app.use("/api/note", NoteRouter.getRoutes());
 app.use("/api/folder", FolderRouter.getRoutes());
+app.use("/api/user", UserRouter.getRoutes());
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`App is running on port ${PORT}`));

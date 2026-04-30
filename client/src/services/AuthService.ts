@@ -1,41 +1,43 @@
 import api from "../api/Axios";
 import type {
-  LoginRequest,
-  LoginResponse,
-  registerRequest,
-  RegisterResponse,
-  ForgotPasswordRequest,
-  VerifyOtpRequest,
-  ResetPasswordRequest,
+  LoginRequestDto,
+  LoginResponseDto,
+  registerRequestDto,
+  RegisterResponseDto,
+  ForgotPasswordRequestDto,
+  VerifyOtpRequestDto,
+  ResetPasswordRequestDto,
 } from "../types/Auth";
 
-export const login = async (data: LoginRequest): Promise<LoginResponse> => {
-  const response = await api.post<LoginResponse>("/auth/login", data);
+export const login = async (
+  data: LoginRequestDto,
+): Promise<LoginResponseDto> => {
+  const response = await api.post<LoginResponseDto>("/auth/login", data);
   return response.data;
 };
 export const register = async (
-  data: registerRequest,
-): Promise<RegisterResponse> => {
-  const response = await api.post<registerRequest>("/auth/register", data);
+  data: registerRequestDto,
+): Promise<RegisterResponseDto> => {
+  const response = await api.post<registerRequestDto>("/auth/register", data);
   return response.data;
 };
-export const refresh = async (): Promise<LoginResponse> => {
-  const response = await api.post<LoginResponse>("/auth/refresh");
+export const refresh = async (): Promise<LoginResponseDto> => {
+  const response = await api.post<LoginResponseDto>("/auth/refresh");
   return response.data;
 };
 export const logout = async (): Promise<void> => {
   await api.post<void>("/auth/logout");
 };
 export const forgotPassword = async (
-  data: ForgotPasswordRequest,
+  data: ForgotPasswordRequestDto,
 ): Promise<void> => {
   await api.post<void>("/auth/forgot-password", data);
 };
-export const verifyOtp = async (data: VerifyOtpRequest): Promise<void> => {
+export const verifyOtp = async (data: VerifyOtpRequestDto): Promise<void> => {
   await api.post<void>("/auth/verify-otp", data);
 };
 export const resetPassword = async (
-  data: ResetPasswordRequest,
+  data: ResetPasswordRequestDto,
 ): Promise<void> => {
   await api.post<void>("/auth/reset-password", data);
 };

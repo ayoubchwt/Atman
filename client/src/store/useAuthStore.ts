@@ -10,7 +10,7 @@ import {
   resetPassword,
 } from "../services/AuthService";
 
-import type { LoginRequest, registerRequest } from "../types/Auth";
+import type { LoginRequestDto, registerRequestDto } from "../types/Auth";
 import api from "../api/Axios";
 
 interface AuthState {
@@ -23,8 +23,8 @@ interface AuthState {
   isLoading: boolean;
   error: string | null;
   message: string | null;
-  handleLogin: (loginRequest: LoginRequest) => Promise<boolean>;
-  handleRegister: (registerRequest: registerRequest) => Promise<boolean>;
+  handleLogin: (loginRequest: LoginRequestDto) => Promise<boolean>;
+  handleRegister: (registerRequest: registerRequestDto) => Promise<boolean>;
   handleRefresh: () => Promise<void>;
   logout: () => void;
   forgotPassword: (email: string) => Promise<boolean>;
@@ -40,7 +40,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   error: null,
   message: null,
 
-  handleLogin: async (loginRequest: LoginRequest): Promise<boolean> => {
+  handleLogin: async (loginRequest: LoginRequestDto): Promise<boolean> => {
     set({ isLoading: true, error: null });
     try {
       const result = await login(loginRequest);
@@ -67,7 +67,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   handleRegister: async (
-    registerRequest: registerRequest,
+    registerRequest: registerRequestDto,
   ): Promise<boolean> => {
     set({ isLoading: true, error: null });
     try {

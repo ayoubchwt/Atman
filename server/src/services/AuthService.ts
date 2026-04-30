@@ -13,7 +13,7 @@ import {
   UserAlreadyExistException,
   UserNotFoundException,
 } from "../exceptions/AuthException";
-import { UserMapper } from "../mappers/AuthMapper";
+import { AuthMapper } from "../mappers/AuthMapper";
 import User, { IUser } from "../models/User";
 import RefreshToken, { IRefreshToken } from "../models/RefreshToken";
 import bcrypt from "bcrypt";
@@ -30,14 +30,14 @@ export class AuthService {
         `The email ${dto.email} already linked to a existent user`,
       );
     }
-    const user: IUser = UserMapper.toEntity(dto);
+    const user: IUser = AuthMapper.toEntity(dto);
 
     const saltRounds = Number(process.env.SALT_ROUNDS) || 10;
     const hashedPassword = await bcrypt.hash(user.password, saltRounds);
     user.password = hashedPassword;
 
     const savedUser = await user.save();
-    return UserMapper.toRegisterResponseDto(savedUser);
+    return AuthMapper.toRegisterResponseDto(savedUser);
   }
 
   public static async login(dto: LoginRequestDto): Promise<any> {
@@ -59,7 +59,7 @@ export class AuthService {
     });
     await user.save();
     return {
-      dto: UserMapper.toLoginResponseDto(acessToken, user),
+      dto: AuthMapper.toLoginResponseDto(acessToken, user),
       refreshToken: refreshToken,
     };
   }
@@ -77,7 +77,7 @@ export class AuthService {
     const user = await User.findById(userId);
     if (!user) throw new UserNotFoundException();
     const accessToken = AuthUtil.GenerateAccessToken(user._id.toString());
-    return UserMapper.toLoginResponseDto(accessToken, user);
+    return AuthMapper.toLoginResponseDto(accessToken, user);
   }
   public static async logout(
     userId: string,

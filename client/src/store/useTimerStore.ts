@@ -6,16 +6,19 @@ const alarmSound =
 interface useTimer {
   selectedMode: "focus" | "short" | "long";
   timeLeft: number;
+  sessions: number;
   interval: ReturnType<typeof setInterval> | undefined;
   isRunning: boolean;
   durations: Record<string, number>;
   setSelectedMode: (mode: "focus" | "short" | "long") => void;
   setIsRunning: (running: boolean) => void;
   resetTimer: () => void;
+  fetchSessionNumber: () => Promise<void>;
 }
 export const useTimerStore = create<useTimer>((set, get) => ({
   selectedMode: "focus",
   timeLeft: 1500,
+  sessions: 0,
   isRunning: false,
   interval: undefined,
   durations: { focus: 1500, short: 300, long: 900 },
@@ -57,5 +60,8 @@ export const useTimerStore = create<useTimer>((set, get) => ({
       timeLeft: durations[selectedMode],
       interval: undefined,
     });
+  },
+  fetchSessionNumber: async (): Promise<void> => {
+    
   },
 }));

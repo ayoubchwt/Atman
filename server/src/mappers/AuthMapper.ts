@@ -5,7 +5,7 @@ import {
 } from "../dtos/AuthDTO";
 import User, { IUser } from "../models/User";
 
-export class UserMapper {
+export class AuthMapper {
   public static toRegisterResponseDto(user: IUser): RegisterResponseDto {
     return {
       name: user.name,

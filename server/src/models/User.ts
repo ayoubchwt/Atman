@@ -4,6 +4,7 @@ export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
+  sessions: number;
   refreshToken: string | null;
   passwordResetToken: string | null;
   passwordResetExpires: Date | null;
@@ -25,6 +26,10 @@ const UserShema: Schema = new Schema(
       type: Schema.Types.String,
       required: true,
       select: false,
+    },
+    sessions: {
+      type: Schema.Types.Number,
+      required: false,
     },
     refreshToken: {
       type: Schema.Types.String,

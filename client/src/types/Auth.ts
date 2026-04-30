@@ -1,29 +1,29 @@
-export interface LoginRequest {
+export interface LoginRequestDto {
   email: string;
   password: string;
 }
-export interface LoginResponse {
+export interface LoginResponseDto {
   accessToken: string;
   name: string;
   email: string;
 }
-export interface registerRequest {
+export interface registerRequestDto {
   name: string;
   email: string;
   password: string;
 }
-export interface RegisterResponse {
+export interface RegisterResponseDto {
   name: string;
   email: string;
 }
-export interface ForgotPasswordRequest {
+export interface ForgotPasswordRequestDto {
   email: string;
 }
-export interface VerifyOtpRequest {
+export interface VerifyOtpRequestDto {
   email: string;
   code: string;
 }
-export interface ResetPasswordRequest {
+export interface ResetPasswordRequestDto {
   email: string;
   code: string;
   newPassword: string;
