@@ -8,16 +8,19 @@ import {
   Quote,
   Undo,
   Redo,
+  Sparkles,
 } from "lucide-react";
 import { Editor } from "@tiptap/react";
 import Button from "../../../components/ui/Button";
+import { useChatbox } from "../hooks/useChatbox";
 
 function EditorToolBar({ editor }: { editor: Editor | null }) {
+  const { setChatboxOpen, isChatboxOpen } = useChatbox();
   if (!editor) {
     return <></>;
   }
   return (
-    <div className="flex items-center gap-1 px-5 py-2 border-t border-b border-(--bg-dark) bg-(--item-light) text-(--text)">
+    <div className="flex items-center gap-1 px-5 h-11 border-t border-b border-(--bg-dark) bg-(--item-light) text-(--text)">
       <Button
         variant={editor.isActive("bold") ? "primary" : "ghostTinted"}
         className="p-2 rounded-md"
@@ -81,27 +84,34 @@ function EditorToolBar({ editor }: { editor: Editor | null }) {
       >
         <Quote className="w-4 h-4" />
       </Button>
-
       <div className="w-px h-6 bg-(--bg-dark) mx-1"></div>
+      <Button
+        variant="ghostTinted"
+        className="p-2 rounded-md"
+        onClick={() => editor.chain().focus().undo().run()}
+        disabled={!editor.can().undo()}
+      >
+        <Undo className="w-4 h-4" />
+      </Button>
 
+      <Button
+        variant="ghostTinted"
+        className="p-2 rounded-md"
+        onClick={() => editor.chain().focus().redo().run()}
+        disabled={!editor.can().redo()}
+      >
+        <Redo className="w-4 h-4" />
+      </Button>
       <div className="flex gap-1 ml-auto">
-        <Button
-          variant="ghostTinted"
-          className="p-2 rounded-md"
-          onClick={() => editor.chain().focus().undo().run()}
-          disabled={!editor.can().undo()}
-        >
-          <Undo className="w-4 h-4" />
-        </Button>
-
-        <Button
-          variant="ghostTinted"
-          className="p-2 rounded-md"
-          onClick={() => editor.chain().focus().redo().run()}
-          disabled={!editor.can().redo()}
-        >
-          <Redo className="w-4 h-4" />
-        </Button>
+        {!isChatboxOpen && (
+          <Button
+            variant="ghostTinted"
+            className="flex gap-2 py-1.5 px-3 rounded-md z-11"
+            onClick={() => setChatboxOpen(true)}
+          >
+            <Sparkles className="w-5 h-5"></Sparkles> Ask AI
+          </Button>
+        )}
       </div>
     </div>
   );

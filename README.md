@@ -35,9 +35,9 @@ Atman is a minimalist, high-performance note-taking application designed for cla
 - [x] **Responsive Layout:** Mobile-first design that adapts perfectly to desktop, tablet, and smartphone screens.
 - [x] **Dark Mode:** Theme switching for comfortable night-time writing.
 - [x] **Note Categorization:** Tags and folders for advanced organization.
+- [x] **Pomodoro Timer:** Integrated focus sessions with customizable work-rest intervals to boost productivity.
 
 ## Roadmap (Upcoming Features)
-- [ ] **Pomodoro Timer:** Integrated focus sessions with customizable work-rest intervals to boost productivity.
 - [ ] **Shared Notes:** Collaborative workspaces featuring real-time sharing.
 - [ ] **User Profiles:** Customizable user settings, avatars, and account management.
 - [ ] **AI-Powered Explainer:** Integrated AI to summarize long notes or explain complex topics within your entries.
