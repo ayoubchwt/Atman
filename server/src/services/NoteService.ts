@@ -1,7 +1,13 @@
-import { CreateNoteDto, NoteResponseDto, UpdateNoteDto } from "../dtos/NoteDTO";
+import {
+  CreateNoteDto,
+  NoteAiRequestDto,
+  NoteResponseDto,
+  UpdateNoteDto,
+} from "../dtos/NoteDTO";
 import { NoteNotFoundException } from "../exceptions/NoteException";
 import { NoteMapper } from "../mappers/NotesMapper";
 import Note, { INote } from "../models/Note";
+import { GemmaUtils } from "../utlis/Gemma";
 
 export class NoteService {
   public static async getNotes(userId: string): Promise<NoteResponseDto[]> {
@@ -82,5 +88,9 @@ export class NoteService {
         `Note not found or you don't have permission to delete it`,
       );
     }
+  }
+  public static async getAiResponse(dto: NoteAiRequestDto): Promise<string> {
+    const response = await GemmaUtils.getAIResponse(dto.prompt, dto.content);
+    return response;
   }
 }

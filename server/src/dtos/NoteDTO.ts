@@ -14,3 +14,7 @@ export interface NoteResponseDto {
   updatedAt: Date;
   folder: string | null;
 }
+export interface NoteAiRequestDto {
+  content?: string;
+  prompt: string;
+}

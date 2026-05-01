@@ -3,6 +3,7 @@ import type {
   CreateNoteDto,
   UpdateNoteDto,
   NoteResponseDto,
+  NoteAiRequestDto,
 } from "../types/Note";
 
 export const getNotes = async (): Promise<NoteResponseDto[]> => {
@@ -38,4 +39,10 @@ export const updateNote = async (
 };
 export const deleteNote = async (id: string): Promise<void> => {
   await api.delete<void>(`/note/${id}`);
+};
+export const getAiResponse = async (
+  data: NoteAiRequestDto,
+): Promise<string> => {
+  const response = await api.post<string>("/note/ai", data);
+  return response.data;
 };

@@ -1,6 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import { NoteService } from "../services/NoteService";
-import { CreateNoteDto, UpdateNoteDto } from "../dtos/NoteDTO";
+import {
+  CreateNoteDto,
+  NoteAiRequestDto,
+  UpdateNoteDto,
+} from "../dtos/NoteDTO";
 
 export class NoteController {
   public static async createNote(
@@ -100,9 +104,26 @@ export class NoteController {
     response: Response,
     next: NextFunction,
   ): Promise<void> {
-    const userId = request.user.id;
-    const noteId = request.params.id as string;
-    await NoteService.deleteNote(noteId, userId);
-    response.status(204).send();
+    try {
+      const userId = request.user.id;
+      const noteId = request.params.id as string;
+      await NoteService.deleteNote(noteId, userId);
+      response.status(204).send();
+    } catch (error) {
+      next(error);
+    }
+  }
+  public static async getAiResponse(
+    request: Request,
+    response: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const dto = request.body as NoteAiRequestDto;
+      const result = await NoteService.getAiResponse(dto);
+      response.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
   }
 }
