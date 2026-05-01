@@ -1,10 +1,11 @@
 import { useTimerStore } from "../../../store/useTimerStore";
 import { useUIStore } from "../../../store/useUIStore";
+import { useUserStore } from "../../../store/useUserStore";
 
 export const useTimer = () => {
   const uiStore = useUIStore();
   const timerStore = useTimerStore();
-
+  const { user } = useUserStore();
   const formatTime = () => {
     const timeLeft = timerStore.timeLeft;
     const minutes = Math.floor(timeLeft / 60).toLocaleString("en-US", {
@@ -21,5 +22,6 @@ export const useTimer = () => {
     ...uiStore,
     ...timerStore,
     formatTime,
+    user,
   };
 };

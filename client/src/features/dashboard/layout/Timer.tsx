@@ -2,6 +2,7 @@ import TimerActions from "../components/TimerActions";
 import TimerClock from "../components/TimerClock";
 import TimerSettings from "../components/TimerSettings";
 import TimerHeader from "../components/TimerHeader";
+import TimerFooter from "../components/TimerFooter";
 
 function Timer() {
   return (
@@ -14,9 +15,7 @@ function Timer() {
         <TimerClock></TimerClock>
         <TimerActions></TimerActions>
       </div>
-      <p className="w-full text-center text-(--text-light)">
-        Sessions completed : <span className="text-(--text)">0</span>
-      </p>
+      <TimerFooter></TimerFooter>
     </div>
   );
 }

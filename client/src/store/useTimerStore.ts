@@ -1,21 +1,20 @@
 import { create } from "zustand";
+import { useUserStore } from "./useUserStore";
 
 const alarmSound =
   typeof Audio !== "undefined" ? new Audio("/sounds/bip.mp3") : null;
 
-interface useTimer {
+interface UseTimer {
   selectedMode: "focus" | "short" | "long";
   timeLeft: number;
-  sessions: number;
   interval: ReturnType<typeof setInterval> | undefined;
   isRunning: boolean;
   durations: Record<string, number>;
   setSelectedMode: (mode: "focus" | "short" | "long") => void;
   setIsRunning: (running: boolean) => void;
   resetTimer: () => void;
-  fetchSessionNumber: () => Promise<void>;
 }
-export const useTimerStore = create<useTimer>((set, get) => ({
+export const useTimerStore = create<UseTimer>((set, get) => ({
   selectedMode: "focus",
   timeLeft: 1500,
   sessions: 0,
@@ -36,15 +35,17 @@ export const useTimerStore = create<useTimer>((set, get) => ({
     const { interval } = get();
     if (interval) clearInterval(interval);
     if (running) {
-      const id = setInterval(() => {
-        const { timeLeft } = get();
+      const id = setInterval(async () => {
+        const { timeLeft, selectedMode } = get();
         if (timeLeft > 0) set({ timeLeft: timeLeft - 1 });
         else {
           clearInterval(id);
           get().resetTimer();
           if (alarmSound) alarmSound.play();
+          if (selectedMode === "focus")
+            await useUserStore.getState().incrementSessions();
         }
-      }, 1000);
+      }, 1);
       set({ interval: id, isRunning: true });
     } else {
       set({
@@ -60,8 +61,5 @@ export const useTimerStore = create<useTimer>((set, get) => ({
       timeLeft: durations[selectedMode],
       interval: undefined,
     });
-  },
-  fetchSessionNumber: async (): Promise<void> => {
-    
   },
 }));
