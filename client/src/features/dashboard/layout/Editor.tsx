@@ -11,7 +11,7 @@ import { useTimer } from "../hooks/useTimer";
 function Editor({ className }: { className?: string }) {
   const editor = useNoteEditor();
   const { isSideBarOpen, setSideBarOpen } = useUIStore();
-  const { setTimerOpen, isTimerOpen } = useTimer();
+  const { setTimerOpen, isTimerOpen, isRunning, formatTime } = useTimer();
   return (
     <div className={`relative flex flex-col h-full w-full ${className}`}>
       <TitleInput></TitleInput>
@@ -32,10 +32,16 @@ function Editor({ className }: { className?: string }) {
       {!isTimerOpen && (
         <Button
           variant="dark"
-          className="absolute bottom-4 right-4 p-2 rounded-full shadow-xl"
+          className={`absolute bottom-4 right-4 p-2 rounded-full shadow-xl h-10 ${isRunning ? "w-17" : "w-10"}`}
           onClick={() => setTimerOpen(true)}
         >
-          <ClockFading />
+          {isRunning ? (
+            <h1 className="text-xl font-serif text-(--bg)">
+              {formatTime().minutes}:{formatTime().seconds}
+            </h1>
+          ) : (
+            <ClockFading />
+          )}
         </Button>
       )}
     </div>

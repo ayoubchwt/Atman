@@ -45,7 +45,7 @@ export const useTimerStore = create<UseTimer>((set, get) => ({
           if (selectedMode === "focus")
             await useUserStore.getState().incrementSessions();
         }
-      }, 1);
+      }, 1000);
       set({ interval: id, isRunning: true });
     } else {
       set({
