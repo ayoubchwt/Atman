@@ -9,13 +9,17 @@ interface Message {
 interface UseChatbox {
   messageList: Message[];
   addMessage: (noteId: string, message: Message) => Promise<void>;
+  isLoading: boolean;
 }
 export const useChatboxStore = create<UseChatbox>((set, get) => ({
   messageList: [],
+  isLoading: false,
   addMessage: async (noteId, message): Promise<void> => {
+    set({ isLoading: true });
     if (message.sender === "ai") {
       set((state) => ({
         messageList: [...state.messageList, message],
+        isLoading: false,
       }));
       return;
     }

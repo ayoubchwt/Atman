@@ -8,12 +8,16 @@ export const useChatbox = () => {
   const { activeNoteId } = useNoteStore();
   const chatboxStore = useChatboxStore();
   const [prompt, setPrompt] = useState("");
-  const handleSendMessage = async () => {
-    if (activeNoteId && prompt)
-      await chatboxStore.addMessage(activeNoteId, {
-        text: prompt,
-        sender: "user",
-      });
+
+  const handleSendMessage = async (message?: string) => {
+    const textToSend = message || prompt;
+    console.log("Text to send", textToSend);
+    if (!activeNoteId || !textToSend.trim()) return;
+    setPrompt("");
+    await chatboxStore.addMessage(activeNoteId, {
+      text: textToSend,
+      sender: "user",
+    });
   };
   return {
     ...chatboxStore,

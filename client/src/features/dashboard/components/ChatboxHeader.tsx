@@ -7,7 +7,6 @@ function ChatboxHeader() {
   return (
     <div className="w-full flex items-center justify-between">
       <div className="flex flex-col justify-center">
-        <h1 className="font-semibold text-(--text)">Atman AI</h1>
         <p className="text-sm text-(--text-light)">Context : Untitled Note</p>
       </div>
       <Button
