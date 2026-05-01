@@ -10,7 +10,7 @@ function ChatboxInput() {
         placeholder="Ask for anything ..."
       />
       <Button variant="dark" className="rounded-full p-2">
-        <ArrowUp className="w-4 h-4"/>
+        <ArrowUp className="w-4 h-4" />
       </Button>
     </div>
   );
