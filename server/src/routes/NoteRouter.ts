@@ -12,7 +12,7 @@ export class NoteRouter {
       NoteController.getNotesByTitle,
     );
     router.post(
-      "/ai",
+      "/ai/:id",
       AuthMiddleware.verifyAccessToken,
       NoteController.getAiResponse,
     );

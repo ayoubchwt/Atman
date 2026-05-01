@@ -50,6 +50,7 @@ export class NoteController {
       next(error);
     }
   }
+  
   public static async getByFolder(
     request: Request,
     response: Response,
@@ -64,6 +65,7 @@ export class NoteController {
       next(error);
     }
   }
+
   public static async getNotesByTitle(
     request: Request,
     response: Response,
@@ -113,6 +115,7 @@ export class NoteController {
       next(error);
     }
   }
+
   public static async getAiResponse(
     request: Request,
     response: Response,
@@ -120,7 +123,8 @@ export class NoteController {
   ): Promise<void> {
     try {
       const dto = request.body as NoteAiRequestDto;
-      const result = await NoteService.getAiResponse(dto);
+      const noteId = request.params.id as string;
+      const result = await NoteService.getAiResponse(noteId, dto);
       response.status(200).json(result);
     } catch (error) {
       next(error);

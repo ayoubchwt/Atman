@@ -9,7 +9,6 @@ export class GemmaUtils {
       model: "gemma-3-27b-it",
     });
     try {
-      console.log("Gemma key", process.env.GEMINI_API_KEY);
       const chat = model.startChat({
         history: [
           {

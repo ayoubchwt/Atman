@@ -41,8 +41,9 @@ export const deleteNote = async (id: string): Promise<void> => {
   await api.delete<void>(`/note/${id}`);
 };
 export const getAiResponse = async (
+  id: string,
   data: NoteAiRequestDto,
 ): Promise<string> => {
-  const response = await api.post<string>("/note/ai", data);
+  const response = await api.post<string>(`/note/ai/${id}`, data);
   return response.data;
 };

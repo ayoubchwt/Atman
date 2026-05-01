@@ -53,7 +53,10 @@ export class NoteService {
     dto: CreateNoteDto,
   ): Promise<NoteResponseDto> {
     const note: INote = NoteMapper.toEntity(dto, userId);
-
+    if (!note)
+      throw new NoteNotFoundException(
+        `Cannot find note with User Id ${userId}`,
+      );
     const savedNote = await note.save();
 
     return NoteMapper.toResponseDto(savedNote);
@@ -89,8 +92,14 @@ export class NoteService {
       );
     }
   }
-  public static async getAiResponse(dto: NoteAiRequestDto): Promise<string> {
-    const response = await GemmaUtils.getAIResponse(dto.prompt, dto.content);
+  public static async getAiResponse(
+    noteId: string,
+    dto: NoteAiRequestDto,
+  ): Promise<string> {
+    const note: INote | null = await Note.findById(noteId);
+    if (!note)
+      throw new NoteNotFoundException(`Cannot find note with id ${noteId}`);
+    const response = await GemmaUtils.getAIResponse(dto.prompt, note.content);
     return response;
   }
 }

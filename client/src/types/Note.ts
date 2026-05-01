@@ -16,6 +16,6 @@ export interface NoteResponseDto {
   folder: string | null;
 }
 export interface NoteAiRequestDto {
-  content: string;
+  content?: string;
   prompt: string;
 }
