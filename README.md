@@ -1,4 +1,4 @@
-<img width="50" style="vertical-align:middle" alt="logo" src="" />
+<img width="50" style="vertical-align:middle" alt="logo" src="./client/public/pictures/logo.svg" />
 
 # Atman
 
