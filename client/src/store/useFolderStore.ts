@@ -54,7 +54,7 @@ export const useFolderStore = create<FolderState>((set, get) => ({
       });
   },
   fetchFolders: async (): Promise<void> => {
-    const isAuthenticated = useAuthStore.getState();
+    const { isAuthenticated } = useAuthStore.getState();
     if (!isAuthenticated) return;
     try {
       const result = await getFolders();
@@ -82,7 +82,7 @@ export const useFolderStore = create<FolderState>((set, get) => ({
     }
   },
   addFolder: async (dto): Promise<void> => {
-    const isAuthenticated = useAuthStore.getState();
+    const { isAuthenticated } = useAuthStore.getState();
     if (isAuthenticated) {
       try {
         const savedFolder = await addFolder(dto);
@@ -106,7 +106,7 @@ export const useFolderStore = create<FolderState>((set, get) => ({
     }));
   },
   updateFolder: async (id: string, dto: UpdateFolderDto): Promise<void> => {
-    const isAuthenticated = useAuthStore.getState();
+    const { isAuthenticated } = useAuthStore.getState();
     if (isAuthenticated) {
       try {
         const result = await updateFolder(id, dto);

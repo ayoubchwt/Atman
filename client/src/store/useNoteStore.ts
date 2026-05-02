@@ -15,6 +15,7 @@ interface NoteState {
   notes: NoteResponseDto[];
   activeNoteId: string | null;
   openedMenuNoteId: string | null;
+  getActiveNote: () => NoteResponseDto;
   fetchNotes: () => void;
   searchNotes: (search: string) => void;
   setActiveNote: (id: string | null) => void;
@@ -26,10 +27,14 @@ interface NoteState {
   deleteNote: (id: string | null) => void;
   clearNoteStore: () => void;
 }
-export const useNoteStore = create<NoteState>((set) => ({
+export const useNoteStore = create<NoteState>((set, get) => ({
   notes: [],
   activeNoteId: null,
   openedMenuNoteId: null,
+  getActiveNote: (): NoteResponseDto => {
+    const { activeNoteId, notes } = get();
+    return notes.find((note) => note.id === activeNoteId)!;
+  },
   fetchNotes: async () => {
     const { isAuthenticated } = useAuthStore.getState();
     if (!isAuthenticated) return;

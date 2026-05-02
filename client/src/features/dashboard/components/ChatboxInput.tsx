@@ -12,11 +12,18 @@ function ChatboxInput() {
         className="w-full h-full outline-0 text-sm"
         placeholder="Ask for anything ..."
         onChange={(e) => setPrompt(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            handleSendMessage();
+          }
+        }}
       />
       <Button
         variant="dark"
         className="rounded-full p-1"
-        onClick={handleSendMessage}
+        onClick={() => handleSendMessage()}
+        disabled={!prompt.trim()}
       >
         <ArrowUp className="w-4 h-4" />
       </Button>

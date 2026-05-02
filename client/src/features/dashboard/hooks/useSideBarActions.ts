@@ -1,4 +1,5 @@
 import { useAuthStore } from "../../../store/useAuthStore";
+import { useChatboxStore } from "../../../store/useChatboxStore";
 import { useFolderStore } from "../../../store/useFolderStore";
 import { useNoteStore } from "../../../store/useNoteStore";
 import { useThemeStore } from "../../../store/useThemeStore";
@@ -8,11 +9,12 @@ export const useSidebarActions = () => {
   const { isAuthenticated, logout } = useAuthStore();
   const { clearNoteStore } = useNoteStore();
   const { clearFolderStore } = useFolderStore();
-
+  const { clearMessageList } = useChatboxStore();
   const handleLogout = async () => {
-    logout();
     clearNoteStore();
     clearFolderStore();
+    clearMessageList();
+    logout();
   };
   return {
     handleLogout,

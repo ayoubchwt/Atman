@@ -17,7 +17,7 @@ export class GemmaUtils {
               {
                 text: `You are Atman AI, a helpful assistant for a note-taking app. 
                           The user is currently working on this note: "${context || "user's note is empty"}". 
-                          Use this context to answer questions accurately.`,
+                          Use this context to answer questions accurately and dont include the html tags in the response.`,
               },
             ],
           },

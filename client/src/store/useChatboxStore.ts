@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { getAiResponse } from "../services/NoteService";
 
 interface Message {
+  id: string;
   text: string;
   sender: "user" | "ai";
 }
@@ -9,6 +10,7 @@ interface Message {
 interface UseChatbox {
   messageList: Message[];
   addMessage: (noteId: string, message: Message) => Promise<void>;
+  clearMessageList: () => void;
   isLoading: boolean;
 }
 export const useChatboxStore = create<UseChatbox>((set, get) => ({
@@ -28,7 +30,16 @@ export const useChatboxStore = create<UseChatbox>((set, get) => ({
     }));
     if (noteId) {
       const response = await getAiResponse(noteId, { prompt: message.text });
-      get().addMessage(noteId, { text: response, sender: "ai" });
+      get().addMessage(noteId, {
+        id: crypto.randomUUID(),
+        text: response,
+        sender: "ai",
+      });
     }
+  },
+  clearMessageList: () => {
+    set({
+      messageList: [],
+    });
   },
 }));
