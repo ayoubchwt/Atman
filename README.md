@@ -52,7 +52,7 @@ Ensure you have **Docker** and **Docker Compose** installed.
 ```bash
 git clone https://github.com/ayoubchwt/atman.git
 cd atman
-git checkout mvp
+git checkout local
 ```
 
 **2. Configure Environment:** Each part of the app has its own `.env.example` file. Copy and fill in both:
