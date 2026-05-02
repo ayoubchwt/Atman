@@ -6,7 +6,9 @@ function ChatboxStarter() {
   return (
     <div className="w-full h-full flex flex-col items-center justify-start gap-25 pt-15">
       <div className="flex flex-col items-center justify-center gap-2">
-        <h1 className="font-serif text-xl text-(--text)">How can I help?</h1>
+        <h1 className="font-serif text-xl text-(--text) font-semibold">
+          How can I help?
+        </h1>
         <p className="text-sm text-(--text-light) text-center">
           I can answer questions about your note or help you write.
         </p>

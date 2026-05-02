@@ -6,7 +6,7 @@ import TimerFooter from "../components/TimerFooter";
 
 function Timer() {
   return (
-    <div className="absolute right-4 bottom-4 flex flex-col justify-between w-95 h-120 bg-(--bg) p-4 rounded-md shadow-md border-(--bg-dark) border">
+    <div className="absolute right-4 bottom-4 flex flex-col justify-between z-11 w-95 h-120 bg-(--bg) p-4 rounded-md shadow-md border-(--bg-dark) border">
       <div className="flex flex-col w-full gap-3">
         <TimerHeader></TimerHeader>
         <TimerSettings></TimerSettings>

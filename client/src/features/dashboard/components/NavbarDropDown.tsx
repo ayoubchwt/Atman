@@ -29,7 +29,7 @@ function NavbarDropDown({
           <Link to="/auth/login">
             <Button
               variant="dark"
-              className="p-2 w-40 h-10 flex justify-center items-center"
+              className="p-2 w-40 h-10 flex justify-center items-center rounded-md"
             >
               Sync Your Notes
             </Button>

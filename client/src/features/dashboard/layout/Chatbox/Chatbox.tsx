@@ -1,6 +1,6 @@
-import ChatboxBody from "../components/ChatboxBody";
-import ChatboxFooter from "../components/ChatboxFooter";
-import ChatboxHeader from "../components/ChatboxHeader";
+import ChatboxBody from "../../components/ChatboxBody";
+import ChatboxFooter from "../../components/ChatboxFooter";
+import ChatboxHeader from "../../components/ChatboxHeader";
 
 function Chatbox({ className }: { className: string }) {
   return (

@@ -20,7 +20,7 @@ function EditorToolBar({ editor }: { editor: Editor | null }) {
     return <></>;
   }
   return (
-    <div className="flex items-center gap-1 px-5 h-11 border-t border-b border-(--bg-dark) bg-(--item-light) text-(--text)">
+    <div className="flex items-center px-5 h-11 border-t border-b border-(--bg-dark) bg-(--item-light) text-(--text) md:px- md:gap-1">
       <Button
         variant={editor.isActive("bold") ? "primary" : "ghostTinted"}
         className="p-2 rounded-md"
@@ -93,7 +93,6 @@ function EditorToolBar({ editor }: { editor: Editor | null }) {
       >
         <Undo className="w-4 h-4" />
       </Button>
-
       <Button
         variant="ghostTinted"
         className="p-2 rounded-md"
@@ -102,14 +101,16 @@ function EditorToolBar({ editor }: { editor: Editor | null }) {
       >
         <Redo className="w-4 h-4" />
       </Button>
+      <div className="w-px h-6 bg-(--bg-dark) mx-1"></div>
       <div className="flex gap-1 ml-auto">
         {!isChatboxOpen && (
           <Button
             variant="ghostTinted"
-            className="flex gap-2 py-1.5 px-3 rounded-md z-11"
+            className="flex items-center justify-center gap-2 py-1.5 px-3 rounded-md z-11"
             onClick={() => setChatboxOpen(true)}
           >
-            <Sparkles className="w-5 h-5"></Sparkles> Ask AI
+            <Sparkles className="w-5 h-5"></Sparkles>{" "}
+            <span className="hidden md:block">Ask AI</span>
           </Button>
         )}
       </div>
