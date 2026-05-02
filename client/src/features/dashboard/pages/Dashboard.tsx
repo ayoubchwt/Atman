@@ -22,7 +22,7 @@ function Dashboard() {
 
         <SideBar className="[grid-area:sidebar] hidden md:flex"></SideBar>
 
-        <Editor className="[grid-area:editor] min-w-0"></Editor>
+        <Editor className="[grid-area:editor] min-w-0 min-h-0"></Editor>
 
         {isChatboxOpen && (
           <Chatbox className="[grid-area:chatbox] hidden md:flex min-h-0"></Chatbox>
