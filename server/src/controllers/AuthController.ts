@@ -22,7 +22,7 @@ export class AuthController {
       response.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
+        sameSite: "none",
         maxAge: ms(refreshDuration as ms.StringValue),
       });
       response.status(200).json(dto);
