@@ -1,28 +1,26 @@
-<img width="50" style="vertical-align:middle" alt="logo" src="" />
+<img width="50" style="vertical-align:middle" alt="logo" src="client/public/pictures/logo.svg" />
 
 # Atman
 
-Atman is a minimalist, high-performance note-taking application designed for clarity and focus. It provides a seamless experience for capturing thoughts, featuring a fully responsive interface and a secure, enterprise-grade authentication system.
+Atman is a high-performance, full-stack productivity tool built to centralize your workflow. It combines a robust rich-text editor, integrated time tracking, and AI-driven assistance into a single, seamless dashboard, eliminating the need to toggle between multiple applications.
 
 > **Note:** This project is currently in its **MVP (Minimum Viable Product)** phase, focusing on core stability and cross-device synchronization.
-
-## Demos
 
 <table>
   <tr>
         <td align="center">
-            <img width="350" alt="" src="./assets/demo/context.gif" />
+            <img width="500" alt="" src="./demos/1.png" />
         </td>
         <td align="center">
-            <img width="350" alt="" src="./assets/demo/inject.gif" />
+            <img width="500" alt="" src="./demos/2.png" />
         </td>
     </tr>
   <tr>
         <td align="center">
-            <img width="350" alt="" src="./assets/demo/backup.gif" /> 
+            <img width="500" alt="" src="./demos/3.png" /> 
         </td>
             <td align="center">
-            <img width="350" alt="" src="./assets/demo/themes.gif" /> 
+            <img width="500" alt="" src="./demos/4.png" /> 
         </td>
     </tr>
 </table>
@@ -30,10 +28,8 @@ Atman is a minimalist, high-performance note-taking application designed for cla
 ## Features (MVP)
 
 - [x] **Secure Authentication:** Full auth flow including JWT-based Access and Refresh tokens for persistent, secure sessions.
-- [x] **Core Notes Management:** Create, read, update, and delete notes with instant UI feedback and optimistic updates for a lag-free experience.
+- [x] **Core Notes Management:** Create, read, update, and delete notes with instant UI feedback and optimistic updates.
 - [x] **Smart Auto-Save:** Never lose a thought. Notes are automatically persisted in the background as you type.
-- [x] **Responsive Layout:** Mobile-first design that adapts perfectly to desktop, tablet, and smartphone screens.
-- [x] **Dark Mode:** Theme switching for comfortable night-time writing.
 - [x] **Note Categorization:** Tags and folders for advanced organization.
 - [x] **Pomodoro Timer:** Integrated focus sessions with customizable work-rest intervals to boost productivity.
 - [x] **AI-Powered Explainer:** Integrated AI to summarize long notes or explain complex topics within your entries.
