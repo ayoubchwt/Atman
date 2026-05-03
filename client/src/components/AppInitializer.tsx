@@ -6,20 +6,21 @@ import { useUserStore } from "../store/useUserStore";
 
 function AppInitializer({ children }: { children: ReactNode }) {
   const { handleRefresh, isAuthenticated } = useAuthStore();
-  const { fetchNotes } = useNoteStore();
+  const { fetchNotes, addNote } = useNoteStore();
   const { fetchFolders } = useFolderStore();
   const { fetchUser } = useUserStore();
   useEffect(() => {
     handleRefresh();
   }, [handleRefresh]);
-
   useEffect(() => {
     if (isAuthenticated) {
       fetchNotes();
       fetchFolders();
       fetchUser();
+    } else {
+      addNote();
     }
-  }, [isAuthenticated, fetchNotes, fetchFolders, fetchUser]);
+  }, [isAuthenticated, fetchNotes, fetchFolders, fetchUser, addNote]);
   return <>{children}</>;
 }
 export default AppInitializer;

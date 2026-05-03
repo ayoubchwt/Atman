@@ -1,6 +1,8 @@
 import { create } from "zustand";
 import type { userResponseDto } from "../types/User";
 import { getUser, incrementSessions } from "../services/UserService";
+import { useErrorStore } from "./useErrorStore";
+import { getErrorMessage } from "../utils/getError";
 
 interface UseUser {
   user: userResponseDto | null;
@@ -16,7 +18,8 @@ export const useUserStore = create<UseUser>((set, get) => ({
         user: response,
       });
     } catch (error) {
-      console.log(error);
+      const { setError } = useErrorStore.getState();
+      setError(getErrorMessage(error));
     }
   },
   incrementSessions: async (): Promise<void> => {
@@ -32,7 +35,8 @@ export const useUserStore = create<UseUser>((set, get) => ({
         });
       }
     } catch (error) {
-      console.log(error);
+      const { setError } = useErrorStore.getState();
+      setError(getErrorMessage(error));
     }
   },
 }));
