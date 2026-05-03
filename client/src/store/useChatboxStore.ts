@@ -1,5 +1,7 @@
 import { create } from "zustand";
 import { getAiResponse } from "../services/NoteService";
+import { useErrorStore } from "./useErrorStore";
+import { getErrorMessage } from "../utils/getError";
 
 interface Message {
   id: string;
@@ -29,12 +31,17 @@ export const useChatboxStore = create<UseChatbox>((set, get) => ({
       messageList: [...state.messageList, message],
     }));
     if (noteId) {
-      const response = await getAiResponse(noteId, { prompt: message.text });
-      get().addMessage(noteId, {
-        id: crypto.randomUUID(),
-        text: response,
-        sender: "ai",
-      });
+      try {
+        const response = await getAiResponse(noteId, { prompt: message.text });
+        get().addMessage(noteId, {
+          id: crypto.randomUUID(),
+          text: response,
+          sender: "ai",
+        });
+      } catch (error) {
+        const { setError } = useErrorStore.getState();
+        setError(getErrorMessage(error));
+      }
     }
   },
   clearMessageList: () => {

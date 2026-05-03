@@ -8,6 +8,8 @@ import {
   getNotesByTitle,
 } from "../services/NoteService";
 import { useAuthStore } from "./useAuthStore";
+import { useErrorStore } from "./useErrorStore";
+import { getErrorMessage } from "../utils/getError";
 
 let syncTimer: ReturnType<typeof setTimeout>;
 
@@ -45,7 +47,8 @@ export const useNoteStore = create<NoteState>((set, get) => ({
         notes: result,
       });
     } catch (error) {
-      console.log("error fetching notes", error);
+      const { setError } = useErrorStore.getState();
+      setError(getErrorMessage(error));
     }
   },
   searchNotes: async (search) => {
@@ -59,7 +62,8 @@ export const useNoteStore = create<NoteState>((set, get) => ({
           notes: result,
         });
       } catch (error) {
-        console.log("error searching notes", error);
+        const { setError } = useErrorStore.getState();
+        setError(getErrorMessage(error));
       }
     }, 200);
   },
@@ -78,7 +82,8 @@ export const useNoteStore = create<NoteState>((set, get) => ({
         try {
           await updateNote(id, { title });
         } catch (error) {
-          console.log("error updaiting title", error);
+          const { setError } = useErrorStore.getState();
+          setError(getErrorMessage(error));
         }
       }, 1000);
     }
@@ -96,7 +101,8 @@ export const useNoteStore = create<NoteState>((set, get) => ({
         try {
           await updateNote(id, { content });
         } catch (error) {
-          console.log("error updating content", error);
+          const { setError } = useErrorStore.getState();
+          setError(getErrorMessage(error));
         }
       }, 1000);
     }
@@ -113,7 +119,8 @@ export const useNoteStore = create<NoteState>((set, get) => ({
       try {
         await updateNote(id, { folder });
       } catch (error) {
-        console.log("error assigning folder", error);
+        const { setError } = useErrorStore.getState();
+        setError(getErrorMessage(error));
       }
     }
   },
@@ -121,16 +128,16 @@ export const useNoteStore = create<NoteState>((set, get) => ({
     const { isAuthenticated } = useAuthStore.getState();
     if (isAuthenticated) {
       try {
-        const savedNote = await addNote({ title: "New Notes", content: "" });
+        const savedNote = await addNote({ title: "New Note", content: "" });
         set((state) => ({
           notes: [savedNote, ...state.notes],
           activeNoteId: savedNote.id,
         }));
-        return;
       } catch (error) {
-        console.log("error adding note", error);
-        return;
+        const { setError } = useErrorStore.getState();
+        setError(getErrorMessage(error));
       }
+      return;
     }
     const newNote: NoteResponseDto = {
       id: crypto.randomUUID(),
@@ -146,7 +153,13 @@ export const useNoteStore = create<NoteState>((set, get) => ({
     }));
   },
   deleteNote: async (id) => {
+    const notes = get().notes;
+    const { setError } = useErrorStore.getState();
     if (!id) return;
+    if (notes.length <= 1) {
+      setError("You need at least one note");
+      return;
+    }
     set((state) => {
       const updatedNotes = state.notes.filter((note) => note.id !== id);
       let nextActiveNote = state.activeNoteId;
@@ -163,7 +176,8 @@ export const useNoteStore = create<NoteState>((set, get) => ({
       try {
         await deleteNote(id);
       } catch (error) {
-        console.log("error deleting note", error);
+        const { setError } = useErrorStore.getState();
+        setError(getErrorMessage(error));
       }
     }
   },

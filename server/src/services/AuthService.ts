@@ -19,6 +19,7 @@ import RefreshToken, { IRefreshToken } from "../models/RefreshToken";
 import bcrypt from "bcrypt";
 import { AuthUtil } from "../utlis/Auth";
 import { EmailUtils } from "../utlis/Email";
+import { NoteService } from "./NoteService";
 
 export class AuthService {
   public static async register(
@@ -35,8 +36,12 @@ export class AuthService {
     const saltRounds = Number(process.env.SALT_ROUNDS) || 10;
     const hashedPassword = await bcrypt.hash(user.password, saltRounds);
     user.password = hashedPassword;
-
     const savedUser = await user.save();
+    await NoteService.createNote(savedUser._id.toString(), {
+      title: "Welcome to Atman!",
+      content:
+        "This is your first note. You can use the AI to explain concepts...",
+    });
     return AuthMapper.toRegisterResponseDto(savedUser);
   }
 

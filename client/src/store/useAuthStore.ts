@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import { AxiosError } from "axios";
 import {
   login,
   register,
@@ -12,6 +11,7 @@ import {
 
 import type { LoginRequestDto, registerRequestDto } from "../types/Auth";
 import api from "../api/Axios";
+import { getErrorMessage } from "../utils/getError";
 
 interface AuthState {
   user: { name: string; email: string; accessToken?: string } | null;
@@ -54,12 +54,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         isAuthenticated: true,
       });
       return true;
-    } catch (err) {
-      const axiosError = err as AxiosError<{ message: string }>;
+    } catch (error) {
       set({
-        error:
-          axiosError.response?.data?.message ||
-          "Login failed. Please check your credentials.",
+        error: getErrorMessage(error),
         isLoading: false,
       });
       return false;
@@ -78,12 +75,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         message: `User ${registerRequest.email} registered successfully.`,
       });
       return true;
-    } catch (err) {
-      const axiosError = err as AxiosError<{ message: string }>;
+    } catch (error) {
       set({
-        error:
-          axiosError.response?.data?.message ||
-          "Registration failed. Please try again.",
+        error: getErrorMessage(error),
         isLoading: false,
       });
       return false;
@@ -129,8 +123,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       }));
       return true;
     } catch (error) {
-      const axiosError = error as AxiosError<{ message: string }>;
-      set({ error: axiosError?.response?.data?.message, isLoading: false });
+      set({ error: getErrorMessage(error), isLoading: false });
       return false;
     }
   },
@@ -147,8 +140,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       });
       return true;
     } catch (error) {
-      const axiosError = error as AxiosError<{ message: string }>;
-      set({ error: axiosError?.response?.data?.message, isLoading: false });
+      set({ error: getErrorMessage(error), isLoading: false });
       return false;
     }
   },
@@ -169,8 +161,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         isLoading: false,
       });
     } catch (error) {
-      const axiosError = error as AxiosError<{ message: string }>;
-      set({ error: axiosError?.response?.data?.message, isLoading: false });
+      set({ error: getErrorMessage(error), isLoading: false });
     }
   },
   resetStatus: () => {

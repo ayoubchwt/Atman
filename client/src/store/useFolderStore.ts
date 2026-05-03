@@ -11,6 +11,8 @@ import {
   getFolders,
   updateFolder,
 } from "../services/FolderService";
+import { useErrorStore } from "./useErrorStore";
+import { getErrorMessage } from "../utils/getError";
 
 interface FolderState {
   folders: FolderResponseDto[];
@@ -62,7 +64,8 @@ export const useFolderStore = create<FolderState>((set, get) => ({
         folders: result,
       });
     } catch (error) {
-      console.log("error fetching folders", error);
+      const { setError } = useErrorStore.getState();
+      setError(getErrorMessage(error));
     }
   },
   deleteFolder: async (id): Promise<void> => {
@@ -77,7 +80,8 @@ export const useFolderStore = create<FolderState>((set, get) => ({
       try {
         await deleteFolder(id);
       } catch (error) {
-        console.log("error deleting folder", error);
+        const { setError } = useErrorStore.getState();
+        setError(getErrorMessage(error));
       }
     }
   },
@@ -90,11 +94,11 @@ export const useFolderStore = create<FolderState>((set, get) => ({
           folders: [savedFolder, ...state.folders],
           activeFolderId: savedFolder.id,
         }));
-        return;
       } catch (error) {
-        console.log("error adding folder", error);
-        return;
+        const { setError } = useErrorStore.getState();
+        setError(getErrorMessage(error));
       }
+      return;
     }
     const newFolder: FolderResponseDto = {
       id: crypto.randomUUID(),
@@ -115,10 +119,11 @@ export const useFolderStore = create<FolderState>((set, get) => ({
             folder.id === result.id ? { ...folder, ...result } : folder,
           ),
         }));
-        return;
       } catch (error) {
-        console.log(error);
+        const { setError } = useErrorStore.getState();
+        setError(getErrorMessage(error));
       }
+      return;
     }
     set((state) => ({
       folders: state.folders.map((folder) =>

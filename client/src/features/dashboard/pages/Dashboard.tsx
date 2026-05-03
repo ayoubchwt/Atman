@@ -1,12 +1,14 @@
 import AppInitializer from "../../../components/AppInitializer";
+import ErrorBanner from "../../../components/ui/ErrorBanner";
 import { useChatbox } from "../hooks/useChatbox";
+import { useError } from "../hooks/useError";
 import Chatbox from "../layout/Chatbox/Chatbox";
 import Editor from "../layout/Editor";
 import NavBar from "../layout/NavBar";
 import SideBar from "../layout/Sidebar/SideBar";
-
 function Dashboard() {
   const { isChatboxOpen } = useChatbox();
+  const { error } = useError();
   return (
     <AppInitializer>
       <div
@@ -27,6 +29,7 @@ function Dashboard() {
         {isChatboxOpen && (
           <Chatbox className="[grid-area:chatbox] hidden md:flex min-h-0"></Chatbox>
         )}
+        {error && <ErrorBanner></ErrorBanner>}
       </div>
     </AppInitializer>
   );
