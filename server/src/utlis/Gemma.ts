@@ -1,40 +1,25 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenAI } from "@google/genai";
+
 export class GemmaUtils {
-  private static genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+  private static genAI = new GoogleGenAI({});
+
   public static async getAIResponse(
     prompt: string,
     context?: string,
   ): Promise<string> {
-    const model = this.genAI.getGenerativeModel({
-      model: "gemma-3-27b-it",
-    });
     try {
-      const chat = model.startChat({
-        history: [
-          {
-            role: "user",
-            parts: [
-              {
-                text: `You are Atman AI, a helpful assistant for a note-taking app. 
-                          The user is currently working on this note: "${context || "user's note is empty"}". 
-                          Use this context to answer questions accurately and dont include the html tags in the response.`,
-              },
-            ],
-          },
-          {
-            role: "model",
-            parts: [
-              {
-                text: "Understood. I have the context of your note and I am ready to assist you as Atman AI.",
-              },
-            ],
-          },
-        ],
+      const response = await this.genAI.models.generateContent({
+        model: "gemma-4-26b-a4b-it",
+        contents: prompt,
+        config: {
+          systemInstruction: `You are Atman AI, a helpful assistant for a note-taking app. 
+                                The user is currently working on this note: "${context || "user's note is empty"}". 
+                                Use this context to answer questions accurately and dont include the html tags in the response.`,
+        },
       });
-      const result = await chat.sendMessage(prompt);
-      return result.response.text();
+      return response.text || "Failed to connect to server";
     } catch (error) {
-      console.log("Ai Service Error", error);
+      console.log("AI Service Error", error);
       return "Failed to connect to server";
     }
   }
