@@ -11,6 +11,21 @@ export class UserRouter {
       AuthMiddleware.verifyAccessToken,
       UserController.getUserSettings,
     );
+    router.patch(
+      "/update-username",
+      AuthMiddleware.verifyAccessToken,
+      UserController.updateUserName,
+    );
+    router.patch(
+      "/update-email",
+      AuthMiddleware.verifyAccessToken,
+      UserController.updateUserEmail,
+    );
+    router.patch(
+      "/update-password",
+      AuthMiddleware.verifyAccessToken,
+      UserController.updateUserPassword,
+    );
     router.post(
       "/sessions",
       AuthMiddleware.verifyAccessToken,

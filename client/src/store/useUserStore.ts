@@ -1,9 +1,16 @@
 import { create } from "zustand";
-import type { UserResponseDto, UserSettingsResponseDto } from "../types/User";
+import type {
+  UpdateUserDto,
+  UserResponseDto,
+  UserSettingsResponseDto,
+} from "../types/User";
 import {
   getUser,
   getUserSettings,
   incrementSessions,
+  updateUserEmail,
+  updateUserName,
+  updateUserPassword,
 } from "../services/UserService";
 import { useErrorStore } from "./useErrorStore";
 import { getErrorMessage } from "../utils/getError";
@@ -14,6 +21,9 @@ interface UseUser {
   fetchUser: () => Promise<void>;
   fetchUserSettings: () => Promise<void>;
   incrementSessions: () => Promise<void>;
+  updateUserName: (dto: UpdateUserDto) => Promise<void>;
+  updateUserEmail: (dto: UpdateUserDto) => Promise<void>;
+  updateUserPassword: (dto: UpdateUserDto) => Promise<void>;
 }
 export const useUserStore = create<UseUser>((set, get) => ({
   user: null,
@@ -52,6 +62,30 @@ export const useUserStore = create<UseUser>((set, get) => ({
           },
         });
       }
+    } catch (error) {
+      const { setError } = useErrorStore.getState();
+      setError(getErrorMessage(error));
+    }
+  },
+  updateUserName: async (dto) => {
+    try {
+      await updateUserName(dto);
+    } catch (error) {
+      const { setError } = useErrorStore.getState();
+      setError(getErrorMessage(error));
+    }
+  },
+  updateUserEmail: async (dto) => {
+    try {
+      await updateUserEmail(dto);
+    } catch (error) {
+      const { setError } = useErrorStore.getState();
+      setError(getErrorMessage(error));
+    }
+  },
+  updateUserPassword: async (dto) => {
+    try {
+      await updateUserPassword(dto);
     } catch (error) {
       const { setError } = useErrorStore.getState();
       setError(getErrorMessage(error));

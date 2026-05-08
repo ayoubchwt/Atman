@@ -7,6 +7,7 @@ export const usePasswordSettings = () => {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const onSubmit = async () => {
+    if (password !== passwordConfirm) return;
     console.log(
       "stop crying : ",
       userStore.fetchUser,

@@ -3,6 +3,12 @@ export interface UserResponseDto {
   name: string;
   sessions: number;
 }
+export interface UpdateUserDto {
+  name?: string;
+  email?: string;
+  oldPassword?: string;
+  newPassword?: string;
+}
 export interface UserSettingsResponseDto {
   id: string;
   name: string;
