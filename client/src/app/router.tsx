@@ -6,6 +6,7 @@ import RestorePassword from "../features/auth/pages/RestorePassword";
 import OtpForm from "../features/auth/layout/OtpForm";
 import ForgotPasswordForm from "../features/auth/layout/ForgotPasswordForm";
 import ResetPasswordForm from "../features/auth/layout/ResetPasswordForm";
+import Settings from "../features/settings/pages/Settings";
 
 function Router() {
   return (
@@ -14,7 +15,7 @@ function Router() {
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/home" element={<Dashboard />} />
-          <Route path="/settings" element={<Dashboard />} />
+          <Route path="/settings" element={<Settings />} />
           <Route path="/auth">
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />

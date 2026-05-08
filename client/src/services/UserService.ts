@@ -1,11 +1,15 @@
 import api from "../api/Axios";
-import type { userResponseDto } from "../types/User";
+import type { UserResponseDto, UserSettingsResponseDto } from "../types/User";
 
-export const getUser = async (): Promise<userResponseDto> => {
-  const response = await api.get<userResponseDto>("/user/");
+export const getUser = async (): Promise<UserResponseDto> => {
+  const response = await api.get<UserResponseDto>("/user/");
   return response.data;
 };
-export const incrementSessions = async (): Promise<userResponseDto> => {
-  const response = await api.post<userResponseDto>("/user/sessions");
+export const incrementSessions = async (): Promise<UserResponseDto> => {
+  const response = await api.post<UserResponseDto>("/user/sessions");
+  return response.data;
+};
+export const getUserSettings = async (): Promise<UserSettingsResponseDto> => {
+  const response = await api.get<UserSettingsResponseDto>("/user/settings");
   return response.data;
 };

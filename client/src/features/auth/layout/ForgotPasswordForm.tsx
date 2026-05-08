@@ -1,7 +1,7 @@
 import Button from "../../../components/ui/Button";
-import AuthHeader from "../components/common/AuthHeader";
-import Input from "../components/common/Input";
-import AlertBox from "../components/ui/AlertBox";
+import AuthHeader from "../components/AuthHeader";
+import Input from "../components/Input";
+import AlertBox from "../components/AlertBox";
 import { useRestorePassword } from "../hooks/useRestorePassword";
 
 function ForgotPasswordForm() {

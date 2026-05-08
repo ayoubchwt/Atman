@@ -6,6 +6,11 @@ export class UserRouter {
   public static getRoutes(): Router {
     const router = Router();
     router.get("/", AuthMiddleware.verifyAccessToken, UserController.getUser);
+    router.get(
+      "/settings",
+      AuthMiddleware.verifyAccessToken,
+      UserController.getUserSettings,
+    );
     router.post(
       "/sessions",
       AuthMiddleware.verifyAccessToken,

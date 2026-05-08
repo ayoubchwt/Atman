@@ -1,21 +1,39 @@
 import { create } from "zustand";
-import type { userResponseDto } from "../types/User";
-import { getUser, incrementSessions } from "../services/UserService";
+import type { UserResponseDto, UserSettingsResponseDto } from "../types/User";
+import {
+  getUser,
+  getUserSettings,
+  incrementSessions,
+} from "../services/UserService";
 import { useErrorStore } from "./useErrorStore";
 import { getErrorMessage } from "../utils/getError";
 
 interface UseUser {
-  user: userResponseDto | null;
+  user: UserResponseDto | null;
+  userSettings: UserSettingsResponseDto | null;
   fetchUser: () => Promise<void>;
+  fetchUserSettings: () => Promise<void>;
   incrementSessions: () => Promise<void>;
 }
 export const useUserStore = create<UseUser>((set, get) => ({
   user: null,
+  userSettings: null,
   fetchUser: async (): Promise<void> => {
     try {
       const response = await getUser();
       set({
         user: response,
+      });
+    } catch (error) {
+      const { setError } = useErrorStore.getState();
+      setError(getErrorMessage(error));
+    }
+  },
+  fetchUserSettings: async () => {
+    try {
+      const response = await getUserSettings();
+      set({
+        userSettings: response,
       });
     } catch (error) {
       const { setError } = useErrorStore.getState();
