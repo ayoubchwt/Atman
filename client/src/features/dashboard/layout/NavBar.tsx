@@ -6,8 +6,10 @@ import { useAuthStore } from "../../../store/useAuthStore";
 import user from "../../../assets/pictures/user.png";
 import { useState } from "react";
 import NavbarDropDown from "../components/NavbarDropDown";
+import { useUserStore } from "../../../store/useUserStore";
 function NavBar({ className }: { className?: string }) {
   const { isAuthenticated } = useAuthStore();
+  const { fetchUserSettings } = useUserStore();
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div
@@ -22,7 +24,7 @@ function NavBar({ className }: { className?: string }) {
                 <Bell className="w-5 h-5" />
               </Button>
               <Link to="/settings">
-                <Button variant="ghostTinted">
+                <Button variant="ghostTinted" onClick={fetchUserSettings}>
                   <Settings className="w-5 h-5" />
                 </Button>
               </Link>
