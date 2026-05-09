@@ -10,12 +10,12 @@ function SectionHeader({
   description: string;
 }) {
   return (
-    <div className="flex flex-col">
-      <div className="flex items-center gap-2">
+    <div className="flex flex-col gap-2">
+      <div className="flex items-center gap-3">
         {icon}
-        <h1 className="text-xl">{title}</h1>
+        <h1 className="text-xl font-semibold">{title}</h1>
       </div>
-      <p className="text-sm">{description}</p>
+      <p className="text-sm text-(--text-light)">{description}</p>
     </div>
   );
 }

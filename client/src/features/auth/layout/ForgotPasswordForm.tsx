@@ -1,6 +1,6 @@
 import Button from "../../../components/ui/Button";
 import AuthHeader from "../components/AuthHeader";
-import Input from "../components/Input";
+import Input from "../../../components/ui/Input";
 import AlertBox from "../components/AlertBox";
 import { useRestorePassword } from "../hooks/useRestorePassword";
 

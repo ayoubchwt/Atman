@@ -7,11 +7,14 @@ import { useProfileSettings } from "../hooks/useProfileSettings";
 function ProfileForm() {
   const { onSubmit, userName, setUserName } = useProfileSettings();
   return (
-    <form onSubmit={onSubmit}>
+    <form
+      onSubmit={onSubmit}
+      className="flex flex-col gap-5 items-start p-4 bg-(--bg-dark) rounded-md w-xl"
+    >
       <SectionHeader
         title="Profile"
         description="Manage your display name and personal info"
-        icon={<User />}
+        icon={<User className="w-6 h-6" />}
       ></SectionHeader>
       <InputField
         type="text"

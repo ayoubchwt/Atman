@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Button from "../../../components/ui/Button";
 import AuthHeader from "../components/AuthHeader";
-import Input from "../components/Input";
+import Input from "../../../components/ui/Input";
 import { useEffect, type ChangeEvent } from "react";
 import { useRegister } from "../hooks/useRegister";
 import AlertBox from "../components/AlertBox";

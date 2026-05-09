@@ -1,33 +1,41 @@
 import { KeyRound } from "lucide-react";
 import { usePasswordSettings } from "../hooks/usePasswordSettings";
 import SectionHeader from "./SectionHeader";
-import InputField from "../../../components/ui/InputField";
+import Input from "../../../components/ui/Input";
+import Button from "../../../components/ui/Button";
 
 function PasswordForm() {
   const { setOldPassword, setPassword, setPasswordConfirm, onSubmit } =
     usePasswordSettings();
   return (
-    <form onSubmit={onSubmit}>
+    <form
+      onSubmit={onSubmit}
+      className="flex flex-col gap-5 items-start p-4 bg-(--bg-dark) rounded-md w-xl"
+    >
       <SectionHeader
         title="Password"
         description="Change your account password"
-        icon={<KeyRound />}
+        icon={<KeyRound className="w-5 h-5" />}
       ></SectionHeader>
-      <InputField
+      <Input
+        label="Old Password"
         type="password"
         placeholder="••••••••"
         onChange={(e) => setOldPassword(e.target.value)}
-      ></InputField>
-      <InputField
+      ></Input>
+      <Input
+        label="New Password"
         type="password"
         placeholder="••••••••"
         onChange={(e) => setPassword(e.target.value)}
-      ></InputField>
-      <InputField
+      ></Input>
+      <Input
+        label="Retype New Password"
         type="password"
         placeholder="••••••••"
         onChange={(e) => setPasswordConfirm(e.target.value)}
-      ></InputField>
+      ></Input>
+      <Button variant="dark">Update Password</Button>
     </form>
   );
 }

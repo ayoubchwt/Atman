@@ -13,6 +13,8 @@ const variants = {
     "bg-(--ghostTinted-light) text-(--text) font-semibold text-sm cursor-pointer flex items-center justify-center",
   ghostPrimary:
     "bg-(--ghostTinted) text-(--text) font-semibold text-sm cursor-pointer flex items-center justify-center hover:bg-(--primary) border-(--bg-light) border",
+  danger:
+    "bg-(--bg-danger) text-(--text) font-semibold text-sm hover:bg-(--bg-danger-light) cursor-pointer flex items-center justify-center",
 };
 type Variant = keyof typeof variants;
 

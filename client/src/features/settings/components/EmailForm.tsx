@@ -7,11 +7,14 @@ import SectionHeader from "./SectionHeader";
 function EmailForm() {
   const { email, setEmail, onSubmit } = useEmailSettings();
   return (
-    <form onSubmit={onSubmit}>
+    <form
+      onSubmit={onSubmit}
+      className="flex flex-col gap-5 items-start p-4 bg-(--bg-dark) rounded-md w-xl border border-(--bg-dark)"
+    >
       <SectionHeader
         title="Email Address"
         description="Update the email associated with your account"
-        icon={<Mail />}
+        icon={<Mail className="w-6 h-6" />}
       ></SectionHeader>
       <InputField
         type="text"

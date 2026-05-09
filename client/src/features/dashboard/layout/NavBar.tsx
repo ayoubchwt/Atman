@@ -6,10 +6,8 @@ import { useAuthStore } from "../../../store/useAuthStore";
 import user from "../../../assets/pictures/user.png";
 import { useState } from "react";
 import NavbarDropDown from "../components/NavbarDropDown";
-import { useUserStore } from "../../../store/useUserStore";
 function NavBar({ className }: { className?: string }) {
   const { isAuthenticated } = useAuthStore();
-  const { fetchUserSettings } = useUserStore();
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div
