@@ -3,6 +3,7 @@ import { usePasswordSettings } from "../hooks/usePasswordSettings";
 import SectionHeader from "./SectionHeader";
 import Input from "../../../components/ui/Input";
 import Button from "../../../components/ui/Button";
+import { Link } from "react-router-dom";
 
 function PasswordForm() {
   const { setOldPassword, setPassword, setPasswordConfirm, onSubmit } =
@@ -10,7 +11,7 @@ function PasswordForm() {
   return (
     <form
       onSubmit={onSubmit}
-      className="flex flex-col gap-5 items-start p-4 bg-(--bg-dark) rounded-md w-xl"
+      className="flex flex-col gap-5 items-start p-4 bg-(--bg-dark) rounded-md w-2xl"
     >
       <SectionHeader
         title="Password"
@@ -35,7 +36,15 @@ function PasswordForm() {
         placeholder="••••••••"
         onChange={(e) => setPasswordConfirm(e.target.value)}
       ></Input>
-      <Button variant="dark">Update Password</Button>
+      <div className="flex items-center gap-3">
+        <Button variant="dark">Update Password</Button>
+        <Link
+          to="/auth/forgot"
+          className="text-(--text-light) font-base text-sm underline hover:text-(--primary)"
+        >
+          Forgot password?
+        </Link>
+      </div>
     </form>
   );
 }

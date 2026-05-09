@@ -20,18 +20,24 @@ export const getUserSettings = async (): Promise<UserSettingsResponseDto> => {
 export const updateUserName = async (
   dto: UpdateUserDto,
 ): Promise<UserResponseDto> => {
-  const response = await api.patch<UserResponseDto>("/update-username", dto);
+  const response = await api.patch<UserResponseDto>(
+    "/user/update-username",
+    dto,
+  );
   return response.data;
 };
 export const updateUserEmail = async (
   dto: UpdateUserDto,
 ): Promise<UserResponseDto> => {
-  const response = await api.patch<UserResponseDto>("/update-email", dto);
+  const response = await api.patch<UserResponseDto>("/user/update-email", dto);
   return response.data;
 };
 export const updateUserPassword = async (
   dto: UpdateUserDto,
 ): Promise<UserResponseDto> => {
-  const response = await api.patch<UserResponseDto>("/update-password", dto);
+  const response = await api.patch<UserResponseDto>(
+    "/user/update-password",
+    dto,
+  );
   return response.data;
 };

@@ -4,7 +4,7 @@ import Button from "../../../components/ui/Button";
 
 function DangerZone() {
   return (
-    <div className="flex flex-col gap-5 items-start p-4 bg-(--bg-dark) rounded-md w-xl">
+    <div className="flex flex-col gap-5 items-start p-4 bg-(--bg-dark) rounded-md w-2xl">
       <SectionHeader
         title="Danger Zone"
         description="Irreversible actions on your account"

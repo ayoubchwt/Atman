@@ -8,8 +8,11 @@ function EmailForm() {
   const { email, setEmail, onSubmit } = useEmailSettings();
   return (
     <form
-      onSubmit={onSubmit}
-      className="flex flex-col gap-5 items-start p-4 bg-(--bg-dark) rounded-md w-xl border border-(--bg-dark)"
+      onSubmit={(e) => {
+        e.preventDefault();
+        onSubmit();
+      }}
+      className="flex flex-col gap-5 items-start p-4 bg-(--bg-dark) rounded-md border border-(--bg-dark) w-2xl"
     >
       <SectionHeader
         title="Email Address"

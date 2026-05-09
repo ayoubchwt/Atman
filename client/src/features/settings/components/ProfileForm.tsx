@@ -8,8 +8,11 @@ function ProfileForm() {
   const { onSubmit, userName, setUserName } = useProfileSettings();
   return (
     <form
-      onSubmit={onSubmit}
-      className="flex flex-col gap-5 items-start p-4 bg-(--bg-dark) rounded-md w-xl"
+      onSubmit={(e) => {
+        e.preventDefault();
+        onSubmit();
+      }}
+      className="flex flex-col gap-5 items-start p-4 bg-(--bg-dark) rounded-md w-2xl"
     >
       <SectionHeader
         title="Profile"
