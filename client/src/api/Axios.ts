@@ -1,5 +1,9 @@
-import axios, { AxiosError } from "axios";
+import axios, { AxiosError, type InternalAxiosRequestConfig } from "axios";
 import { useAuthStore } from "../store/useAuthStore";
+export const authApi = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
+  withCredentials: true,
+});
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true,
@@ -14,16 +18,20 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
-    const originalResquest = error.config;
-    console.log("about to refresh ...");
-    console.log("error code", error.status);
-    if (error.status === 401) {
-      console.log("refresing ...");
-      await useAuthStore.getState().handleRefresh();
-      const newAccessToken = useAuthStore.getState().user?.accessToken;
-      if (newAccessToken && originalResquest) {
-        originalResquest.headers.Authorization = `Bearer ${newAccessToken}`;
-        return api(originalResquest);
+    const originalResquest = error.config as InternalAxiosRequestConfig & {
+      _retry?: boolean;
+    };
+    if (error.status === 401 && originalResquest && !originalResquest._retry) {
+      originalResquest._retry = true;
+      try {
+        await useAuthStore.getState().handleRefresh();
+        const newAccessToken = useAuthStore.getState().user?.accessToken;
+        if (newAccessToken) {
+          originalResquest.headers.Authorization = `Bearer ${newAccessToken}`;
+          return api(originalResquest);
+        }
+      } catch (refreshError) {
+        return Promise.reject(refreshError);
       }
     }
     return Promise.reject(error);
