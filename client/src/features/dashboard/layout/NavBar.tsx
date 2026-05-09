@@ -24,7 +24,7 @@ function NavBar({ className }: { className?: string }) {
                 <Bell className="w-5 h-5" />
               </Button>
               <Link to="/settings">
-                <Button variant="ghostTinted" onClick={fetchUserSettings}>
+                <Button variant="ghostTinted">
                   <Settings className="w-5 h-5" />
                 </Button>
               </Link>

@@ -1,4 +1,4 @@
-import axios, { AxiosError, type InternalAxiosRequestConfig } from "axios";
+import axios, { AxiosError } from "axios";
 import { useAuthStore } from "../store/useAuthStore";
 export const authApi = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -18,11 +18,8 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
-    const originalResquest = error.config as InternalAxiosRequestConfig & {
-      _retry?: boolean;
-    };
-    if (error.status === 401 && originalResquest && !originalResquest._retry) {
-      originalResquest._retry = true;
+    const originalResquest = error.config;
+    if (error.status === 401 && originalResquest) {
       try {
         await useAuthStore.getState().handleRefresh();
         const newAccessToken = useAuthStore.getState().user?.accessToken;

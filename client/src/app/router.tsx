@@ -13,6 +13,8 @@ import OtpForm from "../features/auth/layout/OtpForm";
 import ForgotPasswordForm from "../features/auth/layout/ForgotPasswordForm";
 import ResetPasswordForm from "../features/auth/layout/ResetPasswordForm";
 import Settings from "../features/settings/pages/Settings";
+import { appLoader } from "../loaders/appLoader";
+import { settingsLoader } from "../loaders/settingsLoader";
 
 const router = createBrowserRouter([
   {
@@ -20,14 +22,17 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
+        loader: appLoader,
         element: <Dashboard />,
       },
       {
         path: "home",
+        loader: appLoader,
         element: <Dashboard />,
       },
       {
         path: "settings",
+        loader: settingsLoader,
         element: <Settings />,
       },
     ],

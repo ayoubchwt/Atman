@@ -8,7 +8,6 @@ import {
 } from "../dtos/AuthDTO";
 import { AuthService } from "../services/AuthService";
 import ms from "ms";
-import { UnauthorizedException } from "../exceptions/AuthException";
 export class AuthController {
   public static async login(
     request: Request,
@@ -53,9 +52,6 @@ export class AuthController {
     try {
       const userId = request.user.id;
       const refreshToken = request.cookies.refreshToken;
-      if (!userId || !refreshToken) {
-        throw new UnauthorizedException();
-      }
       const result = await AuthService.refresh(userId, refreshToken);
       response.status(200).json(result);
     } catch (error) {
@@ -71,9 +67,6 @@ export class AuthController {
     try {
       const userId = request.user.id;
       const refreshToken = request.cookies.refreshToken;
-      if (!userId || !refreshToken) {
-        throw new UnauthorizedException();
-      }
       await AuthService.logout(userId, refreshToken);
       response.status(200).send();
     } catch (error) {
