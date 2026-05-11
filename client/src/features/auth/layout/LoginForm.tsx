@@ -4,7 +4,7 @@ import AuthHeader from "../components/AuthHeader";
 import Input from "../../../components/ui/Input";
 import { useLogin } from "../hooks/useLogin";
 import { useEffect, type ChangeEvent } from "react";
-import AlertBox from "../components/AlertBox";
+import AlertBox from "../../../components/ui/AlertBox";
 
 function LoginForm() {
   const { setEmail, setPassword, isLoading, error, onSubmit, resetStatus } =

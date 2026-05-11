@@ -70,6 +70,7 @@ export const useUserStore = create<UseUser>((set, get) => ({
   updateUserName: async (dto) => {
     try {
       await updateUserName(dto);
+      set({});
     } catch (error) {
       const { setError } = useErrorStore.getState();
       setError(getErrorMessage(error));

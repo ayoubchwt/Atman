@@ -2,7 +2,7 @@ import AuthHeader from "../components/AuthHeader";
 import OtpInput from "react-otp-input";
 import { useRestorePassword } from "../hooks/useRestorePassword";
 import Button from "../../../components/ui/Button";
-import AlertBox from "../components/AlertBox";
+import AlertBox from "../../../components/ui/AlertBox";
 
 function OtpForm() {
   const { otp, setOtp, onOtpSubmit, isLoading, error } = useRestorePassword();

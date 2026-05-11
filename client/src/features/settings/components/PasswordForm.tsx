@@ -4,13 +4,22 @@ import SectionHeader from "./SectionHeader";
 import Input from "../../../components/ui/Input";
 import Button from "../../../components/ui/Button";
 import { Link } from "react-router-dom";
+import AlertBox from "../../../components/ui/AlertBox";
 
 function PasswordForm() {
-  const { setOldPassword, setPassword, setPasswordConfirm, onSubmit } =
-    usePasswordSettings();
+  const {
+    setOldPassword,
+    setPassword,
+    setPasswordConfirm,
+    passwordError,
+    onSubmit,
+  } = usePasswordSettings();
   return (
     <form
-      onSubmit={onSubmit}
+      onSubmit={(e) => {
+        e.preventDefault();
+        onSubmit();
+      }}
       className="flex flex-col gap-5 items-start p-4 bg-(--bg-dark) rounded-md w-2xl"
     >
       <SectionHeader
@@ -36,6 +45,9 @@ function PasswordForm() {
         placeholder="••••••••"
         onChange={(e) => setPasswordConfirm(e.target.value)}
       ></Input>
+      {passwordError && (
+        <AlertBox variant="failure" input={passwordError}></AlertBox>
+      )}
       <div className="flex items-center gap-3">
         <Button variant="dark">Update Password</Button>
         <Link

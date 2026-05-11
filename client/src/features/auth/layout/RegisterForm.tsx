@@ -4,7 +4,7 @@ import AuthHeader from "../components/AuthHeader";
 import Input from "../../../components/ui/Input";
 import { useEffect, type ChangeEvent } from "react";
 import { useRegister } from "../hooks/useRegister";
-import AlertBox from "../components/AlertBox";
+import AlertBox from "../../../components/ui/AlertBox";
 
 function RegisterForm() {
   const {
