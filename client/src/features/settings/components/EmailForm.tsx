@@ -4,9 +4,10 @@ import InputField from "../../../components/ui/InputField";
 import { useEmailSettings } from "../hooks/useEmailSettings";
 import SectionHeader from "./SectionHeader";
 import OtpInput from "react-otp-input";
+import AlertBox from "../../../components/ui/AlertBox";
 
 function EmailForm() {
-  const { email, setEmail, onSubmit, otpVisible, otp, setOtp } =
+  const { email, setEmail, onSubmit, otpVisible, otp, setOtp, emailError } =
     useEmailSettings();
   return (
     <form
@@ -43,6 +44,7 @@ function EmailForm() {
           )}
         ></OtpInput>
       )}
+      {emailError && <AlertBox variant="failure" input={emailError}></AlertBox>}
       <Button variant="dark">{otpVisible ? "Update Email" : "Confirm"}</Button>
     </form>
   );

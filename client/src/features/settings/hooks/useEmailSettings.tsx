@@ -5,6 +5,7 @@ export const useEmailSettings = () => {
   const userStore = useUserStore();
   const [otpVisible, setOtpVisible] = useState(false);
   const [otp, setOtp] = useState("");
+  const [emailError, setEmailError] = useState("");
   const [email, setEmail] = useState(userStore.userSettings?.email);
   const onSubmit = async () => {
     if (!email) return;
@@ -13,7 +14,11 @@ export const useEmailSettings = () => {
       setOtpVisible(true);
       return;
     }
-    console.log("verifying otp ...");
+    if (otp) {
+      await userStore.confirmUpdateUserEmail({ email: email, code: otp });
+    } else {
+      setEmailError("Verify the otp code");
+    }
   };
   return {
     email,
@@ -22,5 +27,6 @@ export const useEmailSettings = () => {
     otpVisible,
     otp,
     setOtp,
+    emailError,
   };
 };

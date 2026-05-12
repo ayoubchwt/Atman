@@ -43,6 +43,8 @@ export class UserService {
     userId: string,
     dto: UpdateUserDto,
   ): Promise<UserResponseDto> {
+    if (!dto.name) throw new InvalidRequestParameters();
+
     const updatedUser: IUser | null = await User.findOneAndUpdate(
       {
         _id: userId,
@@ -87,21 +89,19 @@ export class UserService {
     userId: string,
     dto: UpdateUserDto,
   ): Promise<UserResponseDto> {
-    const user: IUser | null = await User.findById(userId);
+    const user: IUser | null = await User.findById(userId).select(
+      "+OtpToken +OtpExpires",
+    );
     if (!user)
       throw new UserNotFoundException(`Cannot find the user with id ${userId}`);
-    if (!dto.code) throw new InvalidRequestParameters();
-    const result = OtpService.verifyOtp(user, dto.code);
-    if (!result) throw new InvalidRequestParameters("Incorrect verification Code");
-    const updatedUser: IUser | null = await User.findOneAndUpdate(
-      {
-        _id: userId,
-      },
-      { email: dto.email },
-      { returnDocument: "after" },
-    );
-    if (!updatedUser)
-      throw new UserNotFoundException(`Cannot find the user with id ${userId}`);
-    return UserMapper.toResponseDto(updatedUser);
+    if (!dto.code || !dto.email) throw new InvalidRequestParameters();
+    const result = await OtpService.verifyOtp(user, dto.code);
+    if (!result)
+      throw new InvalidRequestParameters("Incorrect verification Code");
+    user.email = dto.email;
+    user.OtpToken = null;
+    user.OtpExpires = null;
+    user.save();
+    return UserMapper.toResponseDto(user);
   }
 }
