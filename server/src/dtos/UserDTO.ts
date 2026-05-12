@@ -8,6 +8,7 @@ export interface UpdateUserDto {
   email?: string;
   oldPassword?: string;
   newPassword?: string;
+  code?: string;
 }
 export interface UserSettingsResponseDto {
   id: string;

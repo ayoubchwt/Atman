@@ -10,6 +10,7 @@ import {
 import { UserMapper } from "../mappers/UserMapper";
 import User, { IUser } from "../models/User";
 import bcrypt from "bcrypt";
+import { OtpService } from "./OtpService";
 
 export class UserService {
   public static async getUser(userId: string): Promise<UserResponseDto> {
@@ -37,7 +38,6 @@ export class UserService {
     return UserMapper.toSettingsResponseDto(user);
   }
 
-
   // updated the user attributes on one's own as a separation of concerns (username may change and password needs to be hashed)
   public static async updateUserName(
     userId: string,
@@ -54,26 +54,11 @@ export class UserService {
       throw new UserNotFoundException(`Cannot find the user with id ${userId}`);
     return UserMapper.toResponseDto(updatedUser);
   }
-  public static async updateUserEmail(
-    userId: string,
-    dto: UpdateUserDto,
-  ): Promise<UserResponseDto> {
-    const updatedUser: IUser | null = await User.findOneAndUpdate(
-      {
-        _id: userId,
-      },
-      { email: dto.email },
-      { returnDocument: "after" },
-    );
-    if (!updatedUser)
-      throw new UserNotFoundException(`Cannot find the user with id ${userId}`);
-    return UserMapper.toResponseDto(updatedUser);
-  }
   public static async updateUserPassword(
     userId: string,
     dto: UpdateUserDto,
   ): Promise<UserResponseDto> {
-    const user: IUser | null = await User.findById(userId);
+    const user: IUser | null = await User.findById(userId).select("+password");
     if (!user)
       throw new UserNotFoundException(`Cannot find the user with id ${userId}`);
     if (!dto.oldPassword || !dto.newPassword)
@@ -90,6 +75,33 @@ export class UserService {
     const hashedPassword = await bcrypt.hash(dto.newPassword, saltRounds);
     user.password = hashedPassword;
     const updatedUser = await user.save();
+    return UserMapper.toResponseDto(updatedUser);
+  }
+  public static async UpdateUserEmail(userId: string): Promise<void> {
+    const user: IUser | null = await User.findById(userId);
+    if (!user)
+      throw new UserNotFoundException(`Cannot find the user with id ${userId}`);
+    OtpService.sendOtp(user);
+  }
+  public static async ConfirmUpdateUserEmail(
+    userId: string,
+    dto: UpdateUserDto,
+  ): Promise<UserResponseDto> {
+    const user: IUser | null = await User.findById(userId);
+    if (!user)
+      throw new UserNotFoundException(`Cannot find the user with id ${userId}`);
+    if (!dto.code) throw new InvalidRequestParameters();
+    const result = OtpService.verifyOtp(user, dto.code);
+    if (!result) throw new InvalidRequestParameters("Incorrect verification Code");
+    const updatedUser: IUser | null = await User.findOneAndUpdate(
+      {
+        _id: userId,
+      },
+      { email: dto.email },
+      { returnDocument: "after" },
+    );
+    if (!updatedUser)
+      throw new UserNotFoundException(`Cannot find the user with id ${userId}`);
     return UserMapper.toResponseDto(updatedUser);
   }
 }

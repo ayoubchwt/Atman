@@ -6,8 +6,8 @@ export interface IUser extends Document {
   password: string;
   sessions: number;
   refreshToken: string | null;
-  passwordResetToken: string | null;
-  passwordResetExpires: Date | null;
+  OtpToken: string | null;
+  OtpExpires: Date | null;
 }
 
 const UserShema: Schema = new Schema(
@@ -36,12 +36,12 @@ const UserShema: Schema = new Schema(
       select: false,
       default: null,
     },
-    passwordResetToken: {
+    OtpToken: {
       type: Schema.Types.String,
       select: false,
       default: null,
     },
-    passwordResetExpires: {
+    OtpExpires: {
       type: Schema.Types.Date,
       select: false,
       default: null,

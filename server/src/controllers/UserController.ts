@@ -64,7 +64,7 @@ export class UserController {
     try {
       const userId = request.user.id;
       const updateUserDto = request.body as UpdateUserDto;
-      const result = await UserService.updateUserEmail(userId, updateUserDto);
+      const result = await UserService.ConfirmUpdateUserEmail(userId, updateUserDto);
       response.status(200).json(result);
     } catch (error) {
       next(error);
@@ -78,7 +78,10 @@ export class UserController {
     try {
       const userId = request.user.id;
       const updateUserDto = request.body as UpdateUserDto;
-      const result = await UserService.updateUserPassword(userId, updateUserDto);
+      const result = await UserService.updateUserPassword(
+        userId,
+        updateUserDto,
+      );
       response.status(200).json(result);
     } catch (error) {
       next(error);
