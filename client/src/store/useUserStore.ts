@@ -84,6 +84,7 @@ export const useUserStore = create<UseUser>((set, get) => ({
     } catch (error) {
       const { setError } = useErrorStore.getState();
       setError(getErrorMessage(error));
+      throw error;
     }
   },
   updateUserEmail: async () => {
@@ -92,6 +93,7 @@ export const useUserStore = create<UseUser>((set, get) => ({
     } catch (error) {
       const { setError } = useErrorStore.getState();
       setError(getErrorMessage(error));
+      throw error;
     }
   },
   confirmUpdateUserEmail: async (dto) => {
@@ -100,6 +102,7 @@ export const useUserStore = create<UseUser>((set, get) => ({
     } catch (error) {
       const { setError } = useErrorStore.getState();
       setError(getErrorMessage(error));
+      throw error;
     }
   },
 }));

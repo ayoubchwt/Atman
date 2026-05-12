@@ -7,8 +7,16 @@ import OtpInput from "react-otp-input";
 import AlertBox from "../../../components/ui/AlertBox";
 
 function EmailForm() {
-  const { email, setEmail, onSubmit, otpVisible, otp, setOtp, emailError } =
-    useEmailSettings();
+  const {
+    email,
+    setEmail,
+    onSubmit,
+    otpVisible,
+    otp,
+    setOtp,
+    emailError,
+    emailSuccess,
+  } = useEmailSettings();
   return (
     <form
       onSubmit={(e) => {
@@ -45,6 +53,9 @@ function EmailForm() {
         ></OtpInput>
       )}
       {emailError && <AlertBox variant="failure" input={emailError}></AlertBox>}
+      {emailSuccess && (
+        <AlertBox variant="success" input={emailSuccess}></AlertBox>
+      )}
       <Button variant="dark">{otpVisible ? "Update Email" : "Confirm"}</Button>
     </form>
   );

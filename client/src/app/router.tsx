@@ -76,25 +76,5 @@ const router = createBrowserRouter([
 
 function Router() {
   return <RouterProvider router={router}></RouterProvider>;
-  // return (
-  //   <>
-  //     <BrowserRouter>
-  //       <Routes>
-  //         <Route path="/" element={<Dashboard />} />
-  //         <Route path="/home" element={<Dashboard />} />
-  //         <Route path="/settings" element={<Settings />} />
-  //         <Route path="/auth">
-  //           <Route path="login" element={<Login />} />
-  //           <Route path="register" element={<Register />} />
-  //           <Route path="forgot" element={<RestorePassword />}>
-  //             <Route index element={<ForgotPasswordForm />} />
-  //             <Route path="verify" element={<OtpForm />} />
-  //             <Route path="reset" element={<ResetPasswordForm />}></Route>
-  //           </Route>
-  //         </Route>
-  //       </Routes>
-  //     </BrowserRouter>
-  //   </>
-  // );
 }
 export default Router;

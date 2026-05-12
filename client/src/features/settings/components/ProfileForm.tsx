@@ -3,9 +3,11 @@ import SectionHeader from "./SectionHeader";
 import InputField from "../../../components/ui/InputField";
 import Button from "../../../components/ui/Button";
 import { useProfileSettings } from "../hooks/useProfileSettings";
+import AlertBox from "../../../components/ui/AlertBox";
 
 function ProfileForm() {
-  const { onSubmit, userName, setUserName } = useProfileSettings();
+  const { onSubmit, userName, setUserName, userNameError, userNameSuccess } =
+    useProfileSettings();
   return (
     <form
       onSubmit={(e) => {
@@ -25,6 +27,12 @@ function ProfileForm() {
         value={userName}
         onChange={(e) => setUserName(e.target.value)}
       ></InputField>
+      {userNameError && (
+        <AlertBox variant="failure" input={userNameError}></AlertBox>
+      )}
+      {userNameSuccess && (
+        <AlertBox variant="success" input={userNameSuccess}></AlertBox>
+      )}
       <Button variant="dark">Save Changes</Button>
     </form>
   );

@@ -12,6 +12,7 @@ function PasswordForm() {
     setPassword,
     setPasswordConfirm,
     passwordError,
+    passwordSuccess,
     onSubmit,
   } = usePasswordSettings();
   return (
@@ -47,6 +48,9 @@ function PasswordForm() {
       ></Input>
       {passwordError && (
         <AlertBox variant="failure" input={passwordError}></AlertBox>
+      )}
+      {passwordSuccess && (
+        <AlertBox variant="success" input={passwordSuccess}></AlertBox>
       )}
       <div className="flex items-center gap-3">
         <Button variant="dark">Update Password</Button>
