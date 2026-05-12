@@ -10,6 +10,9 @@ export interface UpdateUserDto {
   newPassword?: string;
   code?: string;
 }
+export interface deleteUserDto {
+  code: string;
+}
 export interface UserSettingsResponseDto {
   id: string;
   name: string;

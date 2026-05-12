@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction, response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { UserService } from "../services/UserService";
-import { UpdateUserDto } from "../dtos/UserDTO";
+import { deleteUserDto, UpdateUserDto } from "../dtos/UserDTO";
 
 export class UserController {
   public static async getUser(
@@ -99,6 +99,33 @@ export class UserController {
         updateUserDto,
       );
       response.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+  public static async deleteUser(
+    request: Request,
+    response: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    const userId = request.user.id;
+    await UserService.deleteUser(userId);
+    response.status(201).send();
+    try {
+    } catch (error) {
+      next(error);
+    }
+  }
+  public static async confirmDeleteUser(
+    request: Request,
+    response: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const userId = request.user.id;
+      const deleteUserDto = request.body as deleteUserDto;
+      await UserService.ConfirmDeleteUser(userId, deleteUserDto);
+      response.status(204).send();
     } catch (error) {
       next(error);
     }

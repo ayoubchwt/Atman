@@ -36,6 +36,16 @@ export class UserRouter {
       AuthMiddleware.verifyAccessToken,
       UserController.confirmUpdateUserEmail,
     );
+    router.post(
+      "/delete",
+      AuthMiddleware.verifyAccessToken,
+      UserController.deleteUser,
+    );
+    router.delete(
+      "/confirm-delete",
+      AuthMiddleware.verifyAccessToken,
+      UserController.confirmDeleteUser,
+    );
     return router;
   }
 }

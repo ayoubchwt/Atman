@@ -1,4 +1,5 @@
 import {
+  deleteUserDto,
   UpdateUserDto,
   UserResponseDto,
   UserSettingsResponseDto,
@@ -103,5 +104,26 @@ export class UserService {
     user.OtpExpires = null;
     user.save();
     return UserMapper.toResponseDto(user);
+  }
+  public static async deleteUser(userId: string): Promise<void> {
+    const user: IUser | null = await User.findById(userId);
+    if (!user)
+      throw new UserNotFoundException(`Cannot find the user with id ${userId}`);
+    OtpService.sendOtp(user);
+  }
+  public static async ConfirmDeleteUser(
+    userId: string,
+    dto: deleteUserDto,
+  ): Promise<void> {
+    const user: IUser | null = await User.findById(userId).select(
+      "+OtpToken +OtpExpires",
+    );
+    if (!user)
+      throw new UserNotFoundException(`Cannot find the user with id ${userId}`);
+    if (!dto.code) throw new InvalidRequestParameters();
+    const result = OtpService.verifyOtp(user, dto.code);
+    if (!result)
+      throw new InvalidRequestParameters("Incorrect verification Code");
+    await User.findOneAndDelete({ _id: userId });
   }
 }

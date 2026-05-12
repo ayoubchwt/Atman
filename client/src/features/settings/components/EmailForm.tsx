@@ -3,8 +3,8 @@ import Button from "../../../components/ui/Button";
 import InputField from "../../../components/ui/InputField";
 import { useEmailSettings } from "../hooks/useEmailSettings";
 import SectionHeader from "./SectionHeader";
-import OtpInput from "react-otp-input";
 import AlertBox from "../../../components/ui/AlertBox";
+import SettingsOtp from "./SettingsOtp";
 
 function EmailForm() {
   const {
@@ -36,21 +36,12 @@ function EmailForm() {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       ></InputField>
-      {otpVisible && (
-        <OtpInput
-          value={otp}
-          onChange={(otp: string) => {
-            setOtp(otp);
-          }}
-          numInputs={5}
-          renderSeparator={<span> </span>}
-          renderInput={(props) => (
-            <input
-              {...props}
-              className="w-12 h-14 mx-1 text-2xl font-bold text-center text-(--text) border-2 border-(--bg-light) rounded-lg outline-0"
-            ></input>
-          )}
-        ></OtpInput>
+      {!otpVisible && (
+        <SettingsOtp
+          code={otp}
+          setCode={setOtp}
+          message="An email that contains a verification code has been sent to your email address"
+        ></SettingsOtp>
       )}
       {emailError && <AlertBox variant="failure" input={emailError}></AlertBox>}
       {emailSuccess && (
