@@ -26,17 +26,23 @@ export const updateUserName = async (
   );
   return response.data;
 };
-export const updateUserEmail = async (
-  dto: UpdateUserDto,
-): Promise<UserResponseDto> => {
-  const response = await api.patch<UserResponseDto>("/user/update-email", dto);
-  return response.data;
-};
 export const updateUserPassword = async (
   dto: UpdateUserDto,
 ): Promise<UserResponseDto> => {
   const response = await api.patch<UserResponseDto>(
     "/user/update-password",
+    dto,
+  );
+  return response.data;
+};
+export const updateUserEmail = async (): Promise<void> => {
+  await api.post<UserResponseDto>("/user/update-email");
+};
+export const ConfirmUpdateUserEmail = async (
+  dto: UpdateUserDto,
+): Promise<UpdateUserDto> => {
+  const response = await api.patch<UserResponseDto>(
+    "/user/confirm-update-email",
     dto,
   );
   return response.data;

@@ -24,7 +24,7 @@ export class UserController {
     try {
       const userId = request.user.id;
       const result = await UserService.incrementUserSessions(userId);
-      response.status(200).json(result);
+      response.status(201).json(result);
     } catch (error) {
       next(error);
     }
@@ -56,20 +56,6 @@ export class UserController {
       next(error);
     }
   }
-  public static async updateUserEmail(
-    request: Request,
-    response: Response,
-    next: NextFunction,
-  ): Promise<void> {
-    try {
-      const userId = request.user.id;
-      const updateUserDto = request.body as UpdateUserDto;
-      const result = await UserService.ConfirmUpdateUserEmail(userId, updateUserDto);
-      response.status(200).json(result);
-    } catch (error) {
-      next(error);
-    }
-  }
   public static async updateUserPassword(
     request: Request,
     response: Response,
@@ -79,6 +65,36 @@ export class UserController {
       const userId = request.user.id;
       const updateUserDto = request.body as UpdateUserDto;
       const result = await UserService.updateUserPassword(
+        userId,
+        updateUserDto,
+      );
+      response.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+  public static async updateUserEmail(
+    request: Request,
+    response: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const userId = request.user.id;
+      await UserService.updateUserEmail(userId);
+      response.status(201).send();
+    } catch (error) {
+      next(error);
+    }
+  }
+  public static async confirmUpdateUserEmail(
+    request: Request,
+    response: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const userId = request.user.id;
+      const updateUserDto = request.body as UpdateUserDto;
+      const result = await UserService.ConfirmUpdateUserEmail(
         userId,
         updateUserDto,
       );

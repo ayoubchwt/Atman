@@ -77,7 +77,7 @@ export class UserService {
     const updatedUser = await user.save();
     return UserMapper.toResponseDto(updatedUser);
   }
-  public static async UpdateUserEmail(userId: string): Promise<void> {
+  public static async updateUserEmail(userId: string): Promise<void> {
     const user: IUser | null = await User.findById(userId);
     if (!user)
       throw new UserNotFoundException(`Cannot find the user with id ${userId}`);

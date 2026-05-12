@@ -17,11 +17,6 @@ export class UserRouter {
       UserController.updateUserName,
     );
     router.patch(
-      "/update-email",
-      AuthMiddleware.verifyAccessToken,
-      UserController.updateUserEmail,
-    );
-    router.patch(
       "/update-password",
       AuthMiddleware.verifyAccessToken,
       UserController.updateUserPassword,
@@ -30,6 +25,16 @@ export class UserRouter {
       "/sessions",
       AuthMiddleware.verifyAccessToken,
       UserController.incrementUserSessions,
+    );
+    router.post(
+      "/update-email",
+      AuthMiddleware.verifyAccessToken,
+      UserController.updateUserEmail,
+    );
+    router.patch(
+      "/confirm-update-email",
+      AuthMiddleware.verifyAccessToken,
+      UserController.confirmUpdateUserEmail,
     );
     return router;
   }

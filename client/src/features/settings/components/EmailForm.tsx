@@ -3,9 +3,11 @@ import Button from "../../../components/ui/Button";
 import InputField from "../../../components/ui/InputField";
 import { useEmailSettings } from "../hooks/useEmailSettings";
 import SectionHeader from "./SectionHeader";
+import OtpInput from "react-otp-input";
 
 function EmailForm() {
-  const { email, setEmail, onSubmit } = useEmailSettings();
+  const { email, setEmail, onSubmit, otpVisible, otp, setOtp } =
+    useEmailSettings();
   return (
     <form
       onSubmit={(e) => {
@@ -25,7 +27,23 @@ function EmailForm() {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       ></InputField>
-      <Button variant="dark">Update Email</Button>
+      {otpVisible && (
+        <OtpInput
+          value={otp}
+          onChange={(otp: string) => {
+            setOtp(otp);
+          }}
+          numInputs={5}
+          renderSeparator={<span> </span>}
+          renderInput={(props) => (
+            <input
+              {...props}
+              className="w-12 h-14 mx-1 text-2xl font-bold text-center text-(--text) border-2 border-(--bg-light) rounded-lg outline-0"
+            ></input>
+          )}
+        ></OtpInput>
+      )}
+      <Button variant="dark">{otpVisible ? "Update Email" : "Confirm"}</Button>
     </form>
   );
 }
