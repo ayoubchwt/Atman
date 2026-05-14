@@ -15,6 +15,7 @@ import ResetPasswordForm from "../features/auth/layout/ResetPasswordForm";
 import Settings from "../features/settings/pages/Settings";
 import { appLoader } from "../loaders/appLoader";
 import { settingsLoader } from "../loaders/settingsLoader";
+import { authLoader } from "../loaders/authLoader";
 
 const router = createBrowserRouter([
   {
@@ -42,14 +43,17 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
+        loader: authLoader,
         element: <Login />,
       },
       {
         path: "login",
+        loader: authLoader,
         element: <Login />,
       },
       {
         path: "register",
+        loader: authLoader,
         element: <Register />,
       },
       {

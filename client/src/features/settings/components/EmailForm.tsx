@@ -36,7 +36,7 @@ function EmailForm() {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       ></InputField>
-      {!otpVisible && (
+      {otpVisible && (
         <SettingsOtp
           code={otp}
           setCode={setOtp}
