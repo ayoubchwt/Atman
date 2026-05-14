@@ -16,7 +16,7 @@ export class FolderService {
     return FolderMapper.toResponseDto(savedFolder);
   }
   public static async getFolders(userId: string): Promise<FolderResponseDto[]> {
-    const folders: IFolder[] = await Folder.find({ user: userId });
+    const folders: IFolder[] = await Folder.find({ userId: userId });
     return FolderMapper.toListResponseDto(folders);
   }
   public static async updateFolder(
@@ -27,7 +27,7 @@ export class FolderService {
     const updatedFolder = await Folder.findOneAndUpdate(
       {
         _id: folderId,
-        user: userId,
+        userId: userId,
       },
       { $set: dto },
       { returnDocument: "after" },
@@ -40,7 +40,7 @@ export class FolderService {
     folderId: string,
   ): Promise<void> {
     const deletedFolder: IFolder | null = await Folder.findOneAndDelete({
-      user: userId,
+      userId: userId,
       _id: folderId,
     });
     if (!deletedFolder)

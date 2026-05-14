@@ -1,7 +1,7 @@
 import mongoose, { Schema, model, Document } from "mongoose";
 
 export interface INote extends Document {
-  user: mongoose.Types.ObjectId;
+  userId: mongoose.Types.ObjectId;
   title: string;
   content: string;
   folder: mongoose.Types.ObjectId;
@@ -10,7 +10,7 @@ export interface INote extends Document {
 }
 const NoteSchema: Schema = new Schema(
   {
-    user: {
+    userId: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,

@@ -52,9 +52,9 @@ const UserShema: Schema = new Schema(
   },
   { timestamps: true },
 );
-UserShema.pre("findOneAndDelete", async function () {
-  const query = this.getQuery();
-  const userId = query._id;
+UserShema.post("findOneAndDelete", async (doc) => {
+  if (!doc) return;
+  const userId = doc._id;
   await Promise.all([
     Note.deleteMany({ userId: userId }),
     Folder.deleteMany({ userId: userId }),

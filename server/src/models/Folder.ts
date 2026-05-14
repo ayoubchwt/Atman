@@ -1,12 +1,12 @@
 import mongoose, { model, Schema, Document } from "mongoose";
 
 export interface IFolder extends Document {
-  user: mongoose.Types.ObjectId;
+  userId: mongoose.Types.ObjectId;
   label: string;
 }
 const FolderSchema: Schema = new Schema(
   {
-    user: {
+    userId: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,

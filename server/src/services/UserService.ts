@@ -121,7 +121,7 @@ export class UserService {
     if (!user)
       throw new UserNotFoundException(`Cannot find the user with id ${userId}`);
     if (!dto.code) throw new InvalidRequestParameters();
-    const result = OtpService.verifyOtp(user, dto.code);
+    const result = await OtpService.verifyOtp(user, dto.code);
     if (!result)
       throw new InvalidRequestParameters("Incorrect verification Code");
     await User.findOneAndDelete({ _id: userId });

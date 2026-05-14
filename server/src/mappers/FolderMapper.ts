@@ -15,7 +15,7 @@ export class FolderMapper {
   public static toEntity(userId: string, dto: createFolderDto): IFolder {
     return new Folder({
       label: dto.label,
-      user: userId,
+      userId: userId,
     });
   }
 }

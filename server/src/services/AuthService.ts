@@ -18,10 +18,8 @@ import User, { IUser } from "../models/User";
 import RefreshToken, { IRefreshToken } from "../models/RefreshToken";
 import bcrypt from "bcrypt";
 import { AuthUtil } from "../utlis/Auth";
-import { EmailUtils } from "../utlis/Email";
 import { NoteService } from "./NoteService";
 import { OtpService } from "./OtpService";
-import { Verify } from "node:crypto";
 
 export class AuthService {
   public static async register(
