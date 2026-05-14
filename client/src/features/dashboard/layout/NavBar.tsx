@@ -18,7 +18,7 @@ function NavBar({ className }: { className?: string }) {
         {isAuthenticated ? (
           <>
             <div className="flex items-center justify-center">
-              <Button variant="ghostTinted">
+              <Button variant="ghostTinted" className="hidden">
                 <Bell className="w-5 h-5" />
               </Button>
               <Link to="/settings">

@@ -14,7 +14,7 @@ function Dashboard() {
           grid-cols-1 [grid-template-areas:'navbar''editor']
           ${
             isChatboxOpen
-              ? "md:grid-cols-[16%_1fr_minmax(200px,280px)] md:[grid-template-areas:'navbar_navbar_navbar''sidebar_editor_chatbox']"
+              ? "md:grid-cols-[16%_1fr_minmax(200px,300px)] md:[grid-template-areas:'navbar_navbar_navbar''sidebar_editor_chatbox']"
               : "md:grid-cols-[16%_1fr] md:[grid-template-areas:'navbar_navbar''sidebar_editor']"
           }`}
     >
