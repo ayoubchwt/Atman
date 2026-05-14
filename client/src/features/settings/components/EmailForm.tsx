@@ -23,7 +23,7 @@ function EmailForm() {
         e.preventDefault();
         onSubmit();
       }}
-      className="flex flex-col gap-5 items-start p-4 bg-(--bg-dark) rounded-md border border-(--bg-dark) w-2xl"
+      className="flex flex-col gap-5 items-start p-4 bg-(--bg-dark) rounded-md border border-(--bg-dark) w-full md:w-2xl"
     >
       <SectionHeader
         title="Email Address"

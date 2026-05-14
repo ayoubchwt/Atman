@@ -107,7 +107,7 @@ export class AuthService {
   }
   public static async verifyOtp(dto: VerifyOtpRequestDto): Promise<boolean> {
     const user: IUser | null = await User.findOne({ email: dto.email }).select(
-      "+passwordResetToken +passwordResetExpires",
+      "+OtpToken +OtpExpires",
     );
     if (!user) throw new UserNotFoundException("User not found");
     const result = OtpService.verifyOtp(user, dto.code);

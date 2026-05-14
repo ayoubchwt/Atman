@@ -15,9 +15,9 @@ export class EmailUtils {
       await this.transporter.sendMail({
         from: `"Atman Team <${process.env.EMAIL_HOST}>"`,
         to: email,
-        subject: `Your Password Reset Code`,
-        text: `Your password reset code is : ${code}`,
-        html: `<b>Your password reset code is : ${code}</b>`,
+        subject: `Your Atman verifcation Code`,
+        text: `Your Atman verifcation code is : ${code}`,
+        html: `<b>Your Atman verifcation code is : ${code}</b>`,
       });
     } catch (error) {
       console.error(`Error sending mail to ${email} : `, error);

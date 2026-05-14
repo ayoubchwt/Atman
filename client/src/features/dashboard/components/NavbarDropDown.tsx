@@ -1,4 +1,4 @@
-import { X } from "lucide-react";
+import { Settings, X } from "lucide-react";
 import Button from "../../../components/ui/Button";
 import user from "../../../assets/pictures/user.png";
 import { Link } from "react-router-dom";
@@ -22,9 +22,16 @@ function NavbarDropDown({
       >
         <X className="w-8 h-8" />
       </Button>
-      <div className="flex flex-col h-full w-full gap-3 items-center justify-center">
+      <div className="flex flex-col h-full w-full items-center justify-center">
         {isAuthenticated ? (
-          <img src={user} className="w-8 h-8"></img>
+          <div className="flex flex-col items-center justify-center gap-5">
+            <img src={user} className="w-8 h-8"></img>
+            <Link to="/settings">
+              <Button variant="ghostTinted">
+                <Settings className="w-5 h-5" />
+              </Button>
+            </Link>
+          </div>
         ) : (
           <Link to="/auth/login">
             <Button

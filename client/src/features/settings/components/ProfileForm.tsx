@@ -14,7 +14,7 @@ function ProfileForm() {
         e.preventDefault();
         onSubmit();
       }}
-      className="flex flex-col gap-5 items-start p-4 bg-(--bg-dark) rounded-md w-2xl"
+      className="flex flex-col gap-5 items-start p-4 bg-(--bg-dark) rounded-md w-full md:w-2xl"
     >
       <SectionHeader
         title="Profile"

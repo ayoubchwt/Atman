@@ -5,7 +5,7 @@ import ProfileForm from "../components/ProfileForm";
 
 function SettingsBody() {
   return (
-    <div className=" h-full w-full flex flex-col items-center gap-5 overflow-auto min-w-0 py-5">
+    <div className=" h-full w-full flex flex-col items-center gap-2 overflow-auto min-w-0 p-2">
       <ProfileForm></ProfileForm>
       <EmailForm></EmailForm>
       <PasswordForm></PasswordForm>

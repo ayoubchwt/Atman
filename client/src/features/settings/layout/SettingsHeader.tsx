@@ -12,7 +12,9 @@ function SettingsHeader() {
             <ArrowLeft className="w-5 h-5" />
           </Button>
         </Link>
-        <h1 className="text-xl font-semibold font-serif">Settings</h1>
+        <h1 className="text-xl font-semibold font-serif text-(--text)">
+          Settings
+        </h1>
       </div>
       <img src={user} className="w-8 h-8"></img>
     </div>

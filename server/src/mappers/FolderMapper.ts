@@ -1,5 +1,4 @@
 import { createFolderDto, FolderResponseDto } from "../dtos/FolderDTOs";
-import { NoteResponseDto } from "../dtos/NoteDTO";
 import Folder, { IFolder } from "../models/Folder";
 
 export class FolderMapper {

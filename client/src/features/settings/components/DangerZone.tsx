@@ -7,7 +7,7 @@ import SettingsOtp from "./SettingsOtp";
 function DangerZone() {
   const { otpVisible, setOtp, otp, handleDelete } = useDangerZoneSettings();
   return (
-    <div className="flex flex-col gap-5 items-start p-4 bg-(--bg-dark) rounded-md w-2xl">
+    <div className="flex flex-col gap-5 items-start p-4 bg-(--bg-dark) rounded-md w-full md:w-2xl">
       <SectionHeader
         title="Danger Zone"
         description="Irreversible actions on your account"
@@ -20,7 +20,7 @@ function DangerZone() {
           message="An email that contains a verification code has been sent to your email address"
         ></SettingsOtp>
       )}
-      <div className="flex items-center justify-between w-full">
+      <div className="flex flex-col items-start gap-3 md:flex-row md:items-center justify-between w-full">
         <div className="flex flex-col">
           <h1 className="text-md font-semibold text-(--text)">
             Delete Account
