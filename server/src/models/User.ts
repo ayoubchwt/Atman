@@ -1,4 +1,7 @@
 import mongoose, { Schema, model, Document } from "mongoose";
+import Note from "./Note";
+import Folder from "./Folder";
+import RefreshToken from "./RefreshToken";
 
 export interface IUser extends Document {
   name: string;
@@ -6,8 +9,8 @@ export interface IUser extends Document {
   password: string;
   sessions: number;
   refreshToken: string | null;
-  passwordResetToken: string | null;
-  passwordResetExpires: Date | null;
+  OtpToken: string | null;
+  OtpExpires: Date | null;
 }
 
 const UserShema: Schema = new Schema(
@@ -36,12 +39,12 @@ const UserShema: Schema = new Schema(
       select: false,
       default: null,
     },
-    passwordResetToken: {
+    OtpToken: {
       type: Schema.Types.String,
       select: false,
       default: null,
     },
-    passwordResetExpires: {
+    OtpExpires: {
       type: Schema.Types.Date,
       select: false,
       default: null,
@@ -49,5 +52,13 @@ const UserShema: Schema = new Schema(
   },
   { timestamps: true },
 );
-
+UserShema.post("findOneAndDelete", async (doc) => {
+  if (!doc) return;
+  const userId = doc._id;
+  await Promise.all([
+    Note.deleteMany({ userId: userId }),
+    Folder.deleteMany({ userId: userId }),
+    RefreshToken.deleteMany({ userId: userId }),
+  ]);
+});
 export default model<IUser>("User", UserShema);

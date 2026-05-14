@@ -17,7 +17,7 @@ export class NoteMapper {
   }
   public static toEntity(dto: CreateNoteDto, userId: string): INote {
     return new Note({
-      user: userId,
+      userId: userId,
       title: dto.title,
       content: dto.content,
     });

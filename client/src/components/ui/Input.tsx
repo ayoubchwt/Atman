@@ -1,5 +1,5 @@
 import type { ChangeEvent } from "react";
-import InputField from "../ui/InputField";
+import InputField from "./InputField";
 
 function Input({
   label,

@@ -1,4 +1,4 @@
-import { OctagonAlert, X } from "lucide-react";
+import { CircleAlert, X } from "lucide-react";
 import Button from "./Button";
 import { useError } from "../../features/dashboard/hooks/useError";
 function ErrorBanner() {
@@ -9,7 +9,7 @@ function ErrorBanner() {
         <X className="h-5 w-5"></X>
       </Button>
       <div className="flex items-center justify-center gap-3 w-full px-5">
-        <OctagonAlert className="w-6 h-6 text-(--text)" />
+        <CircleAlert className="w-6 h-6 text-(--text)" />
         <p className="text-md text-(--text)">{error}</p>
       </div>
     </div>

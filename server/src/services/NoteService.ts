@@ -11,7 +11,7 @@ import { GemmaUtils } from "../utlis/Gemma";
 
 export class NoteService {
   public static async getNotes(userId: string): Promise<NoteResponseDto[]> {
-    const notes: INote[] = await Note.find({ user: userId }).sort({
+    const notes: INote[] = await Note.find({ userId: userId }).sort({
       createdAt: -1,
     });
     return NoteMapper.toListResponseDto(notes);
@@ -22,7 +22,7 @@ export class NoteService {
   ): Promise<NoteResponseDto> {
     const note: INote | null = await Note.findOne({
       _id: noteId,
-      user: userId,
+      userId: userId,
     });
     if (!note) {
       throw new NoteNotFoundException(`Note with ID ${noteId} was not found`);
@@ -35,7 +35,7 @@ export class NoteService {
   ): Promise<NoteResponseDto[]> {
     const notes: INote[] = await Note.find({
       title: { $regex: new RegExp(title, "i") },
-      user: userId,
+      userId: userId,
     });
     return NoteMapper.toListResponseDto(notes);
   }
@@ -67,7 +67,7 @@ export class NoteService {
     dto: UpdateNoteDto,
   ): Promise<NoteResponseDto> {
     const updatedNote = await Note.findOneAndUpdate(
-      { _id: noteId, user: userId },
+      { _id: noteId, userId: userId },
       { $set: dto },
       { returnDocument: "after" },
     );
@@ -84,7 +84,7 @@ export class NoteService {
   ): Promise<void> {
     const deletedNote = await Note.findOneAndDelete({
       _id: noteId,
-      user: userId,
+      userId: userId,
     });
     if (!deletedNote) {
       throw new NoteNotFoundException(

@@ -1,5 +1,4 @@
 import { createFolderDto, FolderResponseDto } from "../dtos/FolderDTOs";
-import { NoteResponseDto } from "../dtos/NoteDTO";
 import Folder, { IFolder } from "../models/Folder";
 
 export class FolderMapper {
@@ -15,7 +14,7 @@ export class FolderMapper {
   public static toEntity(userId: string, dto: createFolderDto): IFolder {
     return new Folder({
       label: dto.label,
-      user: userId,
+      userId: userId,
     });
   }
 }

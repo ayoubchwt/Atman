@@ -43,8 +43,6 @@ export const useRestorePassword = () => {
       return;
     }
     await resetPassword(password);
-    setPassword("");
-    setPasswordConfirm("");
   };
   return {
     email,

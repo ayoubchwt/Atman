@@ -16,13 +16,13 @@ export class AuthMiddleware {
     try {
       const authHeader = request.headers.authorization;
       if (!authHeader?.startsWith("Bearer ")) {
-        throw new UnauthorizedException("Access denied. No token provided");
+        throw new UnauthorizedException("Access denied. You need to login");
       }
       const token = authHeader.split(" ")[1] || "";
       AuthMiddleware.validateToken(token, request);
       next();
     } catch (error) {
-      next(new UnauthorizedException("Invalid or expired access token"));
+      next(new UnauthorizedException("Invalid or expired session, try again."));
     }
   }
   public static async verifyRefreshToken(
@@ -33,7 +33,7 @@ export class AuthMiddleware {
     try {
       const token = request.cookies.refreshToken;
       if (!token) {
-        throw new UnauthorizedException("Refresh token missing.");
+        throw new UnauthorizedException("Invalid or expired session, try again.");
       }
       AuthMiddleware.validateToken(token, request);
       next();

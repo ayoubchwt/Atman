@@ -18,8 +18,8 @@ import User, { IUser } from "../models/User";
 import RefreshToken, { IRefreshToken } from "../models/RefreshToken";
 import bcrypt from "bcrypt";
 import { AuthUtil } from "../utlis/Auth";
-import { EmailUtils } from "../utlis/Email";
 import { NoteService } from "./NoteService";
+import { OtpService } from "./OtpService";
 
 export class AuthService {
   public static async register(
@@ -103,31 +103,15 @@ export class AuthService {
       "+passwordResetToken +passwordResetExpires",
     );
     if (!user) return;
-    const code = (Math.floor(Math.random() * 90000) + 10000).toString();
-    const hashedCode = await bcrypt.hash(code, 10);
-    user.passwordResetToken = hashedCode;
-    user.passwordResetExpires = new Date(
-      Date.now() + Number(process.env.OTP_EXPIRATION) || 3600000,
-    );
-    await user.save();
-    await EmailUtils.sendMail(dto.email, code);
+    await OtpService.sendOtp(user);
   }
   public static async verifyOtp(dto: VerifyOtpRequestDto): Promise<boolean> {
     const user: IUser | null = await User.findOne({ email: dto.email }).select(
-      "+passwordResetToken +passwordResetExpires",
+      "+OtpToken +OtpExpires",
     );
     if (!user) throw new UserNotFoundException("User not found");
-    if (!user.passwordResetExpires || !user.passwordResetToken)
-      throw new InvalidRequestParameters();
-    if (user.passwordResetExpires < new Date()) {
-      throw new InvalidRequestParameters(
-        " The password reset token is expired",
-      );
-    }
-    const isCodeValid = await bcrypt.compare(dto.code, user.passwordResetToken);
-    if (!isCodeValid)
-      throw new InvalidRequestParameters("The provided code is incorrect");
-    return true;
+    const result = OtpService.verifyOtp(user, dto.code);
+    return result;
   }
   public static async resetPassword(
     dto: ResetPasswordRequestDto,
@@ -140,8 +124,8 @@ export class AuthService {
     });
     const saltRounds = Number(process.env.SALT_ROUNDS) || 10;
     user.password = await bcrypt.hash(dto.newPassword, saltRounds);
-    user.passwordResetToken = null;
-    user.passwordResetExpires = null;
+    user.OtpToken = null;
+    user.OtpExpires = null;
     await user.save();
   }
 }
