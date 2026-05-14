@@ -1,5 +1,6 @@
 import api from "../api/Axios";
 import type {
+  deleteUserDto,
   UpdateUserDto,
   UserResponseDto,
   UserSettingsResponseDto,
@@ -36,9 +37,9 @@ export const updateUserPassword = async (
   return response.data;
 };
 export const updateUserEmail = async (): Promise<void> => {
-  await api.post<UserResponseDto>("/user/update-email");
+  await api.post<void>("/user/update-email");
 };
-export const ConfirmUpdateUserEmail = async (
+export const confirmUpdateUserEmail = async (
   dto: UpdateUserDto,
 ): Promise<UpdateUserDto> => {
   const response = await api.patch<UserResponseDto>(
@@ -46,4 +47,10 @@ export const ConfirmUpdateUserEmail = async (
     dto,
   );
   return response.data;
+};
+export const deleteUser = async (): Promise<void> => {
+  await api.post<void>("/user/delete");
+};
+export const confirmDeleteUser = async (dto: deleteUserDto): Promise<void> => {
+  await api.post<void>("/user/confirm-delete", dto);
 };

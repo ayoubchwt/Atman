@@ -1,4 +1,7 @@
 import mongoose, { Schema, model, Document } from "mongoose";
+import Note from "./Note";
+import Folder from "./Folder";
+import RefreshToken from "./RefreshToken";
 
 export interface IUser extends Document {
   name: string;
@@ -49,5 +52,13 @@ const UserShema: Schema = new Schema(
   },
   { timestamps: true },
 );
-
+UserShema.pre("findOneAndDelete", async function () {
+  const query = this.getQuery();
+  const userId = query._id;
+  await Promise.all([
+    Note.deleteMany({ userId: userId }),
+    Folder.deleteMany({ userId: userId }),
+    RefreshToken.deleteMany({ userId: userId }),
+  ]);
+});
 export default model<IUser>("User", UserShema);

@@ -41,7 +41,7 @@ export class UserRouter {
       AuthMiddleware.verifyAccessToken,
       UserController.deleteUser,
     );
-    router.delete(
+    router.post(
       "/confirm-delete",
       AuthMiddleware.verifyAccessToken,
       UserController.confirmDeleteUser,

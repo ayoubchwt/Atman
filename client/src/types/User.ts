@@ -15,3 +15,6 @@ export interface UserSettingsResponseDto {
   name: string;
   email: string;
 }
+export interface deleteUserDto {
+  code: string;
+}
