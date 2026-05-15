@@ -43,10 +43,10 @@ Atman is a high-performance, full-stack productivity tool built to centralize yo
 - [x] **Note Categorization:** Tags and folders for advanced organization.
 - [x] **Pomodoro Timer:** Integrated focus sessions with customizable work-rest intervals to boost productivity.
 - [x] **AI-Powered Explainer:** Integrated AI to summarize long notes or explain complex topics within your entries.
+- [x] **User Profiles:** Customizable user settings, and account management.
 
 ## Roadmap (Upcoming Features)
 - [ ] **Shared Notes:** Collaborative workspaces featuring real-time sharing.
-- [ ] **User Profiles:** Customizable user settings, avatars, and account management.
 - [ ] **Rich Text Support:** Markdown support for better note formatting.
 
 ## Installation (Run Locally)
