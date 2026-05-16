@@ -7,6 +7,7 @@ import {
 import { NoteNotFoundException } from "../exceptions/NoteException";
 import { NoteMapper } from "../mappers/NotesMapper";
 import Note, { INote } from "../models/Note";
+import { IUser } from "../models/User";
 import { GemmaUtils } from "../utlis/Gemma";
 
 export class NoteService {
@@ -16,6 +17,11 @@ export class NoteService {
     });
     return NoteMapper.toListResponseDto(notes);
   }
+  // public static async getSharedNotes(
+  //   userId: string,
+  // ): Promise<NoteResponseDto[]> {
+  //   const notes: INote[] = await Note.find({ "sharedWith.userId": userId });
+  // }
   public static async getNoteById(
     noteId: string,
     userId: string,
