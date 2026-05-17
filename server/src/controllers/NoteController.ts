@@ -6,6 +6,10 @@ import {
   UpdateNoteDto,
 } from "../dtos/NoteDTO";
 import { SharedNoteService } from "../services/SharedNoteService";
+import {
+  NoteInviteDto,
+  UpdateNoteInviteStatusDto,
+} from "../dtos/SharedNoteDTO";
 
 export class NoteController {
   public static async createNote(
@@ -31,19 +35,6 @@ export class NoteController {
     try {
       const userId = request.user.id;
       const result = await NoteService.getNotes(userId);
-      response.status(200).json(result);
-    } catch (error) {
-      next(error);
-    }
-  }
-  public static async getSharedNotes(
-    request: Request,
-    response: Response,
-    next: NextFunction,
-  ): Promise<void> {
-    try {
-      const userId = request.user.id;
-      const result = await SharedNoteService.getSharedNotes(userId);
       response.status(200).json(result);
     } catch (error) {
       next(error);
@@ -139,6 +130,65 @@ export class NoteController {
       const noteId = request.params.id as string;
       const result = await NoteService.getAiResponse(noteId, dto);
       response.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+  public static async createInvite(
+    request: Request,
+    response: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const userId = request.user.id;
+      const noteInviteDto = request.body as NoteInviteDto;
+      await SharedNoteService.createInvite(userId, noteInviteDto);
+      response.status(201).send();
+    } catch (error) {
+      next(error);
+    }
+  }
+  public static async getSharedNotes(
+    request: Request,
+    response: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const userId = request.user.id;
+      const result = await SharedNoteService.getSharedNotes(userId);
+      response.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+  public static async updateInviteStatus(
+    request: Request,
+    response: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const userId = request.user.id;
+      const updateNoteInviteStatusDto =
+        request.body as UpdateNoteInviteStatusDto;
+      await SharedNoteService.updateInviteStatus(
+        userId,
+        updateNoteInviteStatusDto,
+      );
+      response.status(200).send();
+    } catch (error) {
+      next(error);
+    }
+  }
+  public static async getSharedWith(
+    request: Request,
+    response: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    const userId = request.user.id;
+    const noteId = request.params.id as string;
+    const result = await SharedNoteService.getSharedWith(userId, noteId);
+    response.status(200).json(result);
+    try {
     } catch (error) {
       next(error);
     }

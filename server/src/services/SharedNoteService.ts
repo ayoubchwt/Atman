@@ -1,11 +1,18 @@
 import { NoteResponseDto } from "../dtos/NoteDTO";
-import { NoteInviteDto } from "../dtos/SharedNoteDTO";
+import {
+  NoteInviteDto,
+  SharedUserResponseDto,
+  UpdateNoteInviteStatusDto,
+} from "../dtos/SharedNoteDTO";
 import { UserNotFoundException } from "../exceptions/AuthException";
-import { NoteNotFoundException } from "../exceptions/NoteException";
+import {
+  NoteNotFoundException,
+  UnauthorizedNoteAccessException,
+} from "../exceptions/NoteException";
 import { NoteInviteNotFoundException } from "../exceptions/NoteInviteException";
 import { NoteMapper } from "../mappers/NotesMapper";
 import Note, { INote } from "../models/Note";
-import NoteInvite from "../models/NoteInvite";
+import NoteInvite, { INoteInvite } from "../models/NoteInvite";
 import User, { IUser } from "../models/User";
 
 export class SharedNoteService {
@@ -45,17 +52,61 @@ export class SharedNoteService {
       role: dto.role,
     });
   }
-  public static async acceptInvite(
+  public static async updateInviteStatus(
     userId: string,
-    inviteId: string,
+    dto: UpdateNoteInviteStatusDto,
   ): Promise<void> {
-    const noteInvite: IUser | null = await NoteInvite.findOne({
-      _id: inviteId,
+    const noteInvite: INoteInvite | null = await NoteInvite.findOne({
+      _id: dto.inviteId,
       receiverId: userId,
+      status: "pending",
     });
     if (!noteInvite)
       throw new NoteInviteNotFoundException(
         `Note not found, make sure it still exist`,
       );
+    if (dto.status === "accepted") {
+      await Note.updateOne(
+        {
+          _id: noteInvite.noteId,
+        },
+        {
+          $addToSet: {
+            sharedWith: {
+              userId: noteInvite.receiverId,
+              role: noteInvite.role,
+            },
+          },
+        },
+      );
+    }
+    await NoteInvite.deleteOne({
+      _id: dto.inviteId,
+    });
+  }
+  public static async getSharedWith(
+    userId: string,
+    noteId: string,
+  ): Promise<SharedUserResponseDto[]> {
+    const note: INote | null = await Note.findOne({
+      _id: noteId,
+      $or: [
+        {
+          userId: userId,
+        },
+        {
+          "sharedWith.userId": userId,
+        },
+      ],
+    }).populate("sharedWith", "email", "name");
+
+    if (!note) throw new UnauthorizedNoteAccessException();
+    // code debt , i dont have the right mental state to think about anything better
+    return [note.sharedWith as any].map((item) => ({
+      userId: item.userId._id.toString(),
+      name: item.userId.name,
+      email: item.userId.email,
+      role: item.role,
+    }));
   }
 }

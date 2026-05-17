@@ -1,6 +1,6 @@
 import mongoose, { Schema, model, Document } from "mongoose";
 
-interface SharedWith {
+export interface SharedWith {
   userId: mongoose.Types.ObjectId;
   role: "viewer" | "editor";
 }
@@ -37,6 +37,7 @@ const NoteSchema: Schema = new Schema(
         _id: false,
         userId: {
           type: Schema.Types.ObjectId,
+          ref: "User",
           required: true,
         },
         role: {

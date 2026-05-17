@@ -12,9 +12,24 @@ export class NoteRouter {
       NoteController.getSharedNotes,
     );
     router.get(
+      "/shared-with",
+      AuthMiddleware.verifyRefreshToken,
+      NoteController.getSharedWith,
+    );
+    router.get(
       "/search",
       AuthMiddleware.verifyAccessToken,
       NoteController.getNotesByTitle,
+    );
+    router.post(
+      "/share",
+      AuthMiddleware.verifyAccessToken,
+      NoteController.createInvite,
+    );
+    router.post(
+      "/update-invite-status",
+      AuthMiddleware.verifyAccessToken,
+      NoteController.updateInviteStatus,
     );
     router.post(
       "/ai/:id",
