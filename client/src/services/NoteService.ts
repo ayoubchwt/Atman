@@ -10,6 +10,10 @@ export const getNotes = async (): Promise<NoteResponseDto[]> => {
   const response = await api.get<NoteResponseDto[]>("/note/");
   return response.data;
 };
+export const getSharedNotes = async (): Promise<NoteResponseDto[]> => {
+  const response = await api.get<NoteResponseDto[]>("/note/shared");
+  return response.data;
+};
 export const getNotesByTitle = async (
   searchValue: string,
 ): Promise<NoteResponseDto[]> => {

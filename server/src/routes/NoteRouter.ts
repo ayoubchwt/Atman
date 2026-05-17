@@ -7,6 +7,11 @@ export class NoteRouter {
     const router = Router();
     router.get("/", AuthMiddleware.verifyAccessToken, NoteController.getNotes);
     router.get(
+      "/shared",
+      AuthMiddleware.verifyAccessToken,
+      NoteController.getSharedNotes,
+    );
+    router.get(
       "/search",
       AuthMiddleware.verifyAccessToken,
       NoteController.getNotesByTitle,

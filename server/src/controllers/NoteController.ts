@@ -5,6 +5,7 @@ import {
   NoteAiRequestDto,
   UpdateNoteDto,
 } from "../dtos/NoteDTO";
+import { SharedNoteService } from "../services/SharedNoteService";
 
 export class NoteController {
   public static async createNote(
@@ -35,7 +36,19 @@ export class NoteController {
       next(error);
     }
   }
-
+  public static async getSharedNotes(
+    request: Request,
+    response: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const userId = request.user.id;
+      const result = await SharedNoteService.getSharedNotes(userId);
+      response.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
   public static async getNote(
     request: Request,
     response: Response,
@@ -50,7 +63,7 @@ export class NoteController {
       next(error);
     }
   }
-  
+
   public static async getByFolder(
     request: Request,
     response: Response,
