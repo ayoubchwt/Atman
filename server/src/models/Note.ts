@@ -41,6 +41,8 @@ const NoteSchema: Schema = new Schema(
           required: true,
         },
         role: {
+          type: Schema.Types.String,
+          enum: ["editor", "viewer"],
           required: true,
         },
       },

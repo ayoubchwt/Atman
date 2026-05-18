@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { getAiResponse } from "../services/NoteService";
 import { useErrorStore } from "./useErrorStore";
 import { getErrorMessage } from "../utils/getError";
+import { useAuthStore } from "./useAuthStore";
 
 interface Message {
   id: string;
@@ -19,6 +20,8 @@ export const useChatboxStore = create<UseChatbox>((set, get) => ({
   messageList: [],
   isLoading: false,
   addMessage: async (noteId, message): Promise<void> => {
+    const isAuthenticated = useAuthStore.getState().isAuthenticated;
+    if (!isAuthenticated) return;
     set({ isLoading: true });
     if (message.sender === "ai") {
       set((state) => ({
