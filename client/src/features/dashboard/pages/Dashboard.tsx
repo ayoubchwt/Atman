@@ -1,4 +1,5 @@
 import ErrorBanner from "../../../components/ui/ErrorBanner";
+import ShareDialogue from "../components/ShareDialogue";
 import { useChatbox } from "../hooks/useChatbox";
 import { useError } from "../hooks/useError";
 import Chatbox from "../layout/Chatbox/Chatbox";
@@ -27,6 +28,7 @@ function Dashboard() {
       {isChatboxOpen && (
         <Chatbox className="[grid-area:chatbox] hidden md:flex min-h-0"></Chatbox>
       )}
+      <ShareDialogue></ShareDialogue>
       {error && <ErrorBanner></ErrorBanner>}
     </div>
   );
