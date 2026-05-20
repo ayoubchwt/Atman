@@ -5,6 +5,7 @@ interface UseUI {
   isNavOpen: boolean;
   isTimerOpen: boolean;
   isChatboxOpen: boolean;
+  isShareOpen: boolean;
   isFolderView: boolean;
   isAddingFolder: boolean;
 
@@ -12,6 +13,7 @@ interface UseUI {
   setSideBarOpen: (open: boolean) => void;
   setTimerOpen: (open: boolean) => void;
   setChatboxOpen: (open: boolean) => void;
+  setShareOpen: (open: boolean) => void;
   setNavOpen: (open: boolean) => void;
   setAddingFolder: (state: boolean) => void;
   closeAll: () => void;
@@ -21,6 +23,7 @@ export const useUIStore = create<UseUI>((set) => ({
   isNavOpen: false,
   isTimerOpen: false,
   isChatboxOpen: false,
+  isShareOpen: false,
   isFolderView: false,
   isAddingFolder: false,
 
@@ -42,6 +45,11 @@ export const useUIStore = create<UseUI>((set) => ({
   setChatboxOpen: (open) => {
     set({
       isChatboxOpen: open,
+    });
+  },
+  setShareOpen: (open) => {
+    set({
+      isShareOpen: open,
     });
   },
   setFolderView: (state) => {

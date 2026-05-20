@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-function ShareUser({
+function ShareUserIcon({
   letter,
   onClick,
 }: {
@@ -16,4 +16,4 @@ function ShareUser({
     </div>
   );
 }
-export default ShareUser;
+export default ShareUserIcon;

@@ -1,4 +1,4 @@
-import ShareUser from "./ShareUser";
+import ShareUserIcon from "./ShareUserIcon";
 
 function UserCard({
   letter,
@@ -10,11 +10,11 @@ function UserCard({
   email: string;
 }) {
   return (
-    <div className="flex items-center justify-center">
-      <ShareUser letter={letter}></ShareUser>
+    <div className="flex items-center justify-center gap-2">
+      <ShareUserIcon letter={letter}></ShareUserIcon>
       <div className="flex flex-col">
-        <h1 className="text-md text-(--text)">{name}</h1>
-        <p className="text-sm text-(--text-light)">{email}</p>
+        <h1 className="text-sm text-(--text)">{name}</h1>
+        <p className="text-xs text-(--text-light)">{email}</p>
       </div>
     </div>
   );

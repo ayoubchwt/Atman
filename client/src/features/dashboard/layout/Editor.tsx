@@ -13,7 +13,7 @@ import ChatboxOverlay from "./Chatbox/ChatboxOverlay";
 import ShareDialogue from "../components/ShareDialogue";
 function Editor({ className }: { className?: string }) {
   const editor = useNoteEditor();
-  const { isSideBarOpen, setSideBarOpen } = useUIStore();
+  const { isSideBarOpen, setSideBarOpen, isShareOpen } = useUIStore();
   const { setTimerOpen, isTimerOpen, isRunning, formatTime } = useTimer();
   const { isChatboxOpen } = useChatbox();
   return (
@@ -48,6 +48,7 @@ function Editor({ className }: { className?: string }) {
           )}
         </Button>
       )}
+      {isShareOpen && <ShareDialogue />}
     </div>
   );
 }
