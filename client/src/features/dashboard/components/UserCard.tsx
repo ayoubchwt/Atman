@@ -11,7 +11,7 @@ function UserCard({
 }) {
   return (
     <div className="flex items-center justify-center gap-2">
-      <ShareUserIcon letter={letter}></ShareUserIcon>
+      <ShareUserIcon letter={letter} className="w-7 h-7"></ShareUserIcon>
       <div className="flex flex-col">
         <h1 className="text-sm text-(--text)">{name}</h1>
         <p className="text-xs text-(--text-light)">{email}</p>
