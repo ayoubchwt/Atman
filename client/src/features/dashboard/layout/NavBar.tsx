@@ -6,9 +6,11 @@ import { useAuthStore } from "../../../store/useAuthStore";
 import user from "../../../assets/pictures/user.png";
 import { useState } from "react";
 import NavbarDropDown from "../components/NavbarDropDown";
+import NotificationBox from "./NotificationBox";
 function NavBar({ className }: { className?: string }) {
   const { isAuthenticated } = useAuthStore();
   const [isOpen, setIsOpen] = useState(false);
+  const [isNotificationOpen, setNotificationOpen] = useState(false);
   return (
     <div
       className={`flex p-4 w-full justify-between items-center border-(--bg-dark) border ${className}`}
@@ -18,9 +20,15 @@ function NavBar({ className }: { className?: string }) {
         {isAuthenticated ? (
           <>
             <div className="flex items-center justify-center">
-              <Button variant="ghostTinted">
-                <Bell className="w-5 h-5" />
-              </Button>
+              <div className="relative">
+                <Button
+                  variant="ghostTinted"
+                  onClick={() => setNotificationOpen(!isNotificationOpen)}
+                >
+                  <Bell className="w-5 h-5" />
+                </Button>
+                {isNotificationOpen && <NotificationBox />}
+              </div>
               <Link to="/settings">
                 <Button variant="ghostTinted">
                   <Settings className="w-5 h-5" />

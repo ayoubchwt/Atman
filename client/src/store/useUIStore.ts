@@ -24,6 +24,7 @@ export const useUIStore = create<UseUI>((set) => ({
   isTimerOpen: false,
   isChatboxOpen: false,
   isShareOpen: false,
+  isNotificationOpen: false,
   isFolderView: false,
   isAddingFolder: false,
 
