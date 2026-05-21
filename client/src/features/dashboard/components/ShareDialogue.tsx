@@ -4,9 +4,21 @@ import InputField from "../../../components/ui/InputField";
 import DropDown from "../../../components/ui/DropDown";
 import AccessCardList from "./AccessCardList";
 import { useUIStore } from "../../../store/useUIStore";
-
+import type { DropDownOption } from "../../../components/ui/DropDown";
+import { useState } from "react";
 function ShareDialogue() {
   const { setShareOpen } = useUIStore();
+  const [role, setRole] = useState("viewer");
+  const options: DropDownOption[] = [
+    {
+      label: "Editor",
+      value: "editor",
+    },
+    {
+      label: "Viewer",
+      value: "viewer",
+    },
+  ];
   return (
     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col w-110 h-80 bg-(--bg) rounded-xl shadow-xl border border-(--bg-dark) p-4 z-100">
       <Button
@@ -31,7 +43,12 @@ function ShareDialogue() {
             placeholder="name@example.com"
             onChange={() => ""}
           ></InputField>
-          <DropDown></DropDown>
+          <DropDown
+            className="h-full w-60"
+            options={options}
+            value={role}
+            setValue={setRole}
+          ></DropDown>
           <Button variant="dark">Invite</Button>
         </div>
         <h1 className="text-sm font-semibold text-(--text-light)">
