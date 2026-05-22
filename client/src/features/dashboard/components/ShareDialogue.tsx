@@ -5,10 +5,20 @@ import DropDown from "../../../components/ui/DropDown";
 import AccessCardList from "./AccessCardList";
 import { useUIStore } from "../../../store/useUIStore";
 import type { DropDownOption } from "../../../components/ui/DropDown";
-import { useState } from "react";
+import { useShareNote } from "../hooks/useShareNote";
+import AlertBox from "../../../components/ui/AlertBox";
+
 function ShareDialogue() {
   const { setShareOpen } = useUIStore();
-  const [role, setRole] = useState("viewer");
+  const {
+    email,
+    setEmail,
+    setRole,
+    role,
+    onShare,
+    inviteMessage,
+    inviteError,
+  } = useShareNote();
   const options: DropDownOption[] = [
     {
       label: "Editor",
@@ -40,8 +50,9 @@ function ShareDialogue() {
         <div className="flex items-center justify-center gap-1">
           <InputField
             type="email"
+            value={email}
             placeholder="name@example.com"
-            onChange={() => ""}
+            onChange={(e) => setEmail(e.target.value)}
           ></InputField>
           <DropDown
             className="h-full w-60"
@@ -49,8 +60,16 @@ function ShareDialogue() {
             value={role}
             setValue={setRole}
           ></DropDown>
-          <Button variant="dark">Invite</Button>
+          <Button variant="dark" onClick={onShare}>
+            Invite
+          </Button>
         </div>
+        {inviteMessage && (
+          <AlertBox variant="success" input={inviteMessage}></AlertBox>
+        )}
+        {inviteError && (
+          <AlertBox variant="failure" input={inviteError}></AlertBox>
+        )}
         <h1 className="text-sm font-semibold text-(--text-light)">
           PEOPLE WITH ACCESS
         </h1>
