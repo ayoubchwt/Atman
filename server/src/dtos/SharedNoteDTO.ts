@@ -13,3 +13,9 @@ export interface SharedUserResponseDto {
   email: string;
   role: "editor" | "viewer";
 }
+export interface inviteReponseDto {
+  guestEmail: string;
+  guestName: string;
+  role: "editor" | "viewer";
+  status: "accepted" | "pending" | "rejected";
+}

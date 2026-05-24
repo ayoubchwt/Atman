@@ -1,10 +1,14 @@
 import { NoteResponseDto } from "../dtos/NoteDTO";
 import {
+  inviteReponseDto,
   NoteInviteDto,
   SharedUserResponseDto,
   UpdateNoteInviteStatusDto,
 } from "../dtos/SharedNoteDTO";
-import { UserNotFoundException } from "../exceptions/AuthException";
+import {
+  InvalidRequestParameters,
+  UserNotFoundException,
+} from "../exceptions/AuthException";
 import {
   NoteNotFoundException,
   UnauthorizedNoteAccessException,
@@ -45,11 +49,44 @@ export class SharedNoteService {
       throw new NoteNotFoundException(
         `Note with ID ${dto.noteId} was not found`,
       );
+    const checkForShared = await NoteInvite.findOne({
+      noteId: note._id,
+      receiverId: guestUser._id,
+      senderId: userId,
+    });
+    if (checkForShared)
+      throw new InvalidRequestParameters(
+        "An invitation is already sent to that user",
+      );
     await NoteInvite.create({
       noteId: dto.noteId,
       senderId: userId,
       receiverId: guestUser._id,
       role: dto.role,
+    });
+  }
+  public static async getNoteInvites(
+    userId: string,
+    noteId: string,
+  ): Promise<inviteReponseDto[]> {
+    const note: INote | null = await Note.findOne({
+      userId: userId,
+    });
+    if (!note)
+      throw new NoteNotFoundException(
+        "Note does Not exist or you dont have the right permission on it",
+      );
+    const invites: INoteInvite[] | null = await Note.find({
+      noteId: noteId,
+    });
+    //needs changes
+    return [invites as any].map((invite) => {
+      return {
+        guestEmail: invite.receiverId.email,
+        guestName: invite.receiverId.email,
+        role: invite.role,
+        status: invite.status,
+      };
     });
   }
   public static async updateInviteStatus(

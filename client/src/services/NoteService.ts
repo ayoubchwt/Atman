@@ -5,7 +5,7 @@ import type {
   NoteResponseDto,
   NoteAiRequestDto,
 } from "../types/Note";
-import type { NoteInviteDto } from "../types/shareNote";
+import type { inviteReponseDto, NoteInviteDto } from "../types/shareNote";
 
 export const getNotes = async (): Promise<NoteResponseDto[]> => {
   const response = await api.get<NoteResponseDto[]>("/note/");
@@ -54,4 +54,10 @@ export const getAiResponse = async (
 };
 export const shareNote = async (dto: NoteInviteDto): Promise<void> => {
   await api.post<void>("/note/share", dto);
+};
+export const getInvites = async (
+  noteId: string,
+): Promise<inviteReponseDto[]> => {
+  const response = await api.get<inviteReponseDto[]>(`/note/invites/${noteId}`);
+  return response.data;
 };
