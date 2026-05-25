@@ -7,6 +7,7 @@ export const useShareNote = () => {
   const [role, setRole] = useState("viewer");
   const [inviteMessage, setInviteMessage] = useState("");
   const [inviteError, setInviteError] = useState("");
+  const [displayMode, setDispalyMode] = useState("collaborators");
   const shareNoteStore = useShareStore();
   const { activeNoteId } = useNoteStore();
   const onShare = async () => {
@@ -37,5 +38,7 @@ export const useShareNote = () => {
     onShare,
     inviteMessage,
     inviteError,
+    displayMode,
+    setDispalyMode,
   };
 };

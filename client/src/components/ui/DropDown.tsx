@@ -31,7 +31,7 @@ function DropDown({
       )}
 
       {isOpen && (
-        <div className="absolute -left-px -right-px top-full z-101 mt-1 flex flex-col p-1 rounded-md gap-2 shadow-md">
+        <div className="absolute -left-px -right-px top-full z-101 mt-1 flex flex-col p-1 rounded-md gap-2 shadow-md bg-(--bg-light)">
           {options?.map((option) => {
             return (
               <>

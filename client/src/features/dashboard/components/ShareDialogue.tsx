@@ -7,6 +7,8 @@ import { useUIStore } from "../../../store/useUIStore";
 import type { DropDownOption } from "../../../components/ui/DropDown";
 import { useShareNote } from "../hooks/useShareNote";
 import AlertBox from "../../../components/ui/AlertBox";
+import ShareFilter from "./ShareFilter";
+import InviteCardList from "./InviteCardList";
 
 function ShareDialogue() {
   const { setShareOpen } = useUIStore();
@@ -18,6 +20,8 @@ function ShareDialogue() {
     onShare,
     inviteMessage,
     inviteError,
+    displayMode,
+    setDispalyMode,
   } = useShareNote();
   const options: DropDownOption[] = [
     {
@@ -30,7 +34,7 @@ function ShareDialogue() {
     },
   ];
   return (
-    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col w-110 h-80 bg-(--bg) rounded-xl shadow-xl border border-(--bg-dark) p-4 z-100">
+    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col gap-1 w-110 h-90 bg-(--bg) rounded-xl shadow-xl border border-(--bg-dark) p-4 z-100">
       <Button
         variant="ghost"
         className="absolute right-4 top-4"
@@ -70,11 +74,16 @@ function ShareDialogue() {
         {inviteError && (
           <AlertBox variant="failure" input={inviteError}></AlertBox>
         )}
-        <h1 className="text-sm font-semibold text-(--text-light)">
-          PEOPLE WITH ACCESS
-        </h1>
+        <ShareFilter
+          setDisplayMode={setDispalyMode}
+          displayMode={displayMode}
+        ></ShareFilter>
       </div>
-      <AccessCardList></AccessCardList>
+      {displayMode === "collaborators" ? (
+        <AccessCardList></AccessCardList>
+      ) : (
+        <InviteCardList></InviteCardList>
+      )}
     </div>
   );
 }
