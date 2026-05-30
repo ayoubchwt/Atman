@@ -30,7 +30,12 @@ export const useShareNote = () => {
       // handled
     }
   };
+  const fetchCollaboratorsAndInvites = async () => {
+    if (!activeNoteId) return;
+    await shareNoteStore.fetchNoteInvites(activeNoteId);
+  };
   return {
+    ...shareNoteStore,
     email,
     setEmail,
     setRole,
@@ -40,5 +45,6 @@ export const useShareNote = () => {
     inviteError,
     displayMode,
     setDispalyMode,
+    fetchCollaboratorsAndInvites,
   };
 };

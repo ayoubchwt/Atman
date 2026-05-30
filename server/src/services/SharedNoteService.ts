@@ -70,20 +70,25 @@ export class SharedNoteService {
     noteId: string,
   ): Promise<inviteReponseDto[]> {
     const note: INote | null = await Note.findOne({
+      _id: noteId,
       userId: userId,
     });
     if (!note)
       throw new NoteNotFoundException(
         "Note does Not exist or you dont have the right permission on it",
       );
-    const invites: INoteInvite[] | null = await Note.find({
+    const invites: INoteInvite[] | null = await NoteInvite.find({
       noteId: noteId,
+    }).populate({
+      path: "receiverId",
+      select: "name email",
+      model: "User",
     });
     //needs changes
-    return [invites as any].map((invite) => {
+    return invites.map((invite: any) => {
       return {
         guestEmail: invite.receiverId.email,
-        guestName: invite.receiverId.email,
+        guestName: invite.receiverId.name,
         role: invite.role,
         status: invite.status,
       };

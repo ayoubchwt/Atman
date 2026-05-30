@@ -1,51 +1,29 @@
+import { useShareNote } from "../hooks/useShareNote";
 import InviteCard from "./InviteCard";
 
 function InviteCardList() {
-  const temp = (role: string) => {
-    console.log(role);
+  const { noteInvites } = useShareNote();
+  const tmp = () => {
+    console.log("idk");
   };
-  const temp2 = () => {
-    // addict
+  const tmp1 = () => {
+    console.log("idk1");
   };
   return (
     <div className="flex flex-1 min-h-0 overflow-auto scrollbar-hide pt-2 gap-2 shrink flex-col w-full">
-      <InviteCard
-        letter="E"
-        email="Eclipse@gmail.com"
-        name="Eclipse"
-        status="pending"
-        onChange={temp}
-        onDelete={temp2}
-        role="viewer"
-      ></InviteCard>
-      <InviteCard
-        letter="E"
-        email="Eclipse@gmail.com"
-        name="Eclipse"
-        status="pending"
-        onChange={temp}
-        onDelete={temp2}
-        role="viewer"
-      ></InviteCard>
-      <InviteCard
-        letter="E"
-        email="Eclipse@gmail.com"
-        name="Eclipse"
-        status="pending"
-        onChange={temp}
-        onDelete={temp2}
-        role="viewer"
-      ></InviteCard>
-      <InviteCard
-        letter="E"
-        email="Eclipse@gmail.com"
-        name="Eclipse"
-        status="pending"
-        onChange={temp}
-        onDelete={temp2}
-        role="viewer"
-      ></InviteCard>
-      F
+      {noteInvites.map((invite) => {
+        return (
+          <InviteCard
+            letter={invite.guestName[0]}
+            email={invite.guestEmail}
+            name={invite.guestName}
+            role={invite.role}
+            status={invite.status}
+            onChange={tmp}
+            onDelete={tmp1}
+          ></InviteCard>
+        );
+      })}
     </div>
   );
 }
