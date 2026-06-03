@@ -1,17 +1,12 @@
-import { useState } from "react";
-
 export const useInvite = () => {
-  const [role, setRole] = useState("");
-  const onDelete = () => {
-    // deletion logic
+  const onDelete = (inviteId: string) => {
+    console.log(inviteId);
   };
-  const onChange = (role: "editor" | "viewer") => {
-    setRole(role);
-    // update logix
+  const onUpdate = (role: string, inviteId: string) => {
+    console.log(role, inviteId);
   };
   return {
     onDelete,
-    onChange,
-    role,
+    onUpdate,
   };
 };

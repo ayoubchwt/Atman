@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { NoteController } from "../controllers/NoteController";
 import { AuthMiddleware } from "../middleware/AuthMiddleware";
+import { verify } from "node:crypto";
 
 export class NoteRouter {
   public static getRoutes(): Router {
@@ -35,6 +36,11 @@ export class NoteRouter {
       "/update-invite-status",
       AuthMiddleware.verifyAccessToken,
       NoteController.updateInviteStatus,
+    );
+    router.patch(
+      "/update-invite-role",
+      AuthMiddleware.verifyAccessToken,
+      NoteController.updateInviteRole,
     );
     router.post(
       "/ai/:id",

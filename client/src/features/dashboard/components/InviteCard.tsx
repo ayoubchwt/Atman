@@ -2,6 +2,7 @@ import { Clock, Trash } from "lucide-react";
 import ShareUserIcon from "./ShareUserIcon";
 import Button from "../../../components/ui/Button";
 import DropDown, { type DropDownOption } from "../../../components/ui/DropDown";
+import { useState } from "react";
 
 function InviteCard({
   letter,
@@ -30,6 +31,7 @@ function InviteCard({
       value: "viewer",
     },
   ];
+  const [cardRole, setCardRole] = useState(role);
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-2">
@@ -48,12 +50,19 @@ function InviteCard({
       <div className="flex items-center gap-2">
         <DropDown
           options={options}
-          setValue={() => onChange}
-          value={role}
+          setValue={(role) => {
+            onChange(role);
+            setCardRole(role);
+          }}
+          value={cardRole}
           className="w-26 h-8"
         ></DropDown>
-        <Button variant="ghostTinted" onClick={onDelete} className="p-2 rounded-xl">
-          <Trash className="text-(--text-light) w-4 h-4"/>
+        <Button
+          variant="ghostTinted"
+          onClick={onDelete}
+          className="p-2 rounded-xl"
+        >
+          <Trash className="text-(--text-light) w-4 h-4" />
         </Button>
       </div>
     </div>

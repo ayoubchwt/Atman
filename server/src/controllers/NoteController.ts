@@ -8,7 +8,8 @@ import {
 import { SharedNoteService } from "../services/SharedNoteService";
 import {
   NoteInviteDto,
-  UpdateNoteInviteStatusDto,
+  UpdateInviteRoleDto,
+  UpdateInviteStatusDto,
 } from "../dtos/SharedNoteDTO";
 
 export class NoteController {
@@ -168,8 +169,7 @@ export class NoteController {
   ): Promise<void> {
     try {
       const userId = request.user.id;
-      const updateNoteInviteStatusDto =
-        request.body as UpdateNoteInviteStatusDto;
+      const updateNoteInviteStatusDto = request.body as UpdateInviteStatusDto;
       await SharedNoteService.updateInviteStatus(
         userId,
         updateNoteInviteStatusDto,
@@ -203,6 +203,20 @@ export class NoteController {
       const noteId = request.params.id as string;
       const result = await SharedNoteService.getNoteInvites(userId, noteId);
       response.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+  public static async updateInviteRole(
+    request: Request,
+    response: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const userId = request.user.id;
+      const updateInviteRoleDto = request.body as UpdateInviteRoleDto;
+      await SharedNoteService.updateInviteRole(userId, updateInviteRoleDto);
+      response.status(200).send();
     } catch (error) {
       next(error);
     }

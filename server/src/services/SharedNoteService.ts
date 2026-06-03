@@ -3,7 +3,8 @@ import {
   inviteReponseDto,
   NoteInviteDto,
   SharedUserResponseDto,
-  UpdateNoteInviteStatusDto,
+  UpdateInviteStatusDto,
+  UpdateInviteRoleDto,
 } from "../dtos/SharedNoteDTO";
 import {
   InvalidRequestParameters,
@@ -87,6 +88,7 @@ export class SharedNoteService {
     //needs changes
     return invites.map((invite: any) => {
       return {
+        id: invite._id,
         guestEmail: invite.receiverId.email,
         guestName: invite.receiverId.name,
         role: invite.role,
@@ -96,10 +98,10 @@ export class SharedNoteService {
   }
   public static async updateInviteStatus(
     userId: string,
-    dto: UpdateNoteInviteStatusDto,
+    dto: UpdateInviteStatusDto,
   ): Promise<void> {
     const noteInvite: INoteInvite | null = await NoteInvite.findOne({
-      _id: dto.inviteId,
+      _id: dto.id,
       receiverId: userId,
       status: "pending",
     });
@@ -123,7 +125,7 @@ export class SharedNoteService {
       );
     }
     await NoteInvite.deleteOne({
-      _id: dto.inviteId,
+      _id: dto.id,
     });
   }
   public static async getSharedWith(
@@ -150,5 +152,20 @@ export class SharedNoteService {
       email: item.userId.email,
       role: item.role,
     }));
+  }
+  public static async updateInviteRole(
+    userId: string,
+    dto: UpdateInviteRoleDto,
+  ): Promise<void> {
+    const noteInvite: INoteInvite | null = await NoteInvite.findOne({
+      _id: dto.id,
+      senderId: userId,
+    });
+    if (!noteInvite)
+      throw new UnauthorizedNoteAccessException(
+        "Invite not found or you do not have permission to modify it.",
+      );
+    noteInvite.role = dto.role;
+    await noteInvite.save();
   }
 }

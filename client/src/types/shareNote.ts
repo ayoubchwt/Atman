@@ -4,7 +4,7 @@ export interface NoteInviteDto {
   noteId: string;
 }
 export interface UpdateNoteInviteStatusDto {
-  inviteId: string;
+  id: string;
   status: "accepted" | "rejected";
 }
 export interface SharedUserResponseDto {
@@ -14,6 +14,7 @@ export interface SharedUserResponseDto {
   role: "editor" | "viewer";
 }
 export interface inviteReponseDto {
+  id: string;
   guestEmail: string;
   guestName: string;
   role: "editor" | "viewer";
