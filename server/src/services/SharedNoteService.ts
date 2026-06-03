@@ -5,6 +5,7 @@ import {
   SharedUserResponseDto,
   UpdateInviteStatusDto,
   UpdateInviteRoleDto,
+  InviteNotification,
 } from "../dtos/SharedNoteDTO";
 import {
   InvalidRequestParameters,
@@ -177,5 +178,20 @@ export class SharedNoteService {
       senderId: userId,
     });
     if (!noteInvite) throw new NoteNotFoundException(`Invite was not found`);
+  }
+  public static async getInviteNotifications(
+    userId: string,
+  ): Promise<InviteNotification[]> {
+    const noteInvites: INoteInvite[] = await NoteInvite.find({
+      receiverId: userId,
+    });
+    console.log("MF NOTE INVITESSS", noteInvites);
+    return [noteInvites as any].map((invite) => ({
+      id: invite._id.toString(),
+      title: invite.noteId.title,
+      senderName: invite.senderName,
+      role: invite.role,
+      createdAt: invite.createdAt,
+    }));
   }
 }

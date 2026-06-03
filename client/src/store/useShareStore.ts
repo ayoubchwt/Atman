@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import type {
+  InviteNotification,
   inviteReponseDto,
   NoteInviteDto,
   UpdateInviteRoleDto,
@@ -8,6 +9,7 @@ import { useErrorStore } from "./useErrorStore";
 import { getErrorMessage } from "../utils/getError";
 import {
   deleteInvite,
+  getInviteNotifications,
   getInvites,
   shareNote,
   updateInviteRole,
@@ -15,13 +17,16 @@ import {
 
 interface UseShare {
   noteInvites: inviteReponseDto[];
+  inviteNotifications: InviteNotification[];
   shareNote: (dto: NoteInviteDto) => Promise<void>;
   fetchNoteInvites: (noteId: string) => Promise<void>;
+  fetchInviteNotification: () => Promise<void>;
   updateInviteRole: (updateInviteRoleDto: UpdateInviteRoleDto) => Promise<void>;
   deleteInvite: (noteId: string) => Promise<void>;
 }
 export const useShareStore = create<UseShare>((set) => ({
   noteInvites: [],
+  inviteNotifications: [],
   shareNote: async (dto) => {
     try {
       await shareNote(dto);
@@ -41,6 +46,17 @@ export const useShareStore = create<UseShare>((set) => ({
       const { setError } = useErrorStore.getState();
       setError(getErrorMessage(error));
       throw error;
+    }
+  },
+  fetchInviteNotification: async () => {
+    try {
+      const result = await getInviteNotifications();
+      set({
+        inviteNotifications: result,
+      });
+    } catch (error) {
+      const { setError } = useErrorStore.getState();
+      setError(getErrorMessage(error));
     }
   },
   updateInviteRole: async (dto: UpdateInviteRoleDto) => {

@@ -235,4 +235,17 @@ export class NoteController {
       next(error);
     }
   }
+  public static async getInviteNotifications(
+    request: Request,
+    response: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const userId = request.user.id;
+      const result = await SharedNoteService.getInviteNotifications(userId);
+      response.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
 }

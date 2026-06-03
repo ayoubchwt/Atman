@@ -24,3 +24,10 @@ export interface UpdateInviteRoleDto {
   id: string;
   role: "editor" | "viewer";
 }
+export interface InviteNotification {
+  id: string;
+  title: string;
+  senderName: string;
+  role: string;
+  createdAt: string;
+}

@@ -6,6 +6,7 @@ import type {
   NoteAiRequestDto,
 } from "../types/Note";
 import type {
+  InviteNotification,
   inviteReponseDto,
   NoteInviteDto,
   UpdateInviteRoleDto,
@@ -72,4 +73,12 @@ export const updateInviteRole = async (
 };
 export const deleteInvite = async (inviteId: string): Promise<void> => {
   await api.delete<void>(`/note/delete-invite/${inviteId}`);
+};
+export const getInviteNotifications = async (): Promise<
+  InviteNotification[]
+> => {
+  const response = await api.get<InviteNotification[]>(
+    "/note/invite-notifications",
+  );
+  return response.data;
 };

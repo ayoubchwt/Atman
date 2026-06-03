@@ -28,6 +28,11 @@ export class NoteRouter {
       AuthMiddleware.verifyAccessToken,
       NoteController.getNotesByTitle,
     );
+    router.get(
+      "/invite-notifications",
+      AuthMiddleware.verifyAccessToken,
+      NoteController.getInviteNotifications,
+    );
     router.post(
       "/share",
       AuthMiddleware.verifyAccessToken,

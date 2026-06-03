@@ -7,9 +7,11 @@ import user from "../../../assets/pictures/user.png";
 import { useState } from "react";
 import NavbarDropDown from "../components/NavbarDropDown";
 import NotificationBox from "./NotificationBox";
+import { useShareNote } from "../hooks/useShareNote";
 function NavBar({ className }: { className?: string }) {
   const { isAuthenticated } = useAuthStore();
   const [isOpen, setIsOpen] = useState(false);
+  const { fetchInviteNotification } = useShareNote();
   const [isNotificationOpen, setNotificationOpen] = useState(false);
   return (
     <div
@@ -23,7 +25,10 @@ function NavBar({ className }: { className?: string }) {
               <div className="relative">
                 <Button
                   variant="ghostTinted"
-                  onClick={() => setNotificationOpen(!isNotificationOpen)}
+                  onClick={async () => {
+                    setNotificationOpen(!isNotificationOpen);
+                    await fetchInviteNotification();
+                  }}
                 >
                   <Bell className="w-5 h-5" />
                 </Button>
