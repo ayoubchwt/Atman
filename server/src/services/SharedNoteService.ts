@@ -168,4 +168,14 @@ export class SharedNoteService {
     noteInvite.role = dto.role;
     await noteInvite.save();
   }
+  public static async deleteInvite(
+    userId: string,
+    inviteId: string,
+  ): Promise<void> {
+    const noteInvite: INoteInvite | null = await NoteInvite.findOneAndDelete({
+      _id: inviteId,
+      senderId: userId,
+    });
+    if (!noteInvite) throw new NoteNotFoundException(`Invite was not found`);
+  }
 }

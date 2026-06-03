@@ -221,4 +221,18 @@ export class NoteController {
       next(error);
     }
   }
+  public static async deleteInvite(
+    request: Request,
+    response: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const userId = request.user.id;
+      const inviteId = request.params.id as string;
+      await SharedNoteService.deleteInvite(userId, inviteId);
+      response.status(204).send();
+    } catch (error) {
+      next(error);
+    }
+  }
 }

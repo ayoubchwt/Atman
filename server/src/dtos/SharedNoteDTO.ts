@@ -3,10 +3,6 @@ export interface NoteInviteDto {
   role: "editor" | "viewer";
   noteId: string;
 }
-export interface UpdateInviteStatusDto {
-  id: string;
-  status: "accepted" | "rejected";
-}
 export interface SharedUserResponseDto {
   userId: string;
   name: string;
@@ -19,6 +15,10 @@ export interface inviteReponseDto {
   guestName: string;
   role: "editor" | "viewer";
   status: "accepted" | "pending" | "rejected";
+}
+export interface UpdateInviteStatusDto {
+  id: string;
+  status: "accepted" | "rejected";
 }
 export interface UpdateInviteRoleDto {
   id: string;

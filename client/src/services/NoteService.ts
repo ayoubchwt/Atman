@@ -5,7 +5,11 @@ import type {
   NoteResponseDto,
   NoteAiRequestDto,
 } from "../types/Note";
-import type { inviteReponseDto, NoteInviteDto } from "../types/shareNote";
+import type {
+  inviteReponseDto,
+  NoteInviteDto,
+  UpdateInviteRoleDto,
+} from "../types/shareNote";
 
 export const getNotes = async (): Promise<NoteResponseDto[]> => {
   const response = await api.get<NoteResponseDto[]>("/note/");
@@ -60,4 +64,12 @@ export const getInvites = async (
 ): Promise<inviteReponseDto[]> => {
   const response = await api.get<inviteReponseDto[]>(`/note/invites/${noteId}`);
   return response.data;
+};
+export const updateInviteRole = async (
+  data: UpdateInviteRoleDto,
+): Promise<void> => {
+  await api.patch<void>("/note/update-invite-role", data);
+};
+export const deleteInvite = async (inviteId: string): Promise<void> => {
+  await api.delete<void>(`/note/delete-invite/${inviteId}`);
 };

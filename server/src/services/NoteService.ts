@@ -85,7 +85,7 @@ export class NoteService {
     noteId: string,
     userId: string,
   ): Promise<void> {
-    const deletedNote = await Note.findOneAndDelete({
+    const deletedNote: INote | null = await Note.findOneAndDelete({
       _id: noteId,
       userId: userId,
     });

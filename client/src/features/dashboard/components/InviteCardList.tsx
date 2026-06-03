@@ -1,10 +1,9 @@
-import { useInvite } from "../hooks/useInvite";
 import { useShareNote } from "../hooks/useShareNote";
 import InviteCard from "./InviteCard";
 
 function InviteCardList() {
   const { noteInvites } = useShareNote();
-  const { onDelete, onUpdate } = useInvite();
+  const { onDelete, onUpdate } = useShareNote();
   return (
     <div className="flex flex-1 min-h-0 overflow-auto scrollbar-hide pt-2 gap-2 shrink flex-col w-full">
       {noteInvites.map((invite) => {
