@@ -9,6 +9,7 @@ import type {
   InviteNotification,
   inviteReponseDto,
   NoteInviteDto,
+  SharedUserResponseDto,
   UpdateInviteRoleDto,
   UpdateInviteStatusDto,
 } from "../types/shareNote";
@@ -86,6 +87,14 @@ export const getInviteNotifications = async (): Promise<
 > => {
   const response = await api.get<InviteNotification[]>(
     "/note/invite-notifications",
+  );
+  return response.data;
+};
+export const getSharedWith = async (
+  noteId: string,
+): Promise<SharedUserResponseDto[]> => {
+  const response = await api.get<SharedUserResponseDto[]>(
+    `/note/shared-with/${noteId}`,
   );
   return response.data;
 };

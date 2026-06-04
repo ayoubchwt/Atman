@@ -55,6 +55,15 @@ export class SharedNoteService {
       throw new NoteNotFoundException(
         `Note with ID ${dto.noteId} was not found`,
       );
+    if (
+      note.sharedWith.find(
+        (collborator) =>
+          collborator.userId.toString() === guestUser._id.toString(),
+      )
+    )
+      throw new InvalidRequestParameters(
+        "The user is already a collborator on this note",
+      );
     const checkForShared = await NoteInvite.findOne({
       noteId: note._id,
       receiverId: guestUser._id,
@@ -64,7 +73,6 @@ export class SharedNoteService {
       throw new InvalidRequestParameters(
         "An invitation is already sent to that user",
       );
-
     await NoteInvite.create({
       noteId: dto.noteId,
       senderId: userId,
@@ -192,7 +200,6 @@ export class SharedNoteService {
     })
       .populate("noteId", "title")
       .populate("senderId", "name");
-    console.log("MF NOTE INVITESSS", noteInvites);
     return noteInvites.map((invite: any) => ({
       id: invite._id,
       title: invite.noteId.title,

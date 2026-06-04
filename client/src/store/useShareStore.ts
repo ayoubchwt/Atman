@@ -3,6 +3,7 @@ import type {
   InviteNotification,
   inviteReponseDto,
   NoteInviteDto,
+  SharedUserResponseDto,
   UpdateInviteRoleDto,
   UpdateInviteStatusDto,
 } from "../types/shareNote";
@@ -12,6 +13,7 @@ import {
   deleteInvite,
   getInviteNotifications,
   getInvites,
+  getSharedWith,
   shareNote,
   updateInviteRole,
   updateInviteStatus,
@@ -20,9 +22,11 @@ import {
 interface UseShare {
   noteInvites: inviteReponseDto[];
   inviteNotifications: InviteNotification[];
+  collaborators: SharedUserResponseDto[];
   shareNote: (dto: NoteInviteDto) => Promise<void>;
   fetchNoteInvites: (noteId: string) => Promise<void>;
   fetchInviteNotification: () => Promise<void>;
+  fetchCollaborators: (noteId: string) => Promise<void>;
   updateInviteRole: (dto: UpdateInviteRoleDto) => Promise<void>;
   updateInviteStatus: (dto: UpdateInviteStatusDto) => Promise<void>;
   deleteInvite: (noteId: string) => Promise<void>;
@@ -30,6 +34,7 @@ interface UseShare {
 export const useShareStore = create<UseShare>((set) => ({
   noteInvites: [],
   inviteNotifications: [],
+  collaborators: [],
   shareNote: async (dto) => {
     try {
       await shareNote(dto);
@@ -62,6 +67,18 @@ export const useShareStore = create<UseShare>((set) => ({
       setError(getErrorMessage(error));
     }
   },
+  fetchCollaborators: async (noteId: string) => {
+    try {
+      const result = await getSharedWith(noteId);
+      set({
+        collaborators: result,
+      });
+    } catch (error) {
+      const { setError } = useErrorStore.getState();
+      setError(getErrorMessage(error));
+      throw error;
+    }
+  },
   updateInviteRole: async (dto: UpdateInviteRoleDto) => {
     try {
       await updateInviteRole(dto);
@@ -74,6 +91,11 @@ export const useShareStore = create<UseShare>((set) => ({
   updateInviteStatus: async (dto: UpdateInviteStatusDto) => {
     try {
       await updateInviteStatus(dto);
+      set((state) => ({
+        inviteNotifications: state.inviteNotifications.filter(
+          (item) => item.id !== dto.id,
+        ),
+      }));
     } catch (error) {
       const { setError } = useErrorStore.getState();
       setError(getErrorMessage(error));

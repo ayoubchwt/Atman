@@ -32,7 +32,10 @@ export const useShareNote = () => {
   };
   const fetchCollaboratorsAndInvites = async () => {
     if (!activeNoteId) return;
-    await shareNoteStore.fetchNoteInvites(activeNoteId);
+    Promise.all([
+      shareNoteStore.fetchNoteInvites(activeNoteId),
+      shareNoteStore.fetchCollaborators(activeNoteId),
+    ]);
   };
   const onDelete = async (inviteId: string) => {
     if (inviteId) await shareNoteStore.deleteInvite(inviteId).then(() => {});
