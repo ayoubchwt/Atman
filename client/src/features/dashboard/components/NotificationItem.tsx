@@ -8,16 +8,20 @@ function NotificationItem({
   role,
   noteTitle,
   createdAt,
+  onAccept,
+  onDecline,
 }: {
   letter: string;
   name: string;
   role: string;
   noteTitle: string;
   createdAt: string;
+  onAccept: () => void;
+  onDecline: () => void;
 }) {
   return (
     <div className="flex items-center gap-3 border-b border-(--bg-dark) px-1 py-2 hover:bg-(--item-light)">
-      <ShareUserIcon letter={letter} className="w-9 h-9" />
+      <ShareUserIcon letter={letter} className="w-10 h-10" />
       <div className="flex flex-col gap-1">
         <p className="text-sm text-(--text-light)">
           <span className="text-sm text-(--text) font-semibold">{name}</span>{" "}
@@ -30,11 +34,19 @@ function NotificationItem({
           <p className="text-xs text-(--text-light)">{createdAt}</p>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="dark" className="p-1.5 rounded-md">
+          <Button
+            variant="dark"
+            className="p-1.5 rounded-md"
+            onClick={onAccept}
+          >
             <Check className="w-4 h-4" />
             Accept
           </Button>
-          <Button variant="ghostTinted" className="p-1.5 rounded-md">
+          <Button
+            variant="ghostTinted"
+            className="p-1.5 rounded-md"
+            onClick={onDecline}
+          >
             <X className="w-4 h-4" />
             Decline
           </Button>

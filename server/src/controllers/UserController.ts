@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { UserService } from "../services/UserService";
 import { deleteUserDto, UpdateUserDto } from "../dtos/UserDTO";
+import { SharedNoteService } from "../services/SharedNoteService";
+import { UpdateInviteStatusDto } from "../dtos/SharedNoteDTO";
 
 export class UserController {
   public static async getUser(
@@ -126,6 +128,20 @@ export class UserController {
       const deleteUserDto = request.body as deleteUserDto;
       await UserService.ConfirmDeleteUser(userId, deleteUserDto);
       response.status(204).send();
+    } catch (error) {
+      next(error);
+    }
+  }
+  public static async updateInviteStatus(
+    request: Request,
+    response: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const userId = request.user.id;
+      const dto = request.body as UpdateInviteStatusDto;
+      await SharedNoteService.updateInviteStatus(userId, dto);
+      response.status(201).send();
     } catch (error) {
       next(error);
     }

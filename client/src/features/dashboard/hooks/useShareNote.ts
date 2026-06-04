@@ -30,19 +30,24 @@ export const useShareNote = () => {
       // handled
     }
   };
-  const shareStore = useShareStore();
-  const onDelete = async (inviteId: string) => {
-    if (inviteId) await shareStore.deleteInvite(inviteId).then(() => {
-      
-    });
-  };
-  const onUpdate = async (role: string, inviteId: string) => {
-    if (inviteId && (role === "editor" || role == "viewer"))
-      await shareStore.updateInviteRole({ role: role, id: inviteId });
-  };
   const fetchCollaboratorsAndInvites = async () => {
     if (!activeNoteId) return;
     await shareNoteStore.fetchNoteInvites(activeNoteId);
+  };
+  const onDelete = async (inviteId: string) => {
+    if (inviteId) await shareNoteStore.deleteInvite(inviteId).then(() => {});
+  };
+  const onUpdate = async (role: string, inviteId: string) => {
+    if (inviteId && (role === "editor" || role == "viewer"))
+      await shareNoteStore.updateInviteRole({ role: role, id: inviteId });
+  };
+  const onAccept = async (inviteId: string) => {
+    if (!inviteId) return;
+    shareNoteStore.updateInviteStatus({ id: inviteId, status: "accepted" });
+  };
+  const onDecline = async (inviteId: string) => {
+    if (!inviteId) return;
+    shareNoteStore.updateInviteStatus({ id: inviteId, status: "rejected" });
   };
   return {
     ...shareNoteStore,
@@ -58,5 +63,7 @@ export const useShareNote = () => {
     fetchCollaboratorsAndInvites,
     onDelete,
     onUpdate,
+    onAccept,
+    onDecline,
   };
 };

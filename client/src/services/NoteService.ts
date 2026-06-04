@@ -10,6 +10,7 @@ import type {
   inviteReponseDto,
   NoteInviteDto,
   UpdateInviteRoleDto,
+  UpdateInviteStatusDto,
 } from "../types/shareNote";
 
 export const getNotes = async (): Promise<NoteResponseDto[]> => {
@@ -71,6 +72,12 @@ export const updateInviteRole = async (
 ): Promise<void> => {
   await api.patch<void>("/note/update-invite-role", data);
 };
+export const updateInviteStatus = async (
+  data: UpdateInviteStatusDto,
+): Promise<void> => {
+  await api.post<void>("/note/update-invite-status", data);
+};
+
 export const deleteInvite = async (inviteId: string): Promise<void> => {
   await api.delete<void>(`/note/delete-invite/${inviteId}`);
 };

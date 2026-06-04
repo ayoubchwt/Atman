@@ -53,6 +53,11 @@ export class NoteRouter {
       AuthMiddleware.verifyAccessToken,
       NoteController.getAiResponse,
     );
+    router.post(
+      "/update-invite-status",
+      AuthMiddleware.verifyAccessToken,
+      NoteController.updateInviteStatus,
+    );
     router.get(
       "/folder/:id",
       AuthMiddleware.verifyAccessToken,

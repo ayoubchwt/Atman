@@ -43,6 +43,10 @@ export class SharedNoteService {
       throw new UserNotFoundException(
         `User with Email ${dto.guestEmail} was not found`,
       );
+    if (userId === guestUser._id.toString())
+      throw new InvalidRequestParameters(
+        "Invalid invite, the current user is the owner",
+      );
     const note: INote | null = await Note.findOne({
       _id: dto.noteId,
       userId: userId,
@@ -60,6 +64,7 @@ export class SharedNoteService {
       throw new InvalidRequestParameters(
         "An invitation is already sent to that user",
       );
+
     await NoteInvite.create({
       noteId: dto.noteId,
       senderId: userId,
@@ -147,7 +152,7 @@ export class SharedNoteService {
 
     if (!note) throw new UnauthorizedNoteAccessException();
     // code debt , i dont have the right mental state to think about anything better
-    return [note.sharedWith as any].map((item) => ({
+    return note.sharedWith.map((item: any) => ({
       userId: item.userId._id.toString(),
       name: item.userId.name,
       email: item.userId.email,
@@ -184,12 +189,14 @@ export class SharedNoteService {
   ): Promise<InviteNotification[]> {
     const noteInvites: INoteInvite[] = await NoteInvite.find({
       receiverId: userId,
-    });
+    })
+      .populate("noteId", "title")
+      .populate("senderId", "name");
     console.log("MF NOTE INVITESSS", noteInvites);
-    return [noteInvites as any].map((invite) => ({
-      id: invite._id.toString(),
+    return noteInvites.map((invite: any) => ({
+      id: invite._id,
       title: invite.noteId.title,
-      senderName: invite.senderName,
+      senderName: invite.senderId.name,
       role: invite.role,
       createdAt: invite.createdAt,
     }));
