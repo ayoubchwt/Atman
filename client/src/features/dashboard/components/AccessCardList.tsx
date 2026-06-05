@@ -8,7 +8,7 @@ function AccessCardList() {
       {collaborators.map((collaborator) => {
         return (
           <AccessCard
-            letter={collaborator.name}
+            letter={collaborator.name[0]}
             email={collaborator.email}
             name={collaborator.name}
             role={collaborator.role}

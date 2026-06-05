@@ -17,9 +17,11 @@ import {
 } from "../exceptions/NoteException";
 import { NoteInviteNotFoundException } from "../exceptions/NoteInviteException";
 import { NoteMapper } from "../mappers/NotesMapper";
+import { SharedNoteMapper } from "../mappers/SharedNoteMapper";
 import Note, { INote } from "../models/Note";
 import NoteInvite, { INoteInvite } from "../models/NoteInvite";
 import User, { IUser } from "../models/User";
+import { UserService } from "./UserService";
 
 export class SharedNoteService {
   public static async getSharedNotes(
@@ -142,7 +144,7 @@ export class SharedNoteService {
       _id: dto.id,
     });
   }
-  public static async getSharedWith(
+  private static async getSharedWith(
     userId: string,
     noteId: string,
   ): Promise<SharedUserResponseDto[]> {
@@ -156,9 +158,13 @@ export class SharedNoteService {
           "sharedWith.userId": userId,
         },
       ],
-    }).populate("sharedWith", "email", "name");
+    }).populate("sharedWith.userId", "email name");
 
-    if (!note) throw new UnauthorizedNoteAccessException();
+    if (!note)
+      throw new UnauthorizedNoteAccessException(
+        "Note not found or you dont have permission to access it",
+      );
+    console.log(note.sharedWith);
     // code debt , i dont have the right mental state to think about anything better
     return note.sharedWith.map((item: any) => ({
       userId: item.userId._id.toString(),
@@ -166,6 +172,24 @@ export class SharedNoteService {
       email: item.userId.email,
       role: item.role,
     }));
+  }
+  public static async getCollaborators(
+    userId: string,
+    noteId: string,
+  ): Promise<SharedUserResponseDto[]> {
+    const owner: IUser | null = await User.findById(userId);
+    if (!owner)
+      throw new InvalidRequestParameters(
+        "You need to be the owner of this note in order to make this request",
+      );
+    const sharedWith: SharedUserResponseDto[] = await this.getSharedWith(
+      userId,
+      noteId,
+    );
+    return [
+      SharedNoteMapper.toShareUserResponseDto(owner, "owner"),
+      ...sharedWith,
+    ];
   }
   public static async updateInviteRole(
     userId: string,

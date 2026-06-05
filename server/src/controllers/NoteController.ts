@@ -186,7 +186,7 @@ export class NoteController {
   ): Promise<void> {
     const userId = request.user.id;
     const noteId = request.params.id as string;
-    const result = await SharedNoteService.getSharedWith(userId, noteId);
+    const result = await SharedNoteService.getCollaborators(userId, noteId);
     response.status(200).json(result);
     try {
     } catch (error) {

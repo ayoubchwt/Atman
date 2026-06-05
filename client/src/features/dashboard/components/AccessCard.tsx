@@ -13,7 +13,9 @@ function AccessCard({
   return (
     <div className="flex items-center justify-between">
       <UserCard letter={letter} name={name} email={email}></UserCard>
-      <h1 className="text-sm text-(--text-light)">{role}</h1>
+      <h1 className="text-sm text-(--text-light)">
+        {role[0].toUpperCase() + role.slice(1)}
+      </h1>
     </div>
   );
 }
