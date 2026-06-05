@@ -7,6 +7,7 @@ import SidebarActions from "../../components/SidebarActions";
 import SearchInput from "../../../../components/ui/SearchInput";
 import FolderActions from "../../components/FolderActions";
 import FolderList from "../../components/FolderList";
+import SharedNoteList from "../../components/SharedNoteList";
 
 function SideBar({ className }: { className?: string }) {
   const { handleAddNote, handleSearchByTitle } = useNotes();
@@ -45,7 +46,14 @@ function SideBar({ className }: { className?: string }) {
       <FolderActions></FolderActions>
       <SearchInput onChange={handleSearchByTitle}></SearchInput>
       <div className="flex flex-col flex-1 gap-3 min-h-0 overflow-y-auto scrollbar-hide">
-        {isFolderView ? <FolderList></FolderList> : <NoteList></NoteList>}
+        {isFolderView ? (
+          <FolderList></FolderList>
+        ) : (
+          <div className="flex flex-col gap-10">
+            <NoteList></NoteList>
+            <SharedNoteList></SharedNoteList>
+          </div>
+        )}
       </div>
       {!isSideBarOpen ? (
         <SidebarActions className="flex justify-between items-center w-full"></SidebarActions>

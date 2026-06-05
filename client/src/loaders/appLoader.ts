@@ -17,6 +17,7 @@ export const appLoader = async () => {
       folderStore.fetchFolders(),
       userStore.fetchUser(),
       noteStore.fetchNotes(),
+      shareStore.fetchSharedNotes(),
     ]).then(() =>
       shareStore.fetchCollaborators(useNoteStore.getState().activeNoteId!),
     );

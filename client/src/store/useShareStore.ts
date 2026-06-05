@@ -14,21 +14,25 @@ import {
   deleteInvite,
   getInviteNotifications,
   getInvites,
+  getSharedNotes,
   getSharedWith,
   removeCollaborator,
   shareNote,
   updateInviteRole,
   updateInviteStatus,
 } from "../services/NoteService";
+import type { NoteResponseDto } from "../types/Note";
 
 interface UseShare {
   noteInvites: inviteReponseDto[];
   inviteNotifications: InviteNotification[];
   collaborators: SharedUserResponseDto[];
+  sharedNotes: NoteResponseDto[];
   shareNote: (dto: NoteInviteDto) => Promise<void>;
   fetchNoteInvites: (noteId: string) => Promise<void>;
   fetchInviteNotification: () => Promise<void>;
   fetchCollaborators: (noteId: string) => Promise<void>;
+  fetchSharedNotes: () => Promise<void>;
   updateInviteRole: (dto: UpdateInviteRoleDto) => Promise<void>;
   updateInviteStatus: (dto: UpdateInviteStatusDto) => Promise<void>;
   deleteInvite: (noteId: string) => Promise<void>;
@@ -38,6 +42,7 @@ export const useShareStore = create<UseShare>((set) => ({
   noteInvites: [],
   inviteNotifications: [],
   collaborators: [],
+  sharedNotes: [],
   shareNote: async (dto) => {
     try {
       await shareNote(dto);
@@ -75,6 +80,18 @@ export const useShareStore = create<UseShare>((set) => ({
       const result = await getSharedWith(noteId);
       set({
         collaborators: result,
+      });
+    } catch (error) {
+      const { setError } = useErrorStore.getState();
+      setError(getErrorMessage(error));
+      throw error;
+    }
+  },
+  fetchSharedNotes: async () => {
+    try {
+      const result = await getSharedNotes();
+      set({
+        sharedNotes: result,
       });
     } catch (error) {
       const { setError } = useErrorStore.getState();
