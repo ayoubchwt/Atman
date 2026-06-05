@@ -8,6 +8,7 @@ import {
 import { SharedNoteService } from "../services/SharedNoteService";
 import {
   NoteInviteDto,
+  RemoveCollaboratorDto,
   UpdateInviteRoleDto,
   UpdateInviteStatusDto,
 } from "../dtos/SharedNoteDTO";
@@ -244,6 +245,20 @@ export class NoteController {
       const userId = request.user.id;
       const result = await SharedNoteService.getInviteNotifications(userId);
       response.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+  public static async removeCollaborator(
+    request: Request,
+    response: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const userId = request.user.id;
+      const removeCollaboratorDto = request.body as RemoveCollaboratorDto;
+      await SharedNoteService.removeCollaborator(userId, removeCollaboratorDto);
+      response.status(204).send();
     } catch (error) {
       next(error);
     }

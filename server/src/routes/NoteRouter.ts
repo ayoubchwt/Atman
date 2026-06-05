@@ -83,6 +83,11 @@ export class NoteRouter {
       AuthMiddleware.verifyAccessToken,
       NoteController.deleteInvite,
     );
+    router.post(
+      "/remove-collaborator",
+      AuthMiddleware.verifyAccessToken,
+      NoteController.removeCollaborator,
+    );
     return router;
   }
 }

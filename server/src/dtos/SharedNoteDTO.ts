@@ -31,3 +31,7 @@ export interface InviteNotification {
   role: string;
   createdAt: string;
 }
+export interface RemoveCollaboratorDto {
+  guestId: string;
+  noteId: string;
+}

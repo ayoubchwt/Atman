@@ -6,6 +6,7 @@ import {
   UpdateInviteStatusDto,
   UpdateInviteRoleDto,
   InviteNotification,
+  RemoveCollaboratorDto,
 } from "../dtos/SharedNoteDTO";
 import {
   InvalidRequestParameters,
@@ -234,5 +235,20 @@ export class SharedNoteService {
       role: invite.role,
       createdAt: invite.createdAt,
     }));
+  }
+  public static async removeCollaborator(
+    userId: string,
+    dto: RemoveCollaboratorDto,
+  ): Promise<void> {
+    const note: INote | null = await Note.findOne({
+      _id: dto.noteId,
+      userId: userId,
+    });
+    if (!note)
+      throw new NoteNotFoundException("Cannot find the requested note");
+    note.sharedWith = note.sharedWith.filter(
+      (collaborator) => collaborator.userId.toString() !== dto.guestId,
+    );
+    await note.save();
   }
 }

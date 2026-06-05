@@ -9,6 +9,7 @@ import type {
   InviteNotification,
   inviteReponseDto,
   NoteInviteDto,
+  RemoveCollaboratorDto,
   SharedUserResponseDto,
   UpdateInviteRoleDto,
   UpdateInviteStatusDto,
@@ -97,4 +98,9 @@ export const getSharedWith = async (
     `/note/shared-with/${noteId}`,
   );
   return response.data;
+};
+export const removeCollaborator = async (
+  data: RemoveCollaboratorDto,
+): Promise<void> => {
+  await api.post<void>("/note/remove-collaborator", data);
 };

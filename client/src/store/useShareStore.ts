@@ -3,6 +3,7 @@ import type {
   InviteNotification,
   inviteReponseDto,
   NoteInviteDto,
+  RemoveCollaboratorDto,
   SharedUserResponseDto,
   UpdateInviteRoleDto,
   UpdateInviteStatusDto,
@@ -14,6 +15,7 @@ import {
   getInviteNotifications,
   getInvites,
   getSharedWith,
+  removeCollaborator,
   shareNote,
   updateInviteRole,
   updateInviteStatus,
@@ -30,6 +32,7 @@ interface UseShare {
   updateInviteRole: (dto: UpdateInviteRoleDto) => Promise<void>;
   updateInviteStatus: (dto: UpdateInviteStatusDto) => Promise<void>;
   deleteInvite: (noteId: string) => Promise<void>;
+  removeCollaborator: (dto: RemoveCollaboratorDto) => Promise<void>;
 }
 export const useShareStore = create<UseShare>((set) => ({
   noteInvites: [],
@@ -113,6 +116,21 @@ export const useShareStore = create<UseShare>((set) => ({
     } catch (error) {
       const { setError } = useErrorStore.getState();
       setError(getErrorMessage(error));
+      throw error;
+    }
+  },
+  removeCollaborator: async (dto: RemoveCollaboratorDto) => {
+    try {
+      await removeCollaborator(dto);
+      set((state) => ({
+        collaborators: state.collaborators.filter(
+          (collaborator) => collaborator.userId !== dto.guestId,
+        ),
+      }));
+    } catch (error) {
+      const { setError } = useErrorStore.getState();
+      setError(getErrorMessage(error));
+      throw error;
     }
   },
 }));

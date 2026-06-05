@@ -52,6 +52,13 @@ export const useShareNote = () => {
     if (!inviteId) return;
     shareNoteStore.updateInviteStatus({ id: inviteId, status: "rejected" });
   };
+  const removeCollaborator = async (userId: string) => {
+    if (userId && activeNoteId)
+      await shareNoteStore.removeCollaborator({
+        guestId: userId,
+        noteId: activeNoteId,
+      });
+  };
   return {
     ...shareNoteStore,
     email,
@@ -64,6 +71,7 @@ export const useShareNote = () => {
     displayMode,
     setDispalyMode,
     fetchCollaboratorsAndInvites,
+    removeCollaborator,
     onDelete,
     onUpdate,
     onAccept,
