@@ -66,6 +66,10 @@ export class SharedNoteService {
       throw new InvalidRequestParameters(
         "The user is already a collborator on this note",
       );
+    if (note.sharedWith.length === 5)
+      throw new InvalidRequestParameters(
+        "The maximum number of collaborators is 5",
+      );
     const checkForShared = await NoteInvite.findOne({
       noteId: note._id,
       receiverId: guestUser._id,
@@ -164,7 +168,6 @@ export class SharedNoteService {
       throw new UnauthorizedNoteAccessException(
         "Note not found or you dont have permission to access it",
       );
-    console.log(note.sharedWith);
     // code debt , i dont have the right mental state to think about anything better
     return note.sharedWith.map((item: any) => ({
       userId: item.userId._id.toString(),

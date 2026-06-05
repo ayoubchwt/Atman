@@ -1,8 +1,10 @@
+import { useAuthStore } from "../../../store/useAuthStore";
 import { useNotes } from "../hooks/useNotes";
 import ShareBox from "./ShareBox";
 
 function TitleInput() {
   const { notes, activeNoteId, handleUpdateTitle } = useNotes();
+  const { isAuthenticated } = useAuthStore();
   const activeNote = notes.find((note) => note.id === activeNoteId);
   return (
     <div className="w-full py-2 px-5 flex items-center justify-between">
@@ -16,7 +18,7 @@ function TitleInput() {
         placeholder="Untitled Note"
         className="w-full bg-transparent border-none outline-none font-semibold text-3xl text-(--text) font-serif"
       />
-      <ShareBox></ShareBox>
+      {isAuthenticated && <ShareBox></ShareBox>}
     </div>
   );
 }

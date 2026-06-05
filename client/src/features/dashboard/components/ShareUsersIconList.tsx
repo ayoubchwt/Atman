@@ -1,10 +1,17 @@
+import { useShareStore } from "../../../store/useShareStore";
 import ShareUserIcon from "./ShareUserIcon";
 function ShareUsersIconList() {
+  const { collaborators } = useShareStore();
   return (
     <div className="flex items-center justify-center -space-x-2.5">
-      <ShareUserIcon letter="A" className="w-7 h-7"></ShareUserIcon>
-      <ShareUserIcon letter="B" className="w-7 h-7"></ShareUserIcon>
-      <ShareUserIcon letter="E" className="w-7 h-7"></ShareUserIcon>
+      {collaborators.map((collaborator) => {
+        return (
+          <ShareUserIcon
+            letter={collaborator.name[0]}
+            className="w-7 h-7"
+          ></ShareUserIcon>
+        );
+      })}
     </div>
   );
 }
