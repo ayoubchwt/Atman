@@ -1,10 +1,11 @@
 import { useUIStore } from "../../../store/useUIStore";
+import { useNotes } from "../hooks/useNotes";
 import { useShareNote } from "../hooks/useShareNote";
 import NoteItem from "./NoteItem";
 
 function SharedNoteList() {
-  const { sharedNotes, activeSharedNoteId, setActiveSharedNote } =
-    useShareNote();
+  const { sharedNotes } = useShareNote();
+  const { activeNoteId, setActiveNote, setActiveNoteType } = useNotes();
   const { setSideBarOpen } = useUIStore();
   return (
     <div className="flex flex-col items-start content-start w-full flex-1 min-h-0">
@@ -22,10 +23,11 @@ function SharedNoteList() {
             key={note.id}
             noteId={note.id}
             onClick={() => {
-              setActiveSharedNote(note.id);
+              setActiveNote(note.id);
+              setActiveNoteType("shared");
               setSideBarOpen(false);
             }}
-            isSelected={note.id === activeSharedNoteId}
+            isSelected={note.id === activeNoteId}
             isShared={true}
           >
             {note.title}

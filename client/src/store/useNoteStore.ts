@@ -12,15 +12,16 @@ import { useErrorStore } from "./useErrorStore";
 import { getErrorMessage } from "../utils/getError";
 
 let syncTimer: ReturnType<typeof setTimeout>;
-
 interface NoteState {
   notes: NoteResponseDto[];
   activeNoteId: string | null;
+  activeNoteType: "owned" | "shared";
   openedMenuNoteId: string | null;
   getActiveNote: () => NoteResponseDto;
   fetchNotes: () => void;
   searchNotes: (search: string) => void;
   setActiveNote: (id: string | null) => void;
+  setActiveNoteType: (type: "owned" | "shared") => void;
   setOpenedMenuNote: (id: string | null) => void;
   updateNoteTitle: (id: string, title: string) => void;
   updateNoteContent: (id: string, content: string) => void;
@@ -32,6 +33,7 @@ interface NoteState {
 export const useNoteStore = create<NoteState>((set, get) => ({
   notes: [],
   activeNoteId: null,
+  activeNoteType: "owned",
   openedMenuNoteId: null,
   getActiveNote: (): NoteResponseDto => {
     const { activeNoteId, notes } = get();
@@ -68,6 +70,7 @@ export const useNoteStore = create<NoteState>((set, get) => ({
     }, 200);
   },
   setActiveNote: (id) => set({ activeNoteId: id }),
+  setActiveNoteType: (type) => set({ activeNoteType: type }),
   setOpenedMenuNote: (id): void => set({ openedMenuNoteId: id }),
   updateNoteTitle: (id, title) => {
     set((state) => ({

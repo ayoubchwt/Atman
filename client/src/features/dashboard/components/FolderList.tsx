@@ -21,7 +21,7 @@ function FolderList() {
     updatingFolderId,
     setUpdatingFolderId,
   } = useFolders();
-  const { activeNoteId, setActiveNote } = useNotes();
+  const { activeNoteId, setActiveNote, setActiveNoteType } = useNotes();
   const { setSideBarOpen } = useUIStore();
 
   return (
@@ -74,6 +74,7 @@ function FolderList() {
                           key={note.id}
                           noteId={note.id}
                           onClick={() => {
+                            setActiveNoteType("owned");
                             setActiveNote(note.id);
                             setSideBarOpen(false);
                           }}
