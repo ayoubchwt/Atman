@@ -4,7 +4,7 @@ import { useUIStore } from "../../../store/useUIStore";
 import { useShareStore } from "../../../store/useShareStore";
 
 function NoteList() {
-  const { notes, activeNoteId, setActiveNote } = useNotes();
+  const { notes, activeNoteId, setActiveNote, setActiveNoteType } = useNotes();
   const { setSideBarOpen } = useUIStore();
   const { fetchCollaborators } = useShareStore();
   return (
@@ -24,6 +24,7 @@ function NoteList() {
             noteId={note.id}
             onClick={() => {
               setActiveNote(note.id);
+              setActiveNoteType("owned");
               setSideBarOpen(false);
               fetchCollaborators(note.id);
             }}

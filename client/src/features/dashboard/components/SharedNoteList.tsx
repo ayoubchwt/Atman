@@ -6,7 +6,7 @@ import NoteItem from "./NoteItem";
 
 function SharedNoteList() {
   const { sharedNotes } = useShareNote();
-  const { activeNoteId, setActiveNote } = useNotes();
+  const { activeNoteId, setActiveNote, setActiveNoteType } = useNotes();
   const { setSideBarOpen } = useUIStore();
   const { fetchCollaborators } = useShareStore();
   return (
@@ -26,6 +26,7 @@ function SharedNoteList() {
             noteId={note.id}
             onClick={() => {
               setActiveNote(note.id);
+              setActiveNoteType("shared");
               setSideBarOpen(false);
               fetchCollaborators(note.id);
             }}

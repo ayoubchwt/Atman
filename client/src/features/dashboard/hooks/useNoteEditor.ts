@@ -3,11 +3,18 @@ import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { useEffect, useState } from "react";
 import { useNotes } from "./useNotes";
+import { useShareStore } from "../../../store/useShareStore";
 
 export const useNoteEditor = () => {
   const [tick, setTick] = useState(0);
-  const { notes, activeNoteId, handleUpdateContent } = useNotes();
-  const activeNote = notes.find((note) => note.id === activeNoteId);
+  const { notes, activeNoteId, handleUpdateContent, activeNoteType } =
+    useNotes();
+  const { sharedNotes } = useShareStore();
+  const activeNote =
+    activeNoteType === "shared"
+      ? sharedNotes.find((note) => note.id === activeNoteId)
+      : notes.find((note) => note.id === activeNoteId);
+  console.log(sharedNotes);
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -27,7 +34,8 @@ export const useNoteEditor = () => {
       setTick(tick + 1);
     },
     onUpdate: ({ editor }) => {
-      if (activeNoteId) handleUpdateContent(activeNoteId, editor.getHTML());
+      if (activeNoteId && editor.isFocused)
+        handleUpdateContent(activeNoteId, editor.getHTML());
     },
   });
   useEffect(() => {
