@@ -22,7 +22,6 @@ import { SharedNoteMapper } from "../mappers/SharedNoteMapper";
 import Note, { INote } from "../models/Note";
 import NoteInvite, { INoteInvite } from "../models/NoteInvite";
 import User, { IUser } from "../models/User";
-import { UserService } from "./UserService";
 
 export class SharedNoteService {
   public static async getSharedNotes(

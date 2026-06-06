@@ -1,14 +1,11 @@
-import { useShareStore } from "../../../store/useShareStore";
 import { useUIStore } from "../../../store/useUIStore";
-import { useNotes } from "../hooks/useNotes";
 import { useShareNote } from "../hooks/useShareNote";
 import NoteItem from "./NoteItem";
 
 function SharedNoteList() {
-  const { sharedNotes } = useShareNote();
-  const { activeNoteId, setActiveNote } = useNotes();
+  const { sharedNotes, activeSharedNoteId, setActiveSharedNote } =
+    useShareNote();
   const { setSideBarOpen } = useUIStore();
-  const { fetchCollaborators } = useShareStore();
   return (
     <div className="flex flex-col items-start content-start w-full flex-1 min-h-0">
       <h1 className="text-sm text-(--text-light) font-semibold pb-2 pl-2">
@@ -25,11 +22,10 @@ function SharedNoteList() {
             key={note.id}
             noteId={note.id}
             onClick={() => {
-              setActiveNote(note.id);
+              setActiveSharedNote(note.id);
               setSideBarOpen(false);
-              fetchCollaborators(note.id);
             }}
-            isSelected={note.id === activeNoteId}
+            isSelected={note.id === activeSharedNoteId}
             isShared={true}
           >
             {note.title}
