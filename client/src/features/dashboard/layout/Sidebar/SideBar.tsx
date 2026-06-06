@@ -49,7 +49,7 @@ function SideBar({ className }: { className?: string }) {
         {isFolderView ? (
           <FolderList></FolderList>
         ) : (
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-col gap-8">
             <NoteList></NoteList>
             <SharedNoteList></SharedNoteList>
           </div>

@@ -70,7 +70,17 @@ export class NoteService {
     dto: UpdateNoteDto,
   ): Promise<NoteResponseDto> {
     const updatedNote = await Note.findOneAndUpdate(
-      { _id: noteId, userId: userId },
+      {
+        _id: noteId,
+        $or: [
+          {
+            userId: userId,
+          },
+          {
+            "sharedWith.userId": userId,
+          },
+        ],
+      },
       { $set: dto },
       { returnDocument: "after" },
     );

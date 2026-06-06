@@ -14,7 +14,6 @@ export const useNoteEditor = () => {
     activeNoteType === "shared"
       ? sharedNotes.find((note) => note.id === activeNoteId)
       : notes.find((note) => note.id === activeNoteId);
-  console.log(sharedNotes);
   const editor = useEditor({
     extensions: [
       StarterKit,

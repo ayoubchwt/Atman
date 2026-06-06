@@ -10,6 +10,7 @@ import {
 import { useAuthStore } from "./useAuthStore";
 import { useErrorStore } from "./useErrorStore";
 import { getErrorMessage } from "../utils/getError";
+import { useShareStore } from "./useShareStore";
 
 let syncTimer: ReturnType<typeof setTimeout>;
 interface NoteState {
@@ -73,11 +74,21 @@ export const useNoteStore = create<NoteState>((set, get) => ({
   setActiveNoteType: (type) => set({ activeNoteType: type }),
   setOpenedMenuNote: (id): void => set({ openedMenuNoteId: id }),
   updateNoteTitle: (id, title) => {
-    set((state) => ({
-      notes: state.notes.map((note) =>
-        note.id === id ? { ...note, title } : note,
-      ),
-    }));
+    const { activeNoteType } = get();
+
+    if (activeNoteType === "shared") {
+      useShareStore.setState((state) => ({
+        sharedNotes: state.sharedNotes.map((note) =>
+          note.id === id ? { ...note, title } : note,
+        ),
+      }));
+    } else {
+      set((state) => ({
+        notes: state.notes.map((note) =>
+          note.id === id ? { ...note, title } : note,
+        ),
+      }));
+    }
     const { isAuthenticated } = useAuthStore.getState();
     if (isAuthenticated) {
       clearTimeout(syncTimer);

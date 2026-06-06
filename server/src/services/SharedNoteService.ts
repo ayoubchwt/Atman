@@ -148,7 +148,7 @@ export class SharedNoteService {
       _id: dto.id,
     });
   }
-  private static async getSharedWith(
+  public static async getSharedWith(
     userId: string,
     noteId: string,
   ): Promise<SharedUserResponseDto[]> {
@@ -168,30 +168,19 @@ export class SharedNoteService {
       throw new UnauthorizedNoteAccessException(
         "Note not found or you dont have permission to access it",
       );
-    // code debt , i dont have the right mental state to think about anything better
-    return note.sharedWith.map((item: any) => ({
+    const owner: IUser | null = await User.findOne({
+      _id: note.userId,
+    });
+    if (!owner) throw new UserNotFoundException("This not has no owner");
+    const collaborators = note.sharedWith.map((item: any) => ({
       userId: item.userId._id.toString(),
       name: item.userId.name,
       email: item.userId.email,
       role: item.role,
     }));
-  }
-  public static async getCollaborators(
-    userId: string,
-    noteId: string,
-  ): Promise<SharedUserResponseDto[]> {
-    const owner: IUser | null = await User.findById(userId);
-    if (!owner)
-      throw new InvalidRequestParameters(
-        "You need to be the owner of this note in order to make this request",
-      );
-    const sharedWith: SharedUserResponseDto[] = await this.getSharedWith(
-      userId,
-      noteId,
-    );
     return [
       SharedNoteMapper.toShareUserResponseDto(owner, "owner"),
-      ...sharedWith,
+      ...collaborators,
     ];
   }
   public static async updateInviteRole(
