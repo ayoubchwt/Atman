@@ -7,7 +7,7 @@ export interface SharedUserResponseDto {
   userId: string;
   name: string;
   email: string;
-  role: "editor" | "viewer";
+  role: "editor" | "viewer" | "owner";
 }
 export interface inviteReponseDto {
   id: string;

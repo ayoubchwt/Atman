@@ -46,7 +46,11 @@ export const useShareNote = () => {
   };
   const onAccept = async (inviteId: string) => {
     if (!inviteId) return;
-    shareNoteStore.updateInviteStatus({ id: inviteId, status: "accepted" });
+    await shareNoteStore.updateInviteStatus({
+      id: inviteId,
+      status: "accepted",
+    });
+    await shareNoteStore.fetchSharedNotes();
   };
   const onDecline = async (inviteId: string) => {
     if (!inviteId) return;

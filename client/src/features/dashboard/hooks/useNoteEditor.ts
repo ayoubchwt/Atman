@@ -9,7 +9,8 @@ export const useNoteEditor = () => {
   const [tick, setTick] = useState(0);
   const { notes, activeNoteId, handleUpdateContent, activeNoteType } =
     useNotes();
-  const { sharedNotes } = useShareStore();
+  const { sharedNotes, role } = useShareStore();
+  const canEdit = role === "editor" || role === "owner";
   const activeNote =
     activeNoteType === "shared"
       ? sharedNotes.find((note) => note.id === activeNoteId)
@@ -36,6 +37,7 @@ export const useNoteEditor = () => {
       if (activeNoteId && editor.isFocused)
         handleUpdateContent(activeNoteId, editor.getHTML());
     },
+    editable: canEdit,
   });
   useEffect(() => {
     if (!editor) return;

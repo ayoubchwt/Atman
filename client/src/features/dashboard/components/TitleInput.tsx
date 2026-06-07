@@ -5,7 +5,7 @@ import ShareBox from "./ShareBox";
 
 function TitleInput() {
   const { notes, activeNoteId, activeNoteType, handleUpdateTitle } = useNotes();
-  const { sharedNotes } = useShareStore();
+  const { sharedNotes, role } = useShareStore();
   const { isAuthenticated } = useAuthStore();
   const activeNote =
     activeNoteType === "shared"
@@ -16,6 +16,7 @@ function TitleInput() {
       <input
         type="text"
         value={activeNote?.title || ""}
+        disabled={role === "editor" || role === "owner"}
         onChange={(e) => {
           if (activeNote)
             return handleUpdateTitle(activeNote.id, e.target.value);

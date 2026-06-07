@@ -22,11 +22,14 @@ import {
   updateInviteStatus,
 } from "../services/NoteService";
 import type { NoteResponseDto } from "../types/Note";
+import { useAuthStore } from "./useAuthStore";
+import { useUserStore } from "./useUserStore";
 
 interface UseShare {
   noteInvites: inviteReponseDto[];
   inviteNotifications: InviteNotification[];
   collaborators: SharedUserResponseDto[];
+  role: "editor" | "viewer" | "owner" | null;
   sharedNotes: NoteResponseDto[];
   activeSharedNoteId: string | null;
   shareNote: (dto: NoteInviteDto) => Promise<void>;
@@ -39,14 +42,18 @@ interface UseShare {
   deleteInvite: (noteId: string) => Promise<void>;
   removeCollaborator: (dto: RemoveCollaboratorDto) => Promise<void>;
   setActiveSharedNote: (noteId: string) => void;
+  checkRole: () => void;
 }
-export const useShareStore = create<UseShare>((set) => ({
+export const useShareStore = create<UseShare>((set, get) => ({
   noteInvites: [],
   inviteNotifications: [],
   collaborators: [],
   sharedNotes: [],
   activeSharedNoteId: null,
+  role: null,
   shareNote: async (dto) => {
+    const isAuthenticated = useAuthStore.getState().isAuthenticated;
+    if (!isAuthenticated) return;
     try {
       await shareNote(dto);
     } catch (error) {
@@ -56,6 +63,8 @@ export const useShareStore = create<UseShare>((set) => ({
     }
   },
   fetchNoteInvites: async (noteId: string) => {
+    const isAuthenticated = useAuthStore.getState().isAuthenticated;
+    if (!isAuthenticated) return;
     try {
       const result = await getInvites(noteId);
       set({
@@ -68,6 +77,8 @@ export const useShareStore = create<UseShare>((set) => ({
     }
   },
   fetchInviteNotification: async () => {
+    const isAuthenticated = useAuthStore.getState().isAuthenticated;
+    if (!isAuthenticated) return;
     try {
       const result = await getInviteNotifications();
       set({
@@ -79,6 +90,8 @@ export const useShareStore = create<UseShare>((set) => ({
     }
   },
   fetchCollaborators: async (noteId: string) => {
+    const isAuthenticated = useAuthStore.getState().isAuthenticated;
+    if (!isAuthenticated) return;
     try {
       const result = await getSharedWith(noteId);
       set({
@@ -91,6 +104,8 @@ export const useShareStore = create<UseShare>((set) => ({
     }
   },
   fetchSharedNotes: async () => {
+    const isAuthenticated = useAuthStore.getState().isAuthenticated;
+    if (!isAuthenticated) return;
     try {
       const result = await getSharedNotes();
       set({
@@ -103,6 +118,8 @@ export const useShareStore = create<UseShare>((set) => ({
     }
   },
   updateInviteRole: async (dto: UpdateInviteRoleDto) => {
+    const isAuthenticated = useAuthStore.getState().isAuthenticated;
+    if (!isAuthenticated) return;
     try {
       await updateInviteRole(dto);
     } catch (error) {
@@ -112,6 +129,8 @@ export const useShareStore = create<UseShare>((set) => ({
     }
   },
   updateInviteStatus: async (dto: UpdateInviteStatusDto) => {
+    const isAuthenticated = useAuthStore.getState().isAuthenticated;
+    if (!isAuthenticated) return;
     try {
       await updateInviteStatus(dto);
       set((state) => ({
@@ -126,6 +145,8 @@ export const useShareStore = create<UseShare>((set) => ({
     }
   },
   deleteInvite: async (inviteId: string) => {
+    const isAuthenticated = useAuthStore.getState().isAuthenticated;
+    if (!isAuthenticated) return;
     try {
       await deleteInvite(inviteId);
       set((state) => ({
@@ -140,6 +161,8 @@ export const useShareStore = create<UseShare>((set) => ({
     }
   },
   removeCollaborator: async (dto: RemoveCollaboratorDto) => {
+    const isAuthenticated = useAuthStore.getState().isAuthenticated;
+    if (!isAuthenticated) return;
     try {
       await removeCollaborator(dto);
       set((state) => ({
@@ -156,6 +179,16 @@ export const useShareStore = create<UseShare>((set) => ({
   setActiveSharedNote: (noteId: string) => {
     set({
       activeSharedNoteId: noteId,
+    });
+  },
+  checkRole: () => {
+    const collaborators = get().collaborators;
+    const id = useUserStore.getState().user?.id;
+    const myRecord = collaborators.find(
+      (collaborator) => collaborator.userId === id,
+    );
+    set({
+      role: myRecord?.role || null,
     });
   },
 }));

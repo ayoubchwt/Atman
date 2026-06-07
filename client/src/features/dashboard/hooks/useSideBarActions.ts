@@ -8,7 +8,7 @@ import { useUIStore } from "../../../store/useUIStore";
 export const useSidebarActions = () => {
   const { isDark, toggleTheme } = useThemeStore();
   const { isAuthenticated, logout } = useAuthStore();
-  const { clearNoteStore } = useNoteStore();
+  const { clearNoteStore, addNote } = useNoteStore();
   const { clearFolderStore } = useFolderStore();
   const { clearMessageList } = useChatboxStore();
   const { setShareOpen } = useUIStore();
@@ -18,6 +18,7 @@ export const useSidebarActions = () => {
     clearMessageList();
     setShareOpen(false);
     logout();
+    addNote();
   };
   return {
     handleLogout,

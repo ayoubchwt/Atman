@@ -4,7 +4,7 @@ import { useShareNote } from "../hooks/useShareNote";
 import NoteItem from "./NoteItem";
 
 function SharedNoteList() {
-  const { sharedNotes, fetchCollaborators } = useShareNote();
+  const { sharedNotes, fetchCollaborators, checkRole } = useShareNote();
   const { activeNoteId, setActiveNote, setActiveNoteType } = useNotes();
   const { setSideBarOpen } = useUIStore();
   return (
@@ -27,6 +27,7 @@ function SharedNoteList() {
               setActiveNoteType("shared");
               setSideBarOpen(false);
               fetchCollaborators(note.id);
+              checkRole();
             }}
             isSelected={note.id === activeNoteId}
             isShared={true}
