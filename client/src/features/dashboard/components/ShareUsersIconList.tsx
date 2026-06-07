@@ -7,6 +7,7 @@ function ShareUsersIconList() {
       {collaborators.map((collaborator) => {
         return (
           <ShareUserIcon
+            key={collaborator.userId}
             letter={collaborator.name[0]}
             className="w-7 h-7"
           ></ShareUserIcon>

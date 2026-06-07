@@ -22,11 +22,11 @@ function NoteList() {
           <NoteItem
             key={note.id}
             noteId={note.id}
-            onClick={() => {
+            onClick={async () => {
               setActiveNote(note.id);
               setActiveNoteType("owned");
               setSideBarOpen(false);
-              fetchCollaborators(note.id);
+              await fetchCollaborators(note.id);
               checkRole();
             }}
             isSelected={note.id === activeNoteId}

@@ -7,6 +7,7 @@ function TitleInput() {
   const { notes, activeNoteId, activeNoteType, handleUpdateTitle } = useNotes();
   const { sharedNotes, role } = useShareStore();
   const { isAuthenticated } = useAuthStore();
+  const canEdit = role === "owner" || role === "editor";
   const activeNote =
     activeNoteType === "shared"
       ? sharedNotes.find((note) => note.id === activeNoteId)
@@ -16,7 +17,7 @@ function TitleInput() {
       <input
         type="text"
         value={activeNote?.title || ""}
-        disabled={role === "editor" || role === "owner"}
+        disabled={!canEdit}
         onChange={(e) => {
           if (activeNote)
             return handleUpdateTitle(activeNote.id, e.target.value);

@@ -22,11 +22,11 @@ function SharedNoteList() {
           <NoteItem
             key={note.id}
             noteId={note.id}
-            onClick={() => {
+            onClick={async () => {
               setActiveNote(note.id);
               setActiveNoteType("shared");
               setSideBarOpen(false);
-              fetchCollaborators(note.id);
+              await fetchCollaborators(note.id);
               checkRole();
             }}
             isSelected={note.id === activeNoteId}

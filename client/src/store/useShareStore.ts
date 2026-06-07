@@ -50,7 +50,7 @@ export const useShareStore = create<UseShare>((set, get) => ({
   collaborators: [],
   sharedNotes: [],
   activeSharedNoteId: null,
-  role: null,
+  role: "owner",
   shareNote: async (dto) => {
     const isAuthenticated = useAuthStore.getState().isAuthenticated;
     if (!isAuthenticated) return;
