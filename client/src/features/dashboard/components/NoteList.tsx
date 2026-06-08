@@ -23,8 +23,8 @@ function NoteList() {
             key={note.id}
             noteId={note.id}
             onClick={async () => {
-              setActiveNote(note.id);
               setActiveNoteType("owned");
+              setActiveNote(note.id);
               setSideBarOpen(false);
               await fetchCollaborators(note.id);
               checkRole();

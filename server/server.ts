@@ -13,11 +13,17 @@ import { Server } from "socket.io";
 const app = express();
 // socket io shit
 const server = createServer(app);
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    credentials: true,
+  },
+});
 io.on("connection", (socket) => {
   console.log("connection opened", socket.id);
 
-  socket.on("join-note-room : ", (noteId) => {
+  socket.on("join-note-room", (noteId) => {
+    console.log("inside the join event");
     socket.join(noteId);
   });
   socket.on("sync-note-edit", (data) => {
@@ -31,7 +37,6 @@ io.on("connection", (socket) => {
 io.on("disconnection", (socket) => {
   console.log("connection closed", socket.id);
 });
-
 connectDB();
 
 app.use(

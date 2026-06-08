@@ -72,9 +72,18 @@ export const useNoteStore = create<NoteState>((set, get) => ({
     }, 200);
   },
   setActiveNote: (id) => {
-    set({ activeNoteId: id });
+    if (!id) return;
     const activeNoteType = get().activeNoteType;
-    if (activeNoteType === "shared") socket.emit("join-note-room", id);
+    set({ activeNoteId: id });
+    if (activeNoteType === "shared") {
+      if (!socket.connected) socket.connect();
+      console.log("Joining room for id :", id);
+      socket.emit("join-note-room", id);
+      socket.once("connect", () => {
+        console.log("connected successfully", socket.id);
+      });
+      console.log("room joined");
+    }
   },
   setActiveNoteType: (type) => set({ activeNoteType: type }),
   setOpenedMenuNote: (id): void => set({ openedMenuNoteId: id }),

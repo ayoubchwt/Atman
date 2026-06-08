@@ -31,7 +31,6 @@ interface UseShare {
   collaborators: SharedUserResponseDto[];
   role: "editor" | "viewer" | "owner" | null;
   sharedNotes: NoteResponseDto[];
-  activeSharedNoteId: string | null;
   shareNote: (dto: NoteInviteDto) => Promise<void>;
   fetchNoteInvites: (noteId: string) => Promise<void>;
   fetchInviteNotification: () => Promise<void>;
@@ -41,7 +40,6 @@ interface UseShare {
   updateInviteStatus: (dto: UpdateInviteStatusDto) => Promise<void>;
   deleteInvite: (noteId: string) => Promise<void>;
   removeCollaborator: (dto: RemoveCollaboratorDto) => Promise<void>;
-  setActiveSharedNote: (noteId: string) => void;
   checkRole: () => void;
 }
 export const useShareStore = create<UseShare>((set, get) => ({
@@ -49,7 +47,6 @@ export const useShareStore = create<UseShare>((set, get) => ({
   inviteNotifications: [],
   collaborators: [],
   sharedNotes: [],
-  activeSharedNoteId: null,
   role: "owner",
   shareNote: async (dto) => {
     const isAuthenticated = useAuthStore.getState().isAuthenticated;
@@ -175,11 +172,6 @@ export const useShareStore = create<UseShare>((set, get) => ({
       setError(getErrorMessage(error));
       throw error;
     }
-  },
-  setActiveSharedNote: (noteId: string) => {
-    set({
-      activeSharedNoteId: noteId,
-    });
   },
   checkRole: () => {
     const collaborators = get().collaborators;

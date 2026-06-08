@@ -23,8 +23,8 @@ function SharedNoteList() {
             key={note.id}
             noteId={note.id}
             onClick={async () => {
-              setActiveNote(note.id);
               setActiveNoteType("shared");
+              setActiveNote(note.id);
               setSideBarOpen(false);
               await fetchCollaborators(note.id);
               checkRole();
