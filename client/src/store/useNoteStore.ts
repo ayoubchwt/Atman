@@ -76,13 +76,25 @@ export const useNoteStore = create<NoteState>((set, get) => ({
     const activeNoteType = get().activeNoteType;
     set({ activeNoteId: id });
     if (activeNoteType === "shared") {
-      if (!socket.connected) socket.connect();
-      console.log("Joining room for id :", id);
-      socket.emit("join-note-room", id);
-      socket.once("connect", () => {
+      const sendJoingEmit = () => {
         console.log("connected successfully", socket.id);
+        console.log("joining the room for id :", id);
+        socket.emit("join-note-room", id);
+      };
+      socket.on("connect_error", (err) => {
+        console.error("❌ SOCKET HANDSHAKE ERROR DETECTED:", err.message);
+        console.log("Context Details:", err);
       });
-      console.log("room joined");
+      if (!socket.connected) {
+        console.log(
+          "socket is offline .Setting up liteners and connecting ...",
+        );
+        socket.once("connect", sendJoingEmit);
+        socket.connect();
+      } else {
+        sendJoingEmit();
+      }
+      console.log("Room joining process completed");
     }
   },
   setActiveNoteType: (type) => set({ activeNoteType: type }),
