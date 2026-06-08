@@ -7,36 +7,12 @@ import { ErrorMiddleware } from "./src/middleware/ErrorMiddleware";
 import { NoteRouter } from "./src/routes/NoteRouter";
 import { FolderRouter } from "./src/routes/FolderRoutes";
 import { UserRouter } from "./src/routes/UserRouter";
-import { createServer } from "http";
-import { Server } from "socket.io";
+import socket from "./src/config/socket";
+import dotenv from "dotenv";
 
+dotenv.config();
 const app = express();
-// socket io shit
-const server = createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
-    credentials: true,
-  },
-});
-io.on("connection", (socket) => {
-  console.log("connection opened", socket.id);
-
-  socket.on("join-note-room", (noteId) => {
-    console.log("inside the join event");
-    socket.join(noteId);
-  });
-  socket.on("sync-note-edit", (data) => {
-    const { noteId, title, content } = data;
-    socket.to(noteId).emit("note-mutated", { content, title });
-  });
-  socket.on("disconnect", () => {
-    console.log("user diconnected :", socket.id);
-  });
-});
-io.on("disconnection", (socket) => {
-  console.log("connection closed", socket.id);
-});
+const server = socket(app);
 connectDB();
 
 app.use(
