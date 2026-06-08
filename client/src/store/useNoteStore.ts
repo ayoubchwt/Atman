@@ -11,6 +11,7 @@ import { useAuthStore } from "./useAuthStore";
 import { useErrorStore } from "./useErrorStore";
 import { getErrorMessage } from "../utils/getError";
 import { useShareStore } from "./useShareStore";
+import socket from "../api/Socket";
 
 let syncTimer: ReturnType<typeof setTimeout>;
 interface NoteState {
@@ -70,7 +71,11 @@ export const useNoteStore = create<NoteState>((set, get) => ({
       }
     }, 200);
   },
-  setActiveNote: (id) => set({ activeNoteId: id }),
+  setActiveNote: (id) => {
+    set({ activeNoteId: id });
+    const activeNoteType = get().activeNoteType;
+    if (activeNoteType === "shared") socket.emit("join-note-room", id);
+  },
   setActiveNoteType: (type) => set({ activeNoteType: type }),
   setOpenedMenuNote: (id): void => set({ openedMenuNoteId: id }),
   updateNoteTitle: (id, title) => {
