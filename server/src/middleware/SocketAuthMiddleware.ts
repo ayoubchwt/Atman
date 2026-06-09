@@ -12,11 +12,11 @@ export class SocketAuthMiddleware {
     next: (err?: Error) => void,
   ): void {
     try {
-      const token = socket.handshake.query.token as string;
-      if (!token)
-        return next(
-          new UnauthorizedException("Token does not exist , try again"),
-        );
+      const authHeader = socket.handshake.auth.token as string;
+      if (!authHeader?.startsWith("Bearer ")) {
+        throw new UnauthorizedException("Access denied. You need to login");
+      }
+      const token = authHeader.split(" ")[1] || "";
       SocketAuthMiddleware.validateToken(token, socket);
       next();
     } catch (error) {

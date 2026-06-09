@@ -115,4 +115,25 @@ export class NoteService {
     const response = await GemmaUtils.getAIResponse(dto.prompt, note.content);
     return response;
   }
+  public static async checkAccess(
+    noteId: string,
+    userId: string,
+  ): Promise<any> {
+    const note: INote | null = await Note.findById(noteId);
+    if (!note) return null;
+    if (note.userId.toString() === userId)
+      return {
+        note: note,
+        canEdit: true,
+      };
+    const sharedUser = note.sharedWith.find(
+      (user) => user.userId.toString() === userId,
+    );
+    if (sharedUser)
+      return {
+        note: note,
+        canEdit: sharedUser.role === "editor",
+      };
+    return null;
+  }
 }
