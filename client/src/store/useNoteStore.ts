@@ -117,10 +117,12 @@ export const useNoteStore = create<NoteState>((set, get) => ({
     }
     const { isAuthenticated } = useAuthStore.getState();
     if (isAuthenticated) {
+      const { activeNoteId } = get();
       clearTimeout(syncTimer);
       syncTimer = setTimeout(async () => {
         try {
-          await updateNote(id, { title });
+          if (activeNoteId)
+            await updateNote({ noteId: activeNoteId, title: title });
         } catch (error) {
           const { setError } = useErrorStore.getState();
           setError(getErrorMessage(error));
@@ -136,10 +138,12 @@ export const useNoteStore = create<NoteState>((set, get) => ({
     }));
     const { isAuthenticated } = useAuthStore.getState();
     if (isAuthenticated) {
+      const { activeNoteId } = get();
       clearTimeout(syncTimer);
       syncTimer = setTimeout(async () => {
         try {
-          await updateNote(id, { content });
+          if (activeNoteId)
+            await updateNote({ noteId: activeNoteId, content: content });
         } catch (error) {
           const { setError } = useErrorStore.getState();
           setError(getErrorMessage(error));
@@ -156,8 +160,10 @@ export const useNoteStore = create<NoteState>((set, get) => ({
     }));
     const { isAuthenticated } = useAuthStore.getState();
     if (isAuthenticated) {
+      const { activeNoteId } = get();
       try {
-        await updateNote(id, { folder });
+        if (activeNoteId)
+          await updateNote({ noteId: activeNoteId, folder: folder });
       } catch (error) {
         const { setError } = useErrorStore.getState();
         setError(getErrorMessage(error));

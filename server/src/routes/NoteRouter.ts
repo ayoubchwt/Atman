@@ -1,8 +1,6 @@
 import { Router } from "express";
 import { NoteController } from "../controllers/NoteController";
 import { AuthMiddleware } from "../middleware/AuthMiddleware";
-import { verify } from "node:crypto";
-import { SharedNoteService } from "../services/SharedNoteService";
 
 export class NoteRouter {
   public static getRoutes(): Router {
@@ -69,7 +67,7 @@ export class NoteRouter {
       NoteController.createNote,
     );
     router.patch(
-      "/:id",
+      "/",
       AuthMiddleware.verifyAccessToken,
       NoteController.updateNote,
     );

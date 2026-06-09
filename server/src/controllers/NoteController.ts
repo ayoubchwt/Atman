@@ -94,13 +94,8 @@ export class NoteController {
   ): Promise<void> {
     try {
       const userId = request.user.id;
-      const noteId = request.params.id as string;
       const updateNoteDto = request.body as UpdateNoteDto;
-      const result = await NoteService.updateNote(
-        noteId,
-        userId,
-        updateNoteDto,
-      );
+      const result = await NoteService.updateNote(userId, updateNoteDto);
       response.status(200).json(result);
     } catch (error) {
       next(error);

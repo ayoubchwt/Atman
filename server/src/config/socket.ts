@@ -3,6 +3,7 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import { SocketAuthMiddleware } from "../middleware/SocketAuthMiddleware";
 import { NoteService } from "../services/NoteService";
+import { UpdateNoteDto } from "../dtos/NoteDTO";
 const socket = (app: Express) => {
   const server = createServer(app);
   const io = new Server(server, {
@@ -29,18 +30,22 @@ const socket = (app: Express) => {
         return socket.emit("note-error", "Internal real-time stream error");
       }
     });
-    socket.on("sync-note-edit", async (data) => {
+    
+    socket.on("sync-note-edit", async (dto: UpdateNoteDto) => {
       try {
-        const { noteId, title, content } = data;
-        socket.to(noteId).emit("note-mutated", { content, title });
-        const access = await NoteService.checkAccess(noteId, userId);
+        if (!dto.noteId)
+          return socket.emit(
+            "note-error",
+            "Unable to Access the note : Note not found",
+          );
+        const access = await NoteService.checkAccess(dto.noteId, userId);
         if (!access || !access.canEdit)
           return socket.emit(
             "note-error",
             "You do not have permission to edit this note",
           );
-        // update logic will go here
-        socket.to(data.noteId).emit("note-updated", data.content);
+        const updatedNote = await NoteService.updateNote(userId, dto);
+        socket.to(dto.noteId!).emit("note-updated", updatedNote);
       } catch (error) {
         return socket.emit("note-error", "Failed to process document edit");
       }

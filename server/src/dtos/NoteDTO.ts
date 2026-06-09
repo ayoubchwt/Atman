@@ -3,8 +3,10 @@ export interface CreateNoteDto {
   content: string;
 }
 export interface UpdateNoteDto {
+  noteId?: string;
   title?: string;
   content?: string;
+  folder?: string | null;
 }
 export interface NoteResponseDto {
   id: string;

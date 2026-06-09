@@ -44,10 +44,9 @@ export const addNote = async (
   return response.data;
 };
 export const updateNote = async (
-  id: string,
   data: UpdateNoteDto,
 ): Promise<NoteResponseDto> => {
-  const response = await api.patch<NoteResponseDto>(`/note/${id}`, data);
+  const response = await api.patch<NoteResponseDto>("/note", data);
   return response.data;
 };
 export const deleteNote = async (id: string): Promise<void> => {
