@@ -20,10 +20,10 @@ export const changeRoom = (noteId: string) => {
   socket.emit("join-note-room", noteId);
 };
 export const listentToUpdate = () => {
-  const { activeNoteId, activeNoteType } = useNoteStore.getState();
   socket.off("note-updated");
   socket.on("note-updated", (updatedNote: NoteResponseDto) => {
-    if (!updatedNote || updatedNote.id !== activeNoteId) return;
+    if (!updatedNote.id) return;
+    const { activeNoteType } = useNoteStore.getState();
     if (activeNoteType === "shared") {
       useShareStore.setState((state) => ({
         sharedNotes: state.sharedNotes.map((note) =>
