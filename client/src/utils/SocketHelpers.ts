@@ -5,12 +5,19 @@ import { useShareStore } from "../store/useShareStore";
 import type { NoteResponseDto } from "../types/Note";
 import { getErrorMessage } from "./getError";
 
-export const changeRoom = () => {
-  if (!socket.connected) socket.connect();
-  const { setError } = useErrorStore.getState();
-  socket.once("connect_error", (error: Error) => {
-    setError(getErrorMessage(error));
-  });
+export const changeRoom = (noteId: string) => {
+  if (!socket.connected) {
+    socket.connect();
+    socket.once("connect", () => {
+      socket.emit("join-note-room", noteId);
+    });
+    const { setError } = useErrorStore.getState();
+    socket.once("connect_error", (error: Error) => {
+      setError(getErrorMessage(error));
+    });
+    return;
+  }
+  socket.emit("join-note-room", noteId);
 };
 export const listentToUpdate = () => {
   const { activeNoteId, activeNoteType } = useNoteStore.getState();

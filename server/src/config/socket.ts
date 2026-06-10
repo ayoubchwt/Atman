@@ -4,6 +4,7 @@ import { Server } from "socket.io";
 import { SocketAuthMiddleware } from "../middleware/SocketAuthMiddleware";
 import { NoteService } from "../services/NoteService";
 import { UpdateNoteDto } from "../dtos/NoteDTO";
+import { join } from "path";
 
 export class SocketManager {
   private static io: Server;
@@ -29,7 +30,9 @@ export class SocketManager {
           socket.rooms.forEach((room) => {
             if (room !== socket.id && room !== noteId) socket.leave(room);
           });
+          console.log("joing request", noteId, "from", socket.id);
           socket.join(noteId);
+          console.log("rooms after join", socket.rooms);
         } catch (error) {
           return socket.emit("note-error", "Internal real-time stream error");
         }

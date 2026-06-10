@@ -11,7 +11,7 @@ import { useAuthStore } from "./useAuthStore";
 import { useErrorStore } from "./useErrorStore";
 import { getErrorMessage } from "../utils/getError";
 import { useShareStore } from "./useShareStore";
-import { changeRoom, listentToUpdate } from "../utils/SocketHelpers";
+import { changeRoom } from "../utils/SocketHelpers";
 
 let syncTimer: ReturnType<typeof setTimeout>;
 interface NoteState {
@@ -43,14 +43,14 @@ export const useNoteStore = create<NoteState>((set, get) => ({
   },
   fetchNotes: async () => {
     const { isAuthenticated } = useAuthStore.getState();
+    const { setActiveNote } = get();
     if (!isAuthenticated) return;
     try {
       const result = await getNotes();
       set({
-        activeNoteId: result[0].id,
         notes: result,
       });
-      listentToUpdate();
+      setActiveNote(result[0].id);
     } catch (error) {
       const { setError } = useErrorStore.getState();
       setError(getErrorMessage(error));
@@ -75,7 +75,7 @@ export const useNoteStore = create<NoteState>((set, get) => ({
   setActiveNote: (id) => {
     if (!id) return;
     set({ activeNoteId: id });
-    changeRoom();
+    changeRoom(id);
   },
   setActiveNoteType: (type) => set({ activeNoteType: type }),
   setOpenedMenuNote: (id): void => set({ openedMenuNoteId: id }),
