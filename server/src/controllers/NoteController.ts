@@ -12,6 +12,8 @@ import {
   UpdateInviteRoleDto,
   UpdateInviteStatusDto,
 } from "../dtos/SharedNoteDTO";
+import { Socket } from "dgram";
+import { SocketManager } from "../config/socket";
 
 export class NoteController {
   public static async createNote(
@@ -96,6 +98,9 @@ export class NoteController {
       const userId = request.user.id;
       const updateNoteDto = request.body as UpdateNoteDto;
       const result = await NoteService.updateNote(userId, updateNoteDto);
+      SocketManager.getIo()
+        .to(updateNoteDto.noteId!)
+        .emit("note-updated", result);
       response.status(200).json(result);
     } catch (error) {
       next(error);

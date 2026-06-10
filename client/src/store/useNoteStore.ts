@@ -11,7 +11,7 @@ import { useAuthStore } from "./useAuthStore";
 import { useErrorStore } from "./useErrorStore";
 import { getErrorMessage } from "../utils/getError";
 import { useShareStore } from "./useShareStore";
-import socket from "../api/Socket";
+import { changeRoom, listentToUpdate } from "../utils/SocketHelpers";
 
 let syncTimer: ReturnType<typeof setTimeout>;
 interface NoteState {
@@ -50,6 +50,7 @@ export const useNoteStore = create<NoteState>((set, get) => ({
         activeNoteId: result[0].id,
         notes: result,
       });
+      listentToUpdate();
     } catch (error) {
       const { setError } = useErrorStore.getState();
       setError(getErrorMessage(error));
@@ -73,29 +74,8 @@ export const useNoteStore = create<NoteState>((set, get) => ({
   },
   setActiveNote: (id) => {
     if (!id) return;
-    const activeNoteType = get().activeNoteType;
     set({ activeNoteId: id });
-    if (activeNoteType === "shared") {
-      const sendJoingEmit = () => {
-        console.log("connected successfully", socket.id);
-        console.log("joining the room for id :", id);
-        socket.emit("join-note-room", id);
-      };
-      socket.on("connect_error", (err) => {
-        console.error("❌ SOCKET HANDSHAKE ERROR DETECTED:", err.message);
-        console.log("Context Details:", err);
-      });
-      if (!socket.connected) {
-        console.log(
-          "socket is offline .Setting up liteners and connecting ...",
-        );
-        socket.once("connect", sendJoingEmit);
-        socket.connect();
-      } else {
-        sendJoingEmit();
-      }
-      console.log("Room joining process completed");
-    }
+    changeRoom();
   },
   setActiveNoteType: (type) => set({ activeNoteType: type }),
   setOpenedMenuNote: (id): void => set({ openedMenuNoteId: id }),

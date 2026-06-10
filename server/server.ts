@@ -7,12 +7,12 @@ import { ErrorMiddleware } from "./src/middleware/ErrorMiddleware";
 import { NoteRouter } from "./src/routes/NoteRouter";
 import { FolderRouter } from "./src/routes/FolderRoutes";
 import { UserRouter } from "./src/routes/UserRouter";
-import socket from "./src/config/socket";
 import dotenv from "dotenv";
+import { SocketManager } from "./src/config/socket";
 
 dotenv.config();
 const app = express();
-const server = socket(app);
+const server = SocketManager.init(app);
 connectDB();
 
 app.use(
