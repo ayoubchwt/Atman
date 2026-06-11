@@ -12,6 +12,16 @@ export class NoteRouter {
       NoteController.getSharedNotes,
     );
     router.get(
+      "/search",
+      AuthMiddleware.verifyAccessToken,
+      NoteController.getNotesByTitle,
+    );
+    router.get(
+      "/invite-notifications",
+      AuthMiddleware.verifyAccessToken,
+      NoteController.getInviteNotifications,
+    );
+    router.get(
       "/shared-with/:id",
       AuthMiddleware.verifyRefreshToken,
       NoteController.getSharedWith,
@@ -22,14 +32,9 @@ export class NoteRouter {
       NoteController.getInvites,
     );
     router.get(
-      "/search",
+      "/:id",
       AuthMiddleware.verifyAccessToken,
-      NoteController.getNotesByTitle,
-    );
-    router.get(
-      "/invite-notifications",
-      AuthMiddleware.verifyAccessToken,
-      NoteController.getInviteNotifications,
+      NoteController.getNote,
     );
     router.post(
       "/share",

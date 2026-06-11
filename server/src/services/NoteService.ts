@@ -4,12 +4,9 @@ import {
   NoteResponseDto,
   UpdateNoteDto,
 } from "../dtos/NoteDTO";
-import { NoteInviteDto } from "../dtos/SharedNoteDTO";
-import { UserNotFoundException } from "../exceptions/AuthException";
 import { NoteNotFoundException } from "../exceptions/NoteException";
 import { NoteMapper } from "../mappers/NotesMapper";
 import Note, { INote } from "../models/Note";
-import User, { IUser } from "../models/User";
 import { GemmaUtils } from "../utlis/Gemma";
 
 export class NoteService {
@@ -18,19 +15,6 @@ export class NoteService {
       createdAt: -1,
     });
     return NoteMapper.toListResponseDto(notes);
-  }
-  public static async getNoteById(
-    noteId: string,
-    userId: string,
-  ): Promise<NoteResponseDto> {
-    const note: INote | null = await Note.findOne({
-      _id: noteId,
-      userId: userId,
-    });
-    if (!note) {
-      throw new NoteNotFoundException(`Note with ID ${noteId} was not found`);
-    }
-    return NoteMapper.toResponseDto(note);
   }
   public static async getNoteByTitle(
     title: string,

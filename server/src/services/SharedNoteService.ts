@@ -239,4 +239,24 @@ export class SharedNoteService {
     );
     await note.save();
   }
+  public static async getSharedNoteById(
+    noteId: string,
+    userId: string,
+  ): Promise<NoteResponseDto> {
+    const note: INote | null = await Note.findOne({
+      _id: noteId,
+      $or: [
+        {
+          userId: userId,
+        },
+        {
+          "sharedWith.userId": userId,
+        },
+      ],
+    });
+    if (!note) {
+      throw new NoteNotFoundException(`Note with ID ${noteId} was not found`);
+    }
+    return NoteMapper.toResponseDto(note);
+  }
 }

@@ -52,7 +52,7 @@ export class NoteController {
     try {
       const userId = request.user.id;
       const noteId = request.params.id as string;
-      const result = await NoteService.getNoteById(noteId, userId);
+      const result = await SharedNoteService.getSharedNoteById(noteId, userId);
       response.status(200).json(result);
     } catch (error) {
       next(error);

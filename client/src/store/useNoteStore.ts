@@ -6,6 +6,7 @@ import {
   getNotes,
   updateNote,
   getNotesByTitle,
+  getNote,
 } from "../services/NoteService";
 import { useAuthStore } from "./useAuthStore";
 import { useErrorStore } from "./useErrorStore";
@@ -20,8 +21,9 @@ interface NoteState {
   activeNoteType: "owned" | "shared";
   openedMenuNoteId: string | null;
   getActiveNote: () => NoteResponseDto;
-  fetchNotes: () => void;
-  searchNotes: (search: string) => void;
+  fetchNotes: () => Promise<void>;
+  fetchNote: (noteId: string) => Promise<void>;
+  searchNotes: (search: string) => Promise<void>;
   setActiveNote: (id: string | null) => void;
   setActiveNoteType: (type: "owned" | "shared") => void;
   setOpenedMenuNote: (id: string | null) => void;
@@ -43,14 +45,25 @@ export const useNoteStore = create<NoteState>((set, get) => ({
   },
   fetchNotes: async () => {
     const { isAuthenticated } = useAuthStore.getState();
-    const { setActiveNote } = get();
     if (!isAuthenticated) return;
     try {
+      const { setActiveNote } = get();
       const result = await getNotes();
       set({
         notes: result,
       });
       setActiveNote(result[0].id);
+    } catch (error) {
+      const { setError } = useErrorStore.getState();
+      setError(getErrorMessage(error));
+    }
+  },
+  fetchNote: async (noteId) => {
+    try {
+      const result = await getNote(noteId);
+      set((state) => ({
+        notes: state.notes.map((note) => (note.id === noteId ? result : note)),
+      }));
     } catch (error) {
       const { setError } = useErrorStore.getState();
       setError(getErrorMessage(error));

@@ -19,6 +19,16 @@ export const getNotes = async (): Promise<NoteResponseDto[]> => {
   const response = await api.get<NoteResponseDto[]>("/note/");
   return response.data;
 };
+export const getNote = async (id: string): Promise<NoteResponseDto> => {
+  const response = await api.get<NoteResponseDto>(`/note/${id}`, {
+    headers: {
+      "Cache-Control": "no-cache, no-store, must-revalidate",
+      Pragma: "no-cache",
+      Expires: "0",
+    },
+  });
+  return response.data;
+};
 export const getSharedNotes = async (): Promise<NoteResponseDto[]> => {
   const response = await api.get<NoteResponseDto[]>("/note/shared");
   return response.data;

@@ -9,6 +9,7 @@ export const useShareNote = () => {
   const [inviteError, setInviteError] = useState("");
   const [displayMode, setDispalyMode] = useState("collaborators");
   const shareNoteStore = useShareStore();
+  const noteStore = useNoteStore();
   const { activeNoteId } = useNoteStore();
   const onShare = async () => {
     setInviteError("");
@@ -63,6 +64,13 @@ export const useShareNote = () => {
         noteId: activeNoteId,
       });
   };
+  const fetchCollaboratorsAndSharedContent = async (noteId: string) => {
+    await shareNoteStore.fetchCollaborators(noteId);
+    console.log("should be fetching ...");
+    if (useShareStore.getState().collaborators.length > 1)
+      console.log("am Fetching ...");
+    noteStore.fetchNote(noteId);
+  };
   return {
     ...shareNoteStore,
     email,
@@ -75,6 +83,7 @@ export const useShareNote = () => {
     displayMode,
     setDispalyMode,
     fetchCollaboratorsAndInvites,
+    fetchCollaboratorsAndSharedContent,
     removeCollaborator,
     onDelete,
     onUpdate,

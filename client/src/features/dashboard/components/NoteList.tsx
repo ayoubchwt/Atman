@@ -6,7 +6,7 @@ import { useShareNote } from "../hooks/useShareNote";
 function NoteList() {
   const { notes, activeNoteId, setActiveNote, setActiveNoteType } = useNotes();
   const { setSideBarOpen } = useUIStore();
-  const { fetchCollaborators, checkRole } = useShareNote();
+  const { fetchCollaboratorsAndSharedContent, checkRole } = useShareNote();
   return (
     <div className="flex flex-col items-start content-start w-full flex-1 min-h-0">
       <h1 className="text-sm text-(--text-light) font-semibold pb-2 pl-2">
@@ -26,7 +26,7 @@ function NoteList() {
               setActiveNoteType("owned");
               setActiveNote(note.id);
               setSideBarOpen(false);
-              await fetchCollaborators(note.id);
+              await fetchCollaboratorsAndSharedContent(note.id);
               checkRole();
             }}
             isSelected={note.id === activeNoteId}
