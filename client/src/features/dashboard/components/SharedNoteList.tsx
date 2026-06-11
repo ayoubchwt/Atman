@@ -6,7 +6,7 @@ import NoteItem from "./NoteItem";
 function SharedNoteList() {
   const { sharedNotes, fetchCollaboratorsAndSharedContent, checkRole } =
     useShareNote();
-  const { activeNoteId, setActiveNote, setActiveNoteType } = useNotes();
+  const { activeNote, setActiveNote, setActiveNoteType } = useNotes();
   const { setSideBarOpen } = useUIStore();
   return (
     <div className="flex flex-col items-start content-start w-full flex-1 min-h-0">
@@ -25,12 +25,12 @@ function SharedNoteList() {
             noteId={note.id}
             onClick={async () => {
               setActiveNoteType("shared");
-              setActiveNote(note.id);
+              setActiveNote(note);
               setSideBarOpen(false);
               await fetchCollaboratorsAndSharedContent(note.id);
               checkRole();
             }}
-            isSelected={note.id === activeNoteId}
+            isSelected={note.id === activeNote?.id}
             isShared={true}
           >
             {note.title}

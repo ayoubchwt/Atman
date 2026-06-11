@@ -7,14 +7,10 @@ import { useShareStore } from "../../../store/useShareStore";
 
 export const useNoteEditor = () => {
   const [tick, setTick] = useState(0);
-  const { notes, activeNoteId, handleUpdateContent, activeNoteType } =
-    useNotes();
-  const { sharedNotes, role } = useShareStore();
+  const { activeNote, handleUpdateContent } = useNotes();
+  const { role } = useShareStore();
   const canEdit = role === "owner" || role === "editor";
-  const activeNote =
-    activeNoteType === "shared"
-      ? sharedNotes.find((note) => note.id === activeNoteId)
-      : notes.find((note) => note.id === activeNoteId);
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -34,8 +30,8 @@ export const useNoteEditor = () => {
       setTick(tick + 1);
     },
     onUpdate: ({ editor }) => {
-      if (activeNoteId && editor.isFocused)
-        handleUpdateContent(activeNoteId, editor.getHTML());
+      if (activeNote && editor.isFocused)
+        handleUpdateContent(activeNote.id, editor.getHTML());
     },
   });
   useEffect(() => {

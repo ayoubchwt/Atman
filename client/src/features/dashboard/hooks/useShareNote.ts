@@ -10,11 +10,11 @@ export const useShareNote = () => {
   const [displayMode, setDispalyMode] = useState("collaborators");
   const shareNoteStore = useShareStore();
   const noteStore = useNoteStore();
-  const { activeNoteId } = useNoteStore();
+  const { activeNote } = useNoteStore();
   const onShare = async () => {
     setInviteError("");
     setInviteMessage("");
-    if (!activeNoteId) return;
+    if (!activeNote) return;
     if (role !== "editor" && role !== "viewer") return;
     if (!email) {
       setInviteError("Invalid Email Format");
@@ -24,7 +24,7 @@ export const useShareNote = () => {
       await shareNoteStore.shareNote({
         guestEmail: email,
         role: role,
-        noteId: activeNoteId,
+        noteId: activeNote.id,
       });
       setInviteMessage("Invitation sent successfully");
     } catch {
@@ -32,9 +32,9 @@ export const useShareNote = () => {
     }
   };
   const fetchCollaboratorsAndInvites = async () => {
-    if (!activeNoteId) return;
+    if (!activeNote) return;
     Promise.all([
-      shareNoteStore.fetchNoteInvites(activeNoteId),
+      shareNoteStore.fetchNoteInvites(activeNote.id),
       // shareNoteStore.fetchCollaborators(activeNoteId),
     ]);
   };
@@ -58,10 +58,10 @@ export const useShareNote = () => {
     shareNoteStore.updateInviteStatus({ id: inviteId, status: "rejected" });
   };
   const removeCollaborator = async (userId: string) => {
-    if (userId && activeNoteId)
+    if (userId && activeNote)
       await shareNoteStore.removeCollaborator({
         guestId: userId,
-        noteId: activeNoteId,
+        noteId: activeNote.id,
       });
   };
   const fetchCollaboratorsAndSharedContent = async (noteId: string) => {

@@ -19,7 +19,7 @@ export const appLoader = async () => {
       noteStore.fetchNotes(),
       shareStore.fetchSharedNotes(),
     ]);
-    await shareStore.fetchCollaborators(useNoteStore.getState().activeNoteId!);
+    await shareStore.fetchCollaborators(useNoteStore.getState().activeNote!.id);
     listentToUpdate();
   } else {
     if (noteStore.notes.length === 0) noteStore.addNote();

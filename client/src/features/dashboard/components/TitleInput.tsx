@@ -4,14 +4,10 @@ import { useNotes } from "../hooks/useNotes";
 import ShareBox from "./ShareBox";
 
 function TitleInput() {
-  const { notes, activeNoteId, activeNoteType, handleUpdateTitle } = useNotes();
-  const { sharedNotes, role } = useShareStore();
+  const { activeNote, handleUpdateTitle } = useNotes();
+  const { role } = useShareStore();
   const { isAuthenticated } = useAuthStore();
   const canEdit = role === "owner" || role === "editor";
-  const activeNote =
-    activeNoteType === "shared"
-      ? sharedNotes.find((note) => note.id === activeNoteId)
-      : notes.find((note) => note.id === activeNoteId);
   return (
     <div className="w-full py-2 px-5 flex items-center justify-between">
       <input

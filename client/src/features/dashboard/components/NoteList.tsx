@@ -4,7 +4,7 @@ import { useUIStore } from "../../../store/useUIStore";
 import { useShareNote } from "../hooks/useShareNote";
 
 function NoteList() {
-  const { notes, activeNoteId, setActiveNote, setActiveNoteType } = useNotes();
+  const { notes, activeNote, setActiveNote, setActiveNoteType } = useNotes();
   const { setSideBarOpen } = useUIStore();
   const { fetchCollaboratorsAndSharedContent, checkRole } = useShareNote();
   return (
@@ -24,12 +24,12 @@ function NoteList() {
             noteId={note.id}
             onClick={async () => {
               setActiveNoteType("owned");
-              setActiveNote(note.id);
+              setActiveNote(note);
               setSideBarOpen(false);
               await fetchCollaboratorsAndSharedContent(note.id);
               checkRole();
             }}
-            isSelected={note.id === activeNoteId}
+            isSelected={note.id === activeNote?.id}
           >
             {note.title}
           </NoteItem>
