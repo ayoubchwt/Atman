@@ -23,7 +23,8 @@ export const listentToUpdate = () => {
   socket.off("note-updated");
   socket.on("note-updated", (updatedNote: NoteResponseDto) => {
     if (!updatedNote.id) return;
-    const { activeNoteType } = useNoteStore.getState();
+    const { activeNoteType, setActiveNote, activeNote } =
+      useNoteStore.getState();
     if (activeNoteType === "shared") {
       useShareStore.setState((state) => ({
         sharedNotes: state.sharedNotes.map((note) =>
@@ -36,6 +37,9 @@ export const listentToUpdate = () => {
           note.id === updatedNote.id ? updatedNote : note,
         ),
       }));
+    }
+    if (activeNote?.id === updatedNote.id) {
+      setActiveNote(updatedNote);
     }
   });
 };

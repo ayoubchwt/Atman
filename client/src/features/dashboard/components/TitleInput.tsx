@@ -12,7 +12,7 @@ function TitleInput() {
     <div className="w-full py-2 px-5 flex items-center justify-between">
       <input
         type="text"
-        value={activeNote?.title || ""}
+        value={activeNote?.title}
         disabled={!canEdit}
         onChange={(e) => {
           if (activeNote)

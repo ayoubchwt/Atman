@@ -57,6 +57,8 @@ export const useNoteStore = create<NoteState>((set, get) => ({
     }
   },
   fetchNote: async (noteId) => {
+    const { isAuthenticated } = useAuthStore.getState();
+    if (!isAuthenticated) return;
     try {
       const result = await getNote(noteId);
       set((state) => ({
@@ -91,7 +93,12 @@ export const useNoteStore = create<NoteState>((set, get) => ({
   setOpenedMenuNote: (id): void => set({ openedMenuNoteId: id }),
   updateNoteTitle: (id, title) => {
     const { activeNoteType } = get();
-
+    set((state) => ({
+      activeNote:
+        state.activeNote?.id === id
+          ? { ...state.activeNote, title }
+          : state.activeNote,
+    }));
     if (activeNoteType === "shared") {
       useShareStore.setState((state) => ({
         sharedNotes: state.sharedNotes.map((note) =>
@@ -103,10 +110,6 @@ export const useNoteStore = create<NoteState>((set, get) => ({
         notes: state.notes.map((note) =>
           note.id === id ? { ...note, title } : note,
         ),
-        activeNote:
-          state.activeNote?.id === id
-            ? { ...state.activeNote, title }
-            : state.activeNote,
       }));
     }
     const { isAuthenticated } = useAuthStore.getState();
