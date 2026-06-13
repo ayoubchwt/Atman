@@ -34,7 +34,7 @@ function ShareDialogue() {
     },
   ];
   return (
-    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col gap-1 w-110 h-90 bg-(--bg) rounded-xl shadow-xl border border-(--bg-dark) p-4 z-100">
+    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col gap-1 md:w-110 w-95 h-90 bg-(--bg) rounded-xl shadow-xl border border-(--bg-dark) p-4 z-100">
       <Button
         variant="ghost"
         className="absolute right-4 top-4"

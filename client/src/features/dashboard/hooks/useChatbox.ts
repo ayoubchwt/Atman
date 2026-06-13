@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 export const useChatbox = () => {
   const { isChatboxOpen, setChatboxOpen } = useUIStore();
   const { isAuthenticated } = useAuthStore();
-  const { activeNoteId } = useNoteStore();
+  const { activeNote } = useNoteStore();
   const chatboxStore = useChatboxStore();
   const [prompt, setPrompt] = useState("");
   const navigate = useNavigate();
@@ -17,10 +17,9 @@ export const useChatbox = () => {
       navigate("/auth/login");
     }
     const textToSend = message || prompt;
-    console.log("Text to send", textToSend);
-    if (!activeNoteId || !textToSend.trim()) return;
+    if (!activeNote || !activeNote.id || !textToSend.trim()) return;
     setPrompt("");
-    await chatboxStore.addMessage(activeNoteId, {
+    await chatboxStore.addMessage(activeNote.id, {
       id: crypto.randomUUID(),
       text: textToSend,
       sender: "user",

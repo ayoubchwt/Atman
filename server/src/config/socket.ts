@@ -30,9 +30,7 @@ export class SocketManager {
           socket.rooms.forEach((room) => {
             if (room !== socket.id && room !== noteId) socket.leave(room);
           });
-          console.log("joing request", noteId, "from", socket.id);
           socket.join(noteId);
-          console.log("rooms after join", socket.rooms);
         } catch (error) {
           return socket.emit("note-error", "Internal real-time stream error");
         }
