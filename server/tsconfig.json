@@ -12,7 +12,7 @@
     "forceConsistentCasingInFileNames": true,
     "typeRoots": ["./node_modules/@types", "src/@types"]
   },
-  "files": ["./src/@types/express.d.ts"],
+  "files": ["./src/@types/express.d.ts", "./src/@types/socket.d.ts"],
   "include": ["**/*.ts"],
   "exclude": ["node_modules"]
 }
