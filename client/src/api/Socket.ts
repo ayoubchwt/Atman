@@ -3,6 +3,7 @@ import { useAuthStore } from "../store/useAuthStore";
 const apiUrl = import.meta.env.VITE_SOCKET_URL;
 const socket = io(apiUrl, {
   autoConnect: false,
+  transports: ["websocket"],
   auth: (callback) => {
     const accessToken = useAuthStore.getState().user?.accessToken;
     callback({
