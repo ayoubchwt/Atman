@@ -1,35 +1,37 @@
-import NoteItem from "./NoteItem";
-import { useNotes } from "../hooks/useNotes";
 import { useUIStore } from "../../../store/useUIStore";
+import { useNotes } from "../hooks/useNotes";
 import { useShareNote } from "../hooks/useShareNote";
+import NoteItem from "./NoteItem";
 
-function NoteList() {
-  const { notes, activeNote, setActiveNote, setActiveNoteType } = useNotes();
+function SharedNoteList() {
+  const { sharedNotes, fetchCollaboratorsAndSharedContent, checkRole } =
+    useShareNote();
+  const { activeNote, setActiveNote, setActiveNoteType } = useNotes();
   const { setSideBarOpen } = useUIStore();
-  const { fetchCollaboratorsAndSharedContent, checkRole } = useShareNote();
   return (
     <div className="flex flex-col items-start content-start w-full flex-1 min-h-0">
       <h1 className="text-sm text-(--text-light) font-semibold pb-2 pl-2">
-        NOTES
+        SHARED NOTES
       </h1>
-      {notes.length === 0 && (
+      {sharedNotes.length === 0 && (
         <p className="p-2 text-sm text-(--text-light) w-full text-center">
-          You didn't add any notes yet !
+          You dont have any shared notes yet !
         </p>
       )}
-      {notes.map((note) => {
+      {sharedNotes.map((note) => {
         return (
           <NoteItem
             key={note.id}
             noteId={note.id}
             onClick={async () => {
-              setActiveNoteType("owned");
+              setActiveNoteType("shared");
               setActiveNote(note);
               setSideBarOpen(false);
               await fetchCollaboratorsAndSharedContent(note.id);
               checkRole();
             }}
             isSelected={note.id === activeNote?.id}
+            isShared={true}
           >
             {note.title}
           </NoteItem>
@@ -38,4 +40,4 @@ function NoteList() {
     </div>
   );
 }
-export default NoteList;
+export default SharedNoteList;

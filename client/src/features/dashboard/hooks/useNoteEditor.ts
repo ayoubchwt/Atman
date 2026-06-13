@@ -3,11 +3,14 @@ import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { useEffect, useState } from "react";
 import { useNotes } from "./useNotes";
+import { useShareStore } from "../../../store/useShareStore";
 
 export const useNoteEditor = () => {
   const [tick, setTick] = useState(0);
-  const { notes, activeNoteId, handleUpdateContent } = useNotes();
-  const activeNote = notes.find((note) => note.id === activeNoteId);
+  const { activeNote, handleUpdateContent } = useNotes();
+  const { role } = useShareStore();
+  const canEdit = role === "owner" || role === "editor";
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -27,9 +30,14 @@ export const useNoteEditor = () => {
       setTick(tick + 1);
     },
     onUpdate: ({ editor }) => {
-      if (activeNoteId) handleUpdateContent(activeNoteId, editor.getHTML());
+      if (activeNote && editor.isFocused)
+        handleUpdateContent(activeNote.id, editor.getHTML());
     },
   });
+  useEffect(() => {
+    if (!editor) return;
+    editor.setEditable(canEdit);
+  }, [canEdit, editor]);
   useEffect(() => {
     if (!editor) return;
     if (!activeNote) {

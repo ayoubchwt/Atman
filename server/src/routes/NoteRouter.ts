@@ -7,14 +7,59 @@ export class NoteRouter {
     const router = Router();
     router.get("/", AuthMiddleware.verifyAccessToken, NoteController.getNotes);
     router.get(
+      "/shared",
+      AuthMiddleware.verifyAccessToken,
+      NoteController.getSharedNotes,
+    );
+    router.get(
       "/search",
       AuthMiddleware.verifyAccessToken,
       NoteController.getNotesByTitle,
+    );
+    router.get(
+      "/invite-notifications",
+      AuthMiddleware.verifyAccessToken,
+      NoteController.getInviteNotifications,
+    );
+    router.get(
+      "/shared-with/:id",
+      AuthMiddleware.verifyRefreshToken,
+      NoteController.getSharedWith,
+    );
+    router.get(
+      "/invites/:id",
+      AuthMiddleware.verifyAccessToken,
+      NoteController.getInvites,
+    );
+    router.get(
+      "/:id",
+      AuthMiddleware.verifyAccessToken,
+      NoteController.getNote,
+    );
+    router.post(
+      "/share",
+      AuthMiddleware.verifyAccessToken,
+      NoteController.createInvite,
+    );
+    router.post(
+      "/update-invite-status",
+      AuthMiddleware.verifyAccessToken,
+      NoteController.updateInviteStatus,
+    );
+    router.patch(
+      "/update-invite-role",
+      AuthMiddleware.verifyAccessToken,
+      NoteController.updateInviteRole,
     );
     router.post(
       "/ai/:id",
       AuthMiddleware.verifyAccessToken,
       NoteController.getAiResponse,
+    );
+    router.post(
+      "/update-invite-status",
+      AuthMiddleware.verifyAccessToken,
+      NoteController.updateInviteStatus,
     );
     router.get(
       "/folder/:id",
@@ -27,7 +72,7 @@ export class NoteRouter {
       NoteController.createNote,
     );
     router.patch(
-      "/:id",
+      "/",
       AuthMiddleware.verifyAccessToken,
       NoteController.updateNote,
     );
@@ -35,6 +80,16 @@ export class NoteRouter {
       "/:id",
       AuthMiddleware.verifyAccessToken,
       NoteController.deleteNote,
+    );
+    router.delete(
+      "/delete-invite/:id",
+      AuthMiddleware.verifyAccessToken,
+      NoteController.deleteInvite,
+    );
+    router.post(
+      "/remove-collaborator",
+      AuthMiddleware.verifyAccessToken,
+      NoteController.removeCollaborator,
     );
     return router;
   }

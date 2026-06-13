@@ -6,21 +6,26 @@ import {
   getNotes,
   updateNote,
   getNotesByTitle,
+  getNote,
 } from "../services/NoteService";
 import { useAuthStore } from "./useAuthStore";
 import { useErrorStore } from "./useErrorStore";
 import { getErrorMessage } from "../utils/getError";
+import { useShareStore } from "./useShareStore";
+import { changeRoom } from "../utils/SocketHelpers";
 
 let syncTimer: ReturnType<typeof setTimeout>;
-
 interface NoteState {
   notes: NoteResponseDto[];
-  activeNoteId: string | null;
+  activeNote: NoteResponseDto | null;
+  activeNoteType: "owned" | "shared";
   openedMenuNoteId: string | null;
   getActiveNote: () => NoteResponseDto;
-  fetchNotes: () => void;
-  searchNotes: (search: string) => void;
-  setActiveNote: (id: string | null) => void;
+  fetchNotes: () => Promise<void>;
+  fetchNote: (noteId: string) => Promise<void>;
+  searchNotes: (search: string) => Promise<void>;
+  setActiveNote: (note: NoteResponseDto) => void;
+  setActiveNoteType: (type: "owned" | "shared") => void;
   setOpenedMenuNote: (id: string | null) => void;
   updateNoteTitle: (id: string, title: string) => void;
   updateNoteContent: (id: string, content: string) => void;
@@ -31,21 +36,35 @@ interface NoteState {
 }
 export const useNoteStore = create<NoteState>((set, get) => ({
   notes: [],
-  activeNoteId: null,
+  activeNote: null,
+  activeNoteType: "owned",
   openedMenuNoteId: null,
   getActiveNote: (): NoteResponseDto => {
-    const { activeNoteId, notes } = get();
-    return notes.find((note) => note.id === activeNoteId)!;
+    const { activeNote, notes } = get();
+    return notes.find((note) => note.id === activeNote?.id)!;
   },
   fetchNotes: async () => {
     const { isAuthenticated } = useAuthStore.getState();
     if (!isAuthenticated) return;
     try {
+      const { setActiveNote } = get();
       const result = await getNotes();
-      set({
-        activeNoteId: result[0].id,
-        notes: result,
-      });
+      set({ notes: result });
+      setActiveNote(result[0]);
+    } catch (error) {
+      const { setError } = useErrorStore.getState();
+      setError(getErrorMessage(error));
+    }
+  },
+  fetchNote: async (noteId) => {
+    const { isAuthenticated } = useAuthStore.getState();
+    if (!isAuthenticated) return;
+    try {
+      const result = await getNote(noteId);
+      set((state) => ({
+        notes: state.notes.map((note) => (note.id === noteId ? result : note)),
+        activeNote: state.activeNote?.id === noteId ? result : state.activeNote,
+      }));
     } catch (error) {
       const { setError } = useErrorStore.getState();
       setError(getErrorMessage(error));
@@ -58,29 +77,49 @@ export const useNoteStore = create<NoteState>((set, get) => ({
     syncTimer = setTimeout(async () => {
       try {
         const result = await getNotesByTitle(search);
-        set({
-          notes: result,
-        });
+        set({ notes: result });
       } catch (error) {
         const { setError } = useErrorStore.getState();
         setError(getErrorMessage(error));
       }
     }, 200);
   },
-  setActiveNote: (id) => set({ activeNoteId: id }),
+  setActiveNote: (note: NoteResponseDto) => {
+    if (!note) return;
+    set({ activeNote: note });
+    changeRoom(note.id);
+  },
+  setActiveNoteType: (type) => set({ activeNoteType: type }),
   setOpenedMenuNote: (id): void => set({ openedMenuNoteId: id }),
   updateNoteTitle: (id, title) => {
+    const { activeNoteType } = get();
     set((state) => ({
-      notes: state.notes.map((note) =>
-        note.id === id ? { ...note, title } : note,
-      ),
+      activeNote:
+        state.activeNote?.id === id
+          ? { ...state.activeNote, title }
+          : state.activeNote,
     }));
+    if (activeNoteType === "shared") {
+      useShareStore.setState((state) => ({
+        sharedNotes: state.sharedNotes.map((note) =>
+          note.id === id ? { ...note, title } : note,
+        ),
+      }));
+    } else {
+      set((state) => ({
+        notes: state.notes.map((note) =>
+          note.id === id ? { ...note, title } : note,
+        ),
+      }));
+    }
     const { isAuthenticated } = useAuthStore.getState();
     if (isAuthenticated) {
+      const { activeNote } = get();
       clearTimeout(syncTimer);
       syncTimer = setTimeout(async () => {
         try {
-          await updateNote(id, { title });
+          if (activeNote)
+            await updateNote({ noteId: activeNote.id, title: title });
         } catch (error) {
           const { setError } = useErrorStore.getState();
           setError(getErrorMessage(error));
@@ -93,13 +132,19 @@ export const useNoteStore = create<NoteState>((set, get) => ({
       notes: state.notes.map((note) =>
         note.id === id ? { ...note, content } : note,
       ),
+      activeNote:
+        state.activeNote?.id === id
+          ? { ...state.activeNote, content }
+          : state.activeNote,
     }));
     const { isAuthenticated } = useAuthStore.getState();
     if (isAuthenticated) {
+      const { activeNote } = get();
       clearTimeout(syncTimer);
       syncTimer = setTimeout(async () => {
         try {
-          await updateNote(id, { content });
+          if (activeNote)
+            await updateNote({ noteId: activeNote.id, content: content });
         } catch (error) {
           const { setError } = useErrorStore.getState();
           setError(getErrorMessage(error));
@@ -112,12 +157,18 @@ export const useNoteStore = create<NoteState>((set, get) => ({
       notes: state.notes.map((note) =>
         note.id === id ? { ...note, folder } : note,
       ),
+      activeNote:
+        state.activeNote?.id === id
+          ? { ...state.activeNote, folder }
+          : state.activeNote,
       openedMenuNoteId: null,
     }));
     const { isAuthenticated } = useAuthStore.getState();
     if (isAuthenticated) {
+      const { activeNote } = get();
       try {
-        await updateNote(id, { folder });
+        if (activeNote)
+          await updateNote({ noteId: activeNote.id, folder: folder });
       } catch (error) {
         const { setError } = useErrorStore.getState();
         setError(getErrorMessage(error));
@@ -131,8 +182,9 @@ export const useNoteStore = create<NoteState>((set, get) => ({
         const savedNote = await addNote({ title: "New Note", content: "" });
         set((state) => ({
           notes: [savedNote, ...state.notes],
-          activeNoteId: savedNote.id,
+          activeNote: savedNote,
         }));
+        changeRoom(savedNote.id);
       } catch (error) {
         const { setError } = useErrorStore.getState();
         setError(getErrorMessage(error));
@@ -149,7 +201,7 @@ export const useNoteStore = create<NoteState>((set, get) => ({
     };
     set((state) => ({
       notes: [newNote, ...state.notes],
-      activeNoteId: newNote.id,
+      activeNote: newNote,
     }));
   },
   deleteNote: async (id) => {
@@ -162,13 +214,13 @@ export const useNoteStore = create<NoteState>((set, get) => ({
     }
     set((state) => {
       const updatedNotes = state.notes.filter((note) => note.id !== id);
-      let nextActiveNote = state.activeNoteId;
-      if (nextActiveNote === id) {
-        nextActiveNote = updatedNotes.length > 0 ? updatedNotes[0].id : null;
+      let nextActiveNote = state.activeNote;
+      if (nextActiveNote && nextActiveNote.id === id) {
+        nextActiveNote = updatedNotes.length > 0 ? updatedNotes[0] : null;
       }
       return {
         notes: updatedNotes,
-        activeNoteId: nextActiveNote,
+        activeNote: nextActiveNote,
       };
     });
     const { isAuthenticated } = useAuthStore.getState();
@@ -184,7 +236,7 @@ export const useNoteStore = create<NoteState>((set, get) => ({
   clearNoteStore: () => {
     set({
       notes: [],
-      activeNoteId: null,
+      activeNote: null,
     });
   },
 }));

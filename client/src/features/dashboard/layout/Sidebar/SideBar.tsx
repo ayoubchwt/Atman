@@ -7,8 +7,11 @@ import SidebarActions from "../../components/SidebarActions";
 import SearchInput from "../../../../components/ui/SearchInput";
 import FolderActions from "../../components/FolderActions";
 import FolderList from "../../components/FolderList";
+import SharedNoteList from "../../components/SharedNoteList";
+import { useAuthStore } from "../../../../store/useAuthStore";
 
 function SideBar({ className }: { className?: string }) {
+  const { isAuthenticated } = useAuthStore();
   const { handleAddNote, handleSearchByTitle } = useNotes();
   const { setSideBarOpen, isSideBarOpen, isFolderView, setAddingFolder } =
     useUIStore();
@@ -45,7 +48,14 @@ function SideBar({ className }: { className?: string }) {
       <FolderActions></FolderActions>
       <SearchInput onChange={handleSearchByTitle}></SearchInput>
       <div className="flex flex-col flex-1 gap-3 min-h-0 overflow-y-auto scrollbar-hide">
-        {isFolderView ? <FolderList></FolderList> : <NoteList></NoteList>}
+        {isFolderView ? (
+          <FolderList></FolderList>
+        ) : (
+          <div className="flex flex-col gap-8">
+            <NoteList></NoteList>
+            {isAuthenticated && <SharedNoteList></SharedNoteList>}
+          </div>
+        )}
       </div>
       {!isSideBarOpen ? (
         <SidebarActions className="flex justify-between items-center w-full"></SidebarActions>

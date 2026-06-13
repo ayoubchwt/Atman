@@ -4,7 +4,7 @@ import { useError } from "../../features/dashboard/hooks/useError";
 function ErrorBanner() {
   const { setError, error } = useError();
   return (
-    <div className="absolute right-2 bottom-2 flex flex-col items-end justify-start bg-(--item-light) h-23 z-1000 rounded-xl shadow-xl border border-(--bg-dark) ">
+    <div className="absolute right-2 bottom-2 flex flex-col items-end justify-start bg-(--bg) h-23 z-100 rounded-xl shadow-xl border border-(--bg-dark) ">
       <Button variant="ghost" onClick={() => setError(null)}>
         <X className="h-5 w-5"></X>
       </Button>

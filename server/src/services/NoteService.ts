@@ -16,19 +16,6 @@ export class NoteService {
     });
     return NoteMapper.toListResponseDto(notes);
   }
-  public static async getNoteById(
-    noteId: string,
-    userId: string,
-  ): Promise<NoteResponseDto> {
-    const note: INote | null = await Note.findOne({
-      _id: noteId,
-      userId: userId,
-    });
-    if (!note) {
-      throw new NoteNotFoundException(`Note with ID ${noteId} was not found`);
-    }
-    return NoteMapper.toResponseDto(note);
-  }
   public static async getNoteByTitle(
     title: string,
     userId: string,
@@ -62,12 +49,21 @@ export class NoteService {
     return NoteMapper.toResponseDto(savedNote);
   }
   public static async updateNote(
-    noteId: string,
     userId: string,
     dto: UpdateNoteDto,
   ): Promise<NoteResponseDto> {
     const updatedNote = await Note.findOneAndUpdate(
-      { _id: noteId, userId: userId },
+      {
+        _id: dto.noteId,
+        $or: [
+          {
+            userId: userId,
+          },
+          {
+            "sharedWith.userId": userId,
+          },
+        ],
+      },
       { $set: dto },
       { returnDocument: "after" },
     );
@@ -82,7 +78,7 @@ export class NoteService {
     noteId: string,
     userId: string,
   ): Promise<void> {
-    const deletedNote = await Note.findOneAndDelete({
+    const deletedNote: INote | null = await Note.findOneAndDelete({
       _id: noteId,
       userId: userId,
     });
@@ -101,5 +97,26 @@ export class NoteService {
       throw new NoteNotFoundException(`Cannot find note with id ${noteId}`);
     const response = await GemmaUtils.getAIResponse(dto.prompt, note.content);
     return response;
+  }
+  public static async checkAccess(
+    noteId: string,
+    userId: string,
+  ): Promise<any> {
+    const note: INote | null = await Note.findById(noteId);
+    if (!note) return null;
+    if (note.userId.toString() === userId)
+      return {
+        note: note,
+        canEdit: true,
+      };
+    const sharedUser = note.sharedWith.find(
+      (user) => user.userId.toString() === userId,
+    );
+    if (sharedUser)
+      return {
+        note: note,
+        canEdit: sharedUser.role === "editor",
+      };
+    return null;
   }
 }

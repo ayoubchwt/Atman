@@ -6,11 +6,13 @@ function NoteItem({
   children,
   noteId,
   isSelected,
+  isShared = false,
   onClick,
 }: {
   children: ReactNode;
   noteId: string;
   isSelected: boolean;
+  isShared?: boolean;
   onClick: () => void;
 }) {
   const {
@@ -53,24 +55,28 @@ function NoteItem({
             }}
           />
         )}
-        <button
-          className="group-hover:flex items-center bg-(--ghostTinted) text-(--text-light) hover:text-(--text) cursor-pointer px-1"
-          onClick={(e) => {
-            e.stopPropagation();
-            setOpenedMenuNote(isMenuOpen ? null : noteId);
-          }}
-        >
-          <Folder className="w-3.5 h-3.5" />
-        </button>
-        <button
-          className="group-hover:flex items-center bg-(--ghostTinted) text-(--text-light) hover:text-(--text) cursor-pointer px-1"
-          onClick={(e) => {
-            e.stopPropagation();
-            if (noteId) handleDeleteNote(noteId);
-          }}
-        >
-          <Trash2 className="w-3.5 h-3.5" />
-        </button>
+        {!isShared && (
+          <>
+            <button
+              className="group-hover:flex items-center bg-(--ghostTinted) text-(--text-light) hover:text-(--text) cursor-pointer px-1"
+              onClick={(e) => {
+                e.stopPropagation();
+                setOpenedMenuNote(isMenuOpen ? null : noteId);
+              }}
+            >
+              <Folder className="w-3.5 h-3.5" />
+            </button>
+            <button
+              className="group-hover:flex items-center bg-(--ghostTinted) text-(--text-light) hover:text-(--text) cursor-pointer px-1"
+              onClick={(e) => {
+                e.stopPropagation();
+                if (noteId) handleDeleteNote(noteId);
+              }}
+            >
+              <Trash2 className="w-3.5 h-3.5" />
+            </button>
+          </>
+        )}
       </div>
     </div>
   );

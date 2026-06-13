@@ -1,7 +1,6 @@
 import mongoose, { Document, model, Schema } from "mongoose";
 
 export interface IRefreshToken extends Document {
-  id: mongoose.Types.ObjectId;
   userId: mongoose.Types.ObjectId;
   token: string;
 }

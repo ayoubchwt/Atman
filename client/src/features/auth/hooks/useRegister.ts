@@ -12,6 +12,10 @@ export const useRegister = () => {
   const onSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
     setPasswordError("");
+    if (!password) {
+      setPasswordError("Password cannot be empty");
+      return;
+    }
     if (password !== passwordConfirm) {
       setPasswordError("Passwords dosen't match");
       return;
